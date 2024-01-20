@@ -77,7 +77,7 @@ net.ipv6.conf.all.accept_redirects=1
 iface eth0 inet dhcp
 ```
 
-IPv6 的就复杂一些. ICMPv6 规定了 Router Announcement 报文用于通知数据包如何转发. 但由于 IPv6 转发是开启的, 为了防止自己的 IPv6 路由被绑架, 必须显式设置 `accept_ra=2`, 使得 Linux 接受学校的路由器给的路由. 而且, 由于 DHCP Client 的一些 Bug, 如果 IPv6 的子网变化很大 (比如我宿舍的宽带是 `240e:` 打头, 校园网是 `2402:` 打头), 那么 DHCP Server 不会回复 NAK 信息 (而是直接丢弃), 此时 Client 只会继续发 Confirmation, 不发送 Discover 消息, 多次 Confirmation 失败之后就停了. 所以有时候需要手动强制重新获取 IPv6 地址. (感觉讲的不甚清楚).
+IPv6 的就复杂一些. ICMPv6 规定了 Router Announcement 报文用于通知数据包如何转发. 但由于 IPv6 *转发是开启的*, 为了防止自己的 IPv6 路由被绑架, 必须显式设置 `accept_ra=2`, 使得 Linux 接受学校的路由器给的路由. 而且, 由于 DHCP Client 的一些 Bug, 如果 IPv6 的子网变化很大 (比如我宿舍的宽带是 `240e:` 打头, 校园网是 `2402:` 打头), 那么 DHCP Server 不会回复 NAK 信息 (而是直接丢弃), 此时 Client 只会继续发 Confirmation, 不发送 Discover 消息, 多次 Confirmation 失败之后就停了. 所以有时候需要手动强制重新获取 IPv6 地址. (感觉讲的不甚清楚).
 
 ```text
 iface eth0 inet6 dhcp
@@ -124,3 +124,111 @@ iface eth1.10 inet6 static
 INTERFACESv4="eth1.10 eth1.2 eth1.3"
 ```
 
+然后依次告诉 ta 要怎么处理出现在这些网段上的请求, ta 会自动将每一个网段匹配到对应的网卡上:
+
+```text
+subnet 192.168.0.0 netmask 255.255.255.0 {
+    # Address range that can be used as DHCP address
+    range 192.168.0.100 192.168.0.254;
+    # Broadcast address (can be calculated given subnet and netmask)
+    option broadcast-address 192.168.0.255;
+    # Default router
+    option routers 192.168.0.1;
+}
+```
+
+这时候, 你的设备就能正常获取 IPv4 内网地址, 在内网之间互相通信啦~
+
+### RADVD
+
+你问我 IPv6 呢? 与 v4 不一样, IPv6 支持另一种地址分配方式 -- SLAAC, 并且路由是由 RA 决定的. 手机仅支持 SLAAC (不支持 DHCPv6), 所以 SLAAC 是唯一可行的方式.
+
+SLAAC 具体怎么回事自己查, 大致就是给一个 **/64** 的前缀, 由设备基于自己的 MAC ADDR 决定一个地址, 然后向局域网通告.
+
+对于每一个子网, 开启 RA, 设置通告的前缀, 并说明这个前缀上面的设备 都是局域网设备 (On Link), 可以使用 SLAAC 自行决定地址 (Autonomous), 以本机作为路由 (Router Address):
+
+```text
+interface eth1.10
+{
+    AdvSendAdvert on;
+    MinRtrAdvInterval 30;
+    MaxRtrAdvInterval 100;
+    prefix fd30:5341:5354:0000::/64
+    {
+        AdvOnLink on;
+        AdvAutonomous on;
+        AdvRouterAddr on;
+    };
+};
+```
+
+这样一来, 设备就能获取到 IPv6 **ULA** 地址并能在局域网内通信啦~
+
+### NAT
+
+于是就有人问了, 搞了这么半天, 还访问不了公网? 还真是. 不过也快了.
+
+思考: 当底下的设备 ping 114.114.114.114 的时候会怎样?
+
+路由器转发给学校的路由器: `192.168.32.2 ping 114.114.114.114`
+
+学校的路由器一看, `192.168` 开头是什么玩意? 扔了扔了. 于是, 不通.
+
+怎么办呢? 用 NAT, `166.111.x.x ping 114.114.114.114`. 知道啦, `114.114.114.114 reply 166.111.x.x`, 然后路由器再把目的地址换回去, `114.114.114.114 reply 192.168.32.2`, 这就终于通了. 要实现很简单:
+
+```bash
+iptables -A POSTROUTING -o eth0 -j MASQUERADE
+ip6tables -A POSTROUTING -o eth0 -j MASQUERADE
+```
+
+这下终于能访问公网喽~
+
+### 安全配置
+
+你问, 这就完了嘛? 当然没有. 前面提到了很多安全有关的问题, 需要一一解决. 这些我就不展开了 (主要是很多规则现在还在虚拟机里面没有拿出来, 懒得自己手写一遍了)
+
+- 禁止 User 段成员互相访问, 禁止 User 段成员访问 Management 段, Faculty 段. 这是三层基础的权限控制.
+- 禁止 Faculty 段成员访问 Management 段
+- 禁止外面乱发 DHCP 应答, 仅允许 Router 发 DHCP 应答
+- 禁止外面乱发 RA
+- 禁止外面乱发 ARP
+- 二层隔离
+- 禁止 User 段成员访问 login.tsinghua.edu.cn, auth4, auth6
+- SSH 端口不对 User 和 Faculty 开放
+- STP 防环
+- 单端口防环
+- ......
+
+正是这些高级安全策略使得网络不会因为一颗老鼠屎全面崩溃, 造成混乱.
+
+### 流量控制
+
+这还不够. 为了保障直播等工作正常进行, 我还写了一点流量控制策略, 参考 [大佬的译作](https://arthurchiao.art/blog/lartc-qdisc-zh/)
+
+- 保证 50Mibps 带宽给 Faculty 使用
+- 保证 10Mibps 带宽给 Management 使用
+- 剩下的带宽公平地分配给每一个连接
+
+### VPN 配置
+
+为了方便管理, 我给路由器配置了一个点对点的 VPN (啊对, 真的是 VPN 不是那个).
+
+## 无线配置
+
+说了这么多, 你发现了什么? WiFi 信号还没发出来呢......
+
+AP 的布置也是有讲究的. 首先要了解单个 AP 的信号强度情况 (这两张图片好大!):
+
+![2 楼单个 AP](StudentFestivalNetwork/2F%20Single%20AP.png)
+
+![1 楼单个 AP](StudentFestivalNetwork/1F%20Single%20AP.png)
+
+可以看到 AP 的覆盖范围还是很大的, 信号也不错. 因此, 我们不妨给出这样的布局:
+
+![1F AP](StudentFestivalNetwork/1F%20APs.png)
+
+由于本人很懒, AP 的信道和功率直接丢给自动调整, 最后效果也还不错.
+
+## 结语
+
+至此, 一位没有学过网原的大二同学配置好了学生节的网. 学生节上用户数大概 150 左右, 流量从未达到需要 tc 介入的水平. 这套改进的方案相较于旧方案改进了网络结构, 取消了单个设备的速率上限, 最大化利用了网络. 也希望这篇文章连通咱在飞书里面的文档能使得这套系统易于维护, 不断更新.
