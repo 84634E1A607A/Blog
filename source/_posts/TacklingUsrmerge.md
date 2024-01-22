@@ -20,6 +20,8 @@ sub early_conversion_files {
 	...
 ```
 
+**Update**: The problem seems to be quite specific. `/bin/cp` is dynamically linked in Debian 10-12, and the script didn't report an error when `/bin/cp` is statically linked. It could be Debian 9 using a too low version of ldd that behaves differently.
+
 ---
 
 ## Both `/lib64/ld-linux-x86-64.so.2` and `/usr/lib64/ld-linux-x86-64.so.2` exist bug
