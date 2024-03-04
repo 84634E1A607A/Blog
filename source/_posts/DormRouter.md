@@ -200,7 +200,44 @@ for subnet in ["166.111.0.0/16", "101.5.0.0/16", "101.6.0.0/16", "59.66.0.0/16",
 
 至于 IPv6 嘛, 我觉得这就是个迷, 折腾了一下午的 DHCPv6 都没得地址, 还因为重新连接的次数过多被学校把 MAC 封了. 解决方案: 不要啦!
 
+*3 月 4 日更新*:
+
+经过几天的测试, 校园网的 IPv6 在 Linux 下获取需要几个条件:
+
+- 首先在拿到 v4 之后 check 下 [自服务](usereg.tsinghua.edu.cn), 如果里面的 IPv6 是 `::`, 那么你可以用 dhclient 拿到动态 v6; 如果里面莫名其妙地分配了地址, 那么你可以尝试把那个静态地址输进去看看能不能用 (大概率不行, 因为此时不自动设置 RA, 你可能需要手动设置路由, 设置了也不一定能用)
+- 不要开 Prefix Delegation - 学校不响应
+- 不是所有的 DHCP 客户端都能 100% 成功
+
 ### 防火墙
 
 IPv6 的防火墙懒得设置了 (虽然这不好). IPv4 就是常规的, 对校园网开放 22, 对宽带不开放, 只允许向外新建连接. 后续还有什么再说. UPnP 似乎不是很安全, 所以暂时先放一下, 不如手操.
 
+### 还是路由
+
+在几天之后, 我突发奇想要把 SSH 弄到高端口方便从外面访问. 不过我并没有直接改 SSH 配置, 而是写了一行 iptables 把 2222 重定向到 22 了. 结果你猜咋地? 连不上. 我当时隐约觉得还是路由出问题了, 但是没搞明白究竟是什么问题. 后来一想, 我从校外访问它, 它的回包从宽带走, 宽带来个 NAT, 这不就炸了 (公网原地址被改写了)? 抓包检查, 确实是这样. SYN 在 enp3s0, SYN+ACK 就从 ppp0 走了. 对于这种情况我们需要按照 **原地址** 更改路由策略, 用 `ip rules`.
+
+```shell
+ip rule add from source_ip table campus
+ip route add via gateway_ip table campus
+```
+
+使得 Linux 自动将所有发送自校园网公网 IP 的流量从校园网发出去, 此时从校外访问就通了. (换句话说, 之前几天的公网 IP 就是个摆设喽? 不应该罢)
+
+### 稳定性问题
+
+在此状况下, 我发现了一些稳定性问题.
+
+首先是 Network Manager 的 PPPoE 似乎不会自动更新 Delegated Prefix, 在一天左右之后网就断了, 需要重启. 然后是学校的见鬼 IPv6. 为了解决这个问题, 我放弃了 Network Manager 转而使用比较新的 dhcpcd, 其支持自动 Prefix Delegation (省下来一个脚本), 能正常获取所有的 v4 和 v6. 剩下的就是路由了, 使用 [`dhcpcd-run-hooks`](https://manpages.ubuntu.com/manpages/trusty/man8/dhcpcd-run-hooks.8.html) 可以挂载用户脚本. 需要注意的是:
+
+- 脚本的运行是直接扔进 shell 执行的, `#! /usr/bin/python3` 不起作用.
+
+- 脚本的 `stdout` 和 `stderr` 都不知道重定向到哪里去了, 所以输出获取不到 (导致我一直以为这东西坏了)
+
+- `dhcpcd` 的服务配置文件 `/etc/systemd/system/multi-user.target.wants/dhcpcd.service` 提到
+
+  ```
+  ProtectSystem=strict
+  ReadWritePaths=/var/lib/dhcpcd /run/dhcpcd /etc/wpa_supplicant /etc/dhcpcd.conf /etc/resolv.conf
+  ```
+
+  故输出的 log 文件必须在这几个目录 (或者改一下这个文件也行). 这样调整之后至少不会三个小时断一次网了, 稳定性有待继续考查.
