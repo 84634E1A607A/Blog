@@ -241,3 +241,38 @@ ip route add via gateway_ip table campus
   ```
 
   故输出的 log 文件必须在这几个目录 (或者改一下这个文件也行). 这样调整之后至少不会三个小时断一次网了, 稳定性有待继续考查.
+
+*3 月 12 日 更新*
+
+### DDNS, tinc
+
+通过 [一个 Docker 脚本](https://github.com/sanjusss/aliyun-ddns) 实现了自动的阿里云域名的 DDNS, 然后配置了 tinc 以在任何地方访问 (并拿到能用的公网 IP 地址和宿舍台式机的 WOL).
+
+### 又是路由
+
+在配置的时候发现 IPv6 从校内 ping 不通, 经过检查, 和之前的问题相似, 这次是因为 `2402:f000::/32` 被默认从校园网路由并进行了 NAT6. 解决方案也相似, 强制源地址为宽带 `2409::` 的流量从宽带走.
+
+但是校内 ping Prefix Delegation 的 IPv6 也不通... 原因同上, 但由于 PD 出来的地址是 GUA, 本身就需要选择路由, 不能一道切, 所以需要考虑通过 conntrack 路由.
+
+ *3 月 17 日更新*
+
+又到了一周周末. 本周用网还是很顺利的, 周末我收拾了一下上面提到的 IPv6 路由问题, 顺面更改了一下 DDNS 的策略.
+
+首先是 IPv6 的路由, 我们对所有从 ppp0 进来的新连接检查原地址, 如果是学校的就对 **连接** 打上标记 *(而不是数据包!)*. 然后我们检查所有从内网发过来的包, 如果对应的连接被打上了标记, 我们就把这些 **数据包** 打上标记. 
+
+```
+-A PREROUTING -i ppp0 -s 2402:f000::/32 -m conntrack --ctstate NEW -j CONNMARK --set-xmark 0x2402
+-A PREROUTING -i lan-bridge -d 2402:f000::/32 -j CONNMARK --restore-mark
+```
+
+然后在路由的时候, 我们检查数据包上的标记, 如果有, 我们就从 ppp0 出去.
+
+```
+ip -6 rule add fwmark 0x2402 table 9
+ip -6 route add default dev ppp0 table 9
+```
+
+这样 IPv6 就完全通啦~ 然后我研究了一下 ppp0 上的 IPv6 地址, 发现既然我们已经有 Prefix Delegation 了, 没必要弄一个没啥用的地址. 因此我在 `dhcpcd.conf` 里面关闭了 ppp0 上的 SLAAC, 同时将 DNS 解析到了内网网关上. 鉴于现在 IPv6 能通过 DNS 查到, 顺面配置一下防火墙就很自然了.
+
+这之后我尝试通过域名访问 SSH, 结果在内网挂了... 似乎是因为它把这玩意给 forward 给学校了... 看来 IPv4 这边也还是用 conntrack 比较好.
+
