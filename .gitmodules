@@ -1,0 +1,3 @@
+[submodule "themes/Nlvi"]
+	path = themes/Nlvi
+	url = git@github.com:84634E1A607A/blog-theme.git
