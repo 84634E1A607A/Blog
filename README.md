@@ -14,5 +14,4 @@ npm i
 ```bash
 hexo g # Generate static files
 hexo s # Start a local server
-hexo d # Deploy to the remote server, currently my github.io project
 ```
