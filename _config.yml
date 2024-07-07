@@ -99,11 +99,11 @@ ignore:
 theme: Nlvi
 
 # Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: 'git'
-  repo: 'git@github.com:84634E1A607A/84634E1A607A.github.io.git'
-  branch: 'master'
+# ## Docs: https://hexo.io/docs/one-command-deployment
+# deploy:
+#   type: 'git'
+#   repo: ''
+#   branch: 'master'
 
 sitemap:
   path: sitemap.xml
