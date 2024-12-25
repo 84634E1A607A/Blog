@@ -1,7 +1,7 @@
 ---
 title: 在 HarmonyOS 上装 Google (资料汇总)
 date: 2024-01-28 14:09:45
-tags:
+tags: 技术
 ---
 
 这两天拿到了一部 HarmonyOS 4 的华为手机. 由于华为被禁止搭载 Google 服务, 所以安装 Google 的过程不算顺利, 装上去之后还提示 "Google Play Protect 未认证". 由于我的手机作为 Google 2FA 设备, 所以这个未认证的问题必须得到处理. 以下记录了安装 Google Play 系列服务的过程和参考资料.

@@ -1,7 +1,7 @@
 ---
 title: Upgrading Gitlab and Configuring OAuth2 Generic
 date: 2024-01-20 10:49:32
-tags:
+tags: 技术
 ---
 
 前几天我把科协的 Git9 从自编译的 11.1.1 一路升级到 16.8.0, 中途遇到了一些问题, 找了不少资料也解决不了, 因此放在这里.
