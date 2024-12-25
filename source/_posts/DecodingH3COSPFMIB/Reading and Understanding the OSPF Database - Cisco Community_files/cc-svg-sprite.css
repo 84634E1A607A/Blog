@@ -1,0 +1,112 @@
+/* Icons from directory "" */
+.icon_tiles {margin: 0 auto; display: block;}
+
+.cc-CSC_1_Network-Architecture-dims, .cc-CSC_1_Partner_Enterprise-Networking-dims, .cc-CSC_2_Partner_Security-dims, .cc-CSC_2_Security-dims, .cc-CSC_3_Collaboration-dims, .cc-CSC_3_Partner_Collaboration-dims, .cc-CSC_4_Data-Center-dims, .cc-CSC_4_Partner_Data-Center-dims, .cc-CSC_5_Partner_Internet-of-Things-dims, .cc-CSC_5_Small-Business-Support-dims, .cc-CSC_6_Partner_Service-Provider-Architectures-dims, .cc-CSC_6_Wireless-dims, .cc-CSC_7_Partner_Big-Data-Analytics-dims, .cc-CSC_7_Service-Providers-dims, .cc-CSC_8_Cloud-Solutions-dims, .cc-CSC_8_Partner_Cisco-Software-dims, .cc-CSC_9_Developer-Support-dims, .cc-CSC_9_Partner_EMEAR-Partners-dims, .cc-CSC_10_Partner_Resources-dims, .cc-CSC_10_Services-dims, .cc-CSC_11_Internet-of-Things-dims, .cc-CSC_12_Cisco-Software-dims, .cc-CSC_13_Cisco-Start-dims, .cc-CSC_14_Online-Tools-dims, .cc-CSC_15_Local-User-Groups-dims, .cc-CSC_16_Community-Corner-dims, .cc-CSC_17_View-all-dims, .cc-CSC_18_Technology_Support-dims, .cc-CSC_19_For_Partners-dims, .cc-CSC_20_Customer_Connection-dims, .cc-CSC_21_Members_Recognition-dims,.cc-CSC_23_Product_Adoption-dims, .cc-CSC_22_Events-dims, .cc-CSC_30_Tac-Tips-dims, .cc-CSC_31_General-dims, .cc-CSC_32_NSO-dims,.cc-CSC_11_Meraki-dims {width:40px;height:40px}
+
+.cc-CSC_1_Network-Architecture,.cc-CSC_1_Network-Architecture\:regular, .cc-CSC_2_Security,.cc-CSC_2_Security\:regular, .cc-CSC_3_Collaboration,.cc-CSC_3_Collaboration\:regular, .cc-CSC_4_Data-Center,.cc-CSC_4_Data-Center\:regular, .cc-CSC_5_Small-Business-Support,.cc-CSC_5_Small-Business-Support\:regular, .cc-CSC_6_Wireless,.cc-CSC_6_Wireless\:regular, .cc-CSC_7_Service-Providers,.cc-CSC_7_Service-Providers\:regular, .cc-CSC_8_Cloud-Solutions,.cc-CSC_8_Cloud-Solutions\:regular, .cc-CSC_9_Developer-Support,.cc-CSC_9_Developer-Support\:regular, .cc-CSC_10_Services,.cc-CSC_10_Services\:regular, .cc-CSC_11_Internet-of-Things,.cc-CSC_11_Internet-of-Things\:regular, .cc-CSC_12_Cisco-Software,.cc-CSC_12_Cisco-Software\:regular, .cc-CSC_13_Cisco-Start,.cc-CSC_13_Cisco-Start\:regular, .cc-CSC_14_Online-Tools,.cc-CSC_14_Online-Tools\:regular, .cc-CSC_15_Local-User-Groups,.cc-CSC_15_Local-User-Groups\:regular, .cc-CSC_16_Community-Corner,.cc-CSC_16_Community-Corner\:regular, .cc-CSC_17_View-all,.cc-CSC_17_View-all\:regular, .cc-CSC_30_Tac-Tips,.cc-CSC_30_Tac-Tips\:regular, .cc-CSC_31_General,.cc-CSC_31_General\:regular, .cc-CSC_32_NSO,.cc-CSC_32_NSO\:regular,.cc-CSC_11_Meraki, .cc-CSC_11_Meraki\:regular
+{background-image: url('home_updated_svg_sprite.svg'); background-position:0px -140px;background-size: 438px 205px;}
+
+.cc-CSC_2_Security,.cc-CSC_2_Security\:regular{background-position:-40px -140px;background-repeat:no-repeat}
+.cc-CSC_3_Collaboration,.cc-CSC_3_Collaboration\:regular{background-position:-80px -140px;background-repeat:no-repeat}
+.cc-CSC_4_Data-Center,.cc-CSC_4_Data-Center\:regular{background-position:-120px -140px;background-repeat:no-repeat}
+.cc-CSC_5_Small-Business-Support,.cc-CSC_5_Small-Business-Support\:regular{background-position:-160px -140px;background-repeat:no-repeat}
+.cc-CSC_6_Wireless,.cc-CSC_6_Wireless\:regular{background-position:-200px -140px;background-repeat:no-repeat}
+.cc-CSC_7_Service-Providers,.cc-CSC_7_Service-Providers\:regular{background-position:-240px -140px;background-repeat:no-repeat}
+.cc-CSC_8_Cloud-Solutions,.cc-CSC_8_Cloud-Solutions\:regular{background-position:-280px -140px;background-repeat:no-repeat}
+.cc-CSC_9_Developer-Support,.cc-CSC_9_Developer-Support\:regular{background-position:-320px -140px;background-repeat:no-repeat}
+.cc-CSC_10_Services,.cc-CSC_10_Services\:regular{background-position:-360px -140px;background-repeat:no-repeat}
+.cc-CSC_11_Meraki, .cc-CSC_11_Meraki\:regular {background-position: -400px -140px;background-repeat: no-repeat;}
+.cc-CSC_11_Internet-of-Things,.cc-CSC_11_Internet-of-Things\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -400px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_12_Cisco-Software,.cc-CSC_12_Cisco-Software\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -440px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_13_Cisco-Start,.cc-CSC_13_Cisco-Start\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -480px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_14_Online-Tools,.cc-CSC_14_Online-Tools\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -520px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_15_Local-User-Groups,.cc-CSC_15_Local-User-Groups\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -560px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_16_Community-Corner,.cc-CSC_16_Community-Corner\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -600px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_17_View-all,.cc-CSC_17_View-all\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -640px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_30_Tac-Tips,.cc-CSC_30_Tac-Tips\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -680px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_31_General,.cc-CSC_31_General\:regular{background-image: url('home_svg_sprite-vertical.svg'); background-position:0 -720px;background-repeat:no-repeat;background-size: cover}
+.cc-CSC_32_NSO,.cc-CSC_32_NSO\:regular{background-image: url('home_svg_sprite-vertical.svg');background-position:0 -760px;background-repeat:no-repeat;background-size: cover}
+
+.cc-CSC_1_Partner_Enterprise-Networking,.cc-CSC_1_Partner_Enterprise-Networking\:regular, .cc-CSC_2_Partner_Security,.cc-CSC_2_Partner_Security\:regular, .cc-CSC_3_Partner_Collaboration,.cc-CSC_3_Partner_Collaboration\:regular, .cc-CSC_4_Partner_Data-Center,.cc-CSC_4_Partner_Data-Center\:regular, .cc-CSC_5_Partner_Internet-of-Things,.cc-CSC_5_Partner_Internet-of-Things\:regular, .cc-CSC_6_Partner_Service-Provider-Architectures,.cc-CSC_6_Partner_Service-Provider-Architectures\:regular, .cc-CSC_7_Partner_Big-Data-Analytics,.cc-CSC_7_Partner_Big-Data-Analytics\:regular, .cc-CSC_8_Partner_Cisco-Software,.cc-CSC_8_Partner_Cisco-Software\:regular, .cc-CSC_9_Partner_EMEAR-Partners,.cc-CSC_9_Partner_EMEAR-Partners\:regular, .cc-CSC_10_Partner_Resources,.cc-CSC_10_Partner_Resources\:regular{background-image:url('partner_svg_sprite.svg');background-position:0 0;background-repeat:no-repeat}
+
+.cc-CSC_2_Partner_Security,.cc-CSC_2_Partner_Security\:regular{background-position:0 -40px;background-repeat:no-repeat}
+.cc-CSC_3_Partner_Collaboration,.cc-CSC_3_Partner_Collaboration\:regular{background-position:0 -80px;background-repeat:no-repeat}
+.cc-CSC_4_Partner_Data-Center,.cc-CSC_4_Partner_Data-Center\:regular{background-position:0 -120px;background-repeat:no-repeat}
+.cc-CSC_5_Partner_Internet-of-Things,.cc-CSC_5_Partner_Internet-of-Things\:regular{background-position:0 -160px;background-repeat:no-repeat}
+.cc-CSC_6_Partner_Service-Provider-Architectures,.cc-CSC_6_Partner_Service-Provider-Architectures\:regular{background-position:0 -200px;background-repeat:no-repeat}
+.cc-CSC_7_Partner_Big-Data-Analytics,.cc-CSC_7_Partner_Big-Data-Analytics\:regular{background-position:0 -240px;background-repeat:no-repeat}
+.cc-CSC_8_Partner_Cisco-Software,.cc-CSC_8_Partner_Cisco-Software\:regular{background-position:0 -280px;background-repeat:no-repeat}
+.cc-CSC_9_Partner_EMEAR-Partners,.cc-CSC_9_Partner_EMEAR-Partners\:regular{background-position:0 -320px;background-repeat:no-repeat}
+.cc-CSC_10_Partner_Resources,.cc-CSC_10_Partner_Resources\:regular{background-position:0 -360px;background-repeat:no-repeat}
+
+
+/* Main Navigation styles */
+.cc-CSC_18_Technology_Support,.cc-CSC_18_Technology_Support\:regular, .cc-CSC_19_For_Partners,.cc-CSC_19_For_Partners\:regular, .cc-CSC_20_Customer_Connection,.cc-CSC_20_Customer_Connection\:regular, .cc-CSC_21_Members_Recognition,.cc-CSC_21_Members_Recognition\:regular,.cc-CSC_23_Product_Adoption,.cc-CSC_23_Product_Adoption\:regular, .cc-CSC_22_Events,.cc-CSC_22_Events\:regular{background-image:url('home_nav_svg_sprite.svg');background-position:0 -4px;background-repeat:no-repeat;background-size: cover;}
+.cc-CSC_19_For_Partners,.cc-CSC_19_For_Partners\:regular{background-position:0 -44px;background-repeat:no-repeat}
+.cc-CSC_20_Customer_Connection,.cc-CSC_20_Customer_Connection\:regular{background-position:0 -83px;background-repeat:no-repeat}
+.cc-CSC_21_Members_Recognition,.cc-CSC_21_Members_Recognition\:regular,{background-position:0 -120px;background-repeat:no-repeat}
+.cc-CSC_23_Product_Adoption,.cc-CSC_23_Product_Adoption\:regular{background-position:0 -200px;background-repeat:no-repeat}
+.cc-CSC_22_Events,.cc-CSC_22_Events\:regular{background-position:0 -161px;background-repeat:no-repeat}
+
+
+/* Satellite Navigation styles */
+.cc-CSC_Satellite_Nav-dims{width:20px;height:20px; margin:0 5px;}
+.cc-CSC_23_Technology_Support_Nav,.cc-CSC_23_Technology_Support_Nav\:regular, .cc-CSC_24_For_Partners_Nav,.cc-CSC_24_For_Partners_Nav\:regular, .cc-CSC_25_Customer_Connection_Nav,.cc-CSC_25_Customer_Connection_Nav\:regular, .cc-CSC_26_Members_Recognition_Nav,.cc-CSC_26_Members_Recognition_Nav\:regular, .cc-CSC_27_Site_Map_Nav,.cc-CSC_27_Site_Map_Nav\:regular,.cc-CSC_28_Community_Corner_Map_Nav,.cc-CSC_28_Community_Corner_Nav\:regular,.cc-CSC_29_Dev_Support_Nav,.cc-CSC_29_Dev_Support_Nav\:regular, .cc-CSC_55_Product_Adoption_Nav,.cc-CSC_55_Product_Adoption_Nav\:regular,.cc-CSC_101_contests_Nav,.cc-CSC_101_contests_Nav\:regular{background-image:url('satellite_svg_nav.svg');background-position:0 0;background-repeat:no-repeat;background-size:cover;}
+.cc-CSC_23_Technology_Support_Nav,.cc-CSC_23_Technology_Support_Nav\:regular{background-position:0 4px;background-repeat:no-repeat;}
+.cc-CSC_24_For_Partners_Nav,.cc-CSC_24_For_Partners_Nav\:regular{background-position:0 -16px;background-repeat:no-repeat;}
+.cc-CSC_25_Customer_Connection_Nav,.cc-CSC_25_Customer_Connection_Nav\:regular{background-position:0 -60px;background-repeat:no-repeat;}
+.cc-CSC_26_Members_Recognition_Nav,.cc-CSC_26_Members_Recognition_Nav\:regular{background-position:0 -79px;background-repeat:no-repeat;}
+.cc-CSC_27_Site_Map_Nav,.cc-CSC_27_Site_Map_Nav\:regular{background-position:0 -100px;background-repeat:no-repeat;}
+.cc-CSC_28_Community_Corner_Map_Nav,.cc-CSC_28_Community_Corner_Nav\:regular{background-position:0 -137px;background-repeat:no-repeat;}
+.cc-CSC_29_Dev_Support_Nav,.cc-CSC_29_Dev_Support_Nav\:regular{background-position:0 -119px;background-repeat:no-repeat;}
+.cc-CSC_55_Product_Adoption_Nav,.cc-CSC_55_Product_Adoption_Nav\:regular{background-position:0 -137px;background-repeat:no-repeat;}
+.cc-CSC_101_contests_Nav,.cc-CSC_101_contests_Nav\:regular{background-position:0 -177px;background-repeat:no-repeat;}
+
+/* FUS-1365 */
+.CommunityPage .cc-CSC_1_Network-Architecture,
+.CommunityPage .cc-CSC_2_Security,
+.CommunityPage .cc-CSC_3_Collaboration,
+.CommunityPage .cc-cc-CSC_6_Wireless-dims,
+.CommunityPage .cc-CSC_4_Data-Center {
+	background-image:url('/html/assets/home_category_stats_svg_sprite.svg');background-position:0 7px; background-repeat:no-repeat;
+	width: 63px;
+	height: 63px;
+	background-size: cover;
+}
+.CommunityPage .cc-CSC_2_Security {
+	background-position:0 -55px; 
+}
+.CommunityPage .cc-CSC_3_Collaboration {
+	background-position:0 -116px; 
+}
+.CommunityPage .cc-cc-CSC_6_Wireless-dims {
+	background-position:0 -177px; 
+}
+.CommunityPage .cc-CSC_4_Data-Center {
+	background-position:0 -238px; 
+}
+
+
+/* FUS-1365 Category Home page*/
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_1_Network-Architecture,
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_2_Security,
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_3_Collaboration,
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-cc-CSC_6_Wireless-dims,
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_4_Data-Center {
+	background-image:url('/html/assets/home_category_stats_svg_sprite.svg');background-position:0 7px; background-repeat:no-repeat;
+	width: 63px;
+	height: 63px;
+	background-size: cover;
+}
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_2_Security {
+	background-position:0 -55px; 
+}
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_3_Collaboration {
+	background-position:0 -116px; 
+}
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-cc-CSC_6_Wireless-dims {
+	background-position:0 -177px; 
+}
+.CategoryPage .lia-quilt-category-page-new-home-page .cc-CSC_4_Data-Center {
+	background-position:0 -238px; 
+}

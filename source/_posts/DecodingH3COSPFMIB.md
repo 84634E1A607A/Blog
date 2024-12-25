@@ -112,3 +112,96 @@ tags:
 
 ## 解码 OSPF
 
+### OSPFv2
+
+这一堆 Hex-String 的注释都是 "OSPF 含 Header 的原始 LSA". 因此, 我们需要正确构造一个 OSPF 报头把这些东西装进去. 经过了一番 GPT 大手子, 我使用 `scapy` 库构造了这个脚本.
+
+{% fold "Many lines of code" %}
+
+```python
+import re
+
+with open('ospf.txt') as f:
+    snmp_f = f.read()
+
+# 这里的作用是把含有 Hex-STRING 的多行 SNMP 结果变成一行来处理
+multiline_reg = re.compile(r'\n(\w\w )')
+
+# 这样就可以按行分块了
+snmp_lines = re.sub(multiline_reg, r'\1', snmp_f).split('\n')
+snmp_lines = [x.strip() for x in snmp_lines]
+
+# 对于每一行, 格式形如 MIB-NAME::OID-NAME.index1.index2...indexn = TYPE: DATA
+# 这里第一个括号匹配 MIB-NAME, 第二个匹配 OID-NAME, 第三个匹配 index, 第四个匹配 type+data
+snmp_line_reg = re.compile(r'([\w-]+)::([^\.]+)\.([^ ]+) = (.*)')
+
+snmp_raw_table = []
+
+for snmp_line in snmp_lines:
+    match = snmp_line_reg.match(snmp_line)
+    if not match:
+        continue
+
+    mib, oid, oid_index, value = match.groups()
+    snmp_raw_table.append((mib, oid, oid_index, value))
+
+# 这里直接分离出所有的 DATA, 每一条 DATA 是一个 LSA 记录
+# ospfLsdbAdvertisement 是域内路由器之间连接的情况
+# ospfExtLsdbAdvertisement 是到 OSPF 域外的连接信息
+lsdb_adv = [
+    x[3].split(":")[1] for x in snmp_raw_table if x[1] == 'ospfExtLsdbAdvertisement'
+]
+
+# --- --- ---
+# 从这里开始是脚本的第二部分
+from scapy.all import *
+from scapy.contrib.ospf import *
+
+
+def parse_ospf_lsdb(hex_string: str):
+    # 这里给 RAW PAYLOAD 前面加 4 字节是网络序的 0x1, 代表后面是 1 个 LSA
+    lsa_payload = bytes.fromhex(f"""
+    00 00 00 01
+    {hex_string}
+    """)
+
+    # Create an OSPF header
+    ospf_packet = OSPF_Hdr(
+        # OSPFv2
+        version=2,
+        
+        # LSA Update
+        type=4,
+        
+        # 瞎写一个 src 和 area
+        src="223.6.6.6",
+        area="0.0.0.0",
+        
+        # authtype 和 authdata 填 0 就行
+        authtype=0,
+        authdata=0000000000000000
+    ) / Raw(load=lsa_payload) # 最后把 payload 附上去, scapy 会自动计算校验和
+
+    # 再随便填一个 IP 头上去
+    ip_packet = IP(src="223.6.6.6", dst="224.0.0.5", proto=89) / ospf_packet
+    return ip_packet
+
+# Write to a PCAP file
+wrpcap("ospf_lsa.pcap", [parse_ospf_lsdb(p) for p in lsdb_adv])
+```
+
+{% endfold %}
+
+得到的结果如同下图
+
+![OSPF Result](DecodingH3COSPFMIB/OSPF.jpeg)
+
+我们检查 Router LSA, 这里面的 *Type* 可以得知 OSPF 骨干网上每两个节点之间的链路状态, 检查 *Metric* 可知链路速率, *Link ID* 和 *Link Data* 可以得知每一条链路两端的路由器 (当然, 也可能是三层交换机) 是谁. 而检查 Network LSA 则可以得知每个子网都有哪些路由器加入. 检查 AS External LSA 可以得知每一个子网都 Attach 在哪一个路由器上. 综合这些信息我们可以构建网络的架构图.
+
+### OSPFv3
+
+对 IPv6 OSPFv3 的工作也类似, 把脚本改动为使用 `OSPFv3_Hdr` 即可.  这里面可以看到每个路由器负责的子网.
+
+由于 ~~懒~~ 和部分内容不适合挂出来 (主要是懒), 更多的内容就不在这写出了.
+
+在写这篇文章时看到了一片 [非常好的思科论坛的文章](https://community.cisco.com/t5/networking-knowledge-base/reading-and-understanding-the-ospf-database/ta-p/3145995) ( [以防没了](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.pdf), [+1](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.html) ).
