@@ -1,7 +1,7 @@
 ---
 title: Hello world! & Summary of Autumn Semester 2023
 date: 2024-01-19 19:38:10
-tags:
+tags: 流水账
 ---
 
 在学长各种鼓励 (雾) 下, 我来尝试写 Blog 了. 最近总算是考完了试, 这几天我好好研究了一下科协的服务器设备, 感觉还是有不少东西可以写.
