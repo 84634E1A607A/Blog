@@ -1,7 +1,9 @@
 ---
 title: SNMP is not only "Monitoring" Protocol - Exploiting H3C SNMP
 date: 2024-11-25 14:04:08
-tags: 网络, 网络安全
+tags:
+  - 网络
+  - 网络安全
 ---
 
 Simple Network *Management* Protocol 是一个用于网络监控和管理的协议. 对于不少人而言, 使用 Grafana 等软件配置 SNMP 监控可以对各种维护信息进行方便地可视化; 但是很多时候我们会忘记, SNMP 是用于 "管理" 的协议, 而不只是 "监控". 因此, 当我们打开 SNMP 时, 我们常常忽略可写的默认配置 (`private` community), 而这会带来灾难性的后果. 这篇博客记录了一次近源渗透的过程.

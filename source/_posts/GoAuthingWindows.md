@@ -1,7 +1,9 @@
 ---
 title: GoAuthing 在 Windows 上维持校园网登录
 date: 2024-03-10 14:55:51
-tags: 网络, 技术
+tags:
+  - 网络
+  - 技术
 ---
 
 [GoAuthing](https://github.com/z4yx/GoAuthing) 是学长开发的, [THU Services](https://thu.services/services/#_3) 推荐的用于 THU 准入认证的应用, 主要用于 Linux 下的命令行自动认证. 部分同学在 Windows 下也有类似的需求 (自动准入, 掉线后自动重连), 在半个小时的脚本小子之后得到了以下方法.

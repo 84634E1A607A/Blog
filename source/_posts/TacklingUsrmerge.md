@@ -1,7 +1,8 @@
 ---
 title: Two Examples Tackling UsrMerge
 date: 2024-01-20 18:10:57
-tags: 技术
+tags:
+  - 技术
 ---
 
 Several days ago I encountered two separate usrmerge issues on different OSes. One upgrading from Debian 9 to Debian 12; the other upgrading from Ubuntu 20.04 LTS to Ubuntu 22.04 LTS. I solved them both, and here's what I did.
