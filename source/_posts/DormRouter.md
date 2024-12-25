@@ -1,7 +1,7 @@
 ---
 title: Setting up Software Router for my Dorm
 date: 2024-02-28 10:22:04
-tags:
+tags: 网络, 技术
 ---
 
 近期手痒痒还是想让寝室里的网能有宽带 500M 的下载速度的同时不需要用 SSLVPN 连接校园网. 因此我买了一个 6 网口的软路由 (问就是不想用单臂路由) 并尝试进行了配置.
