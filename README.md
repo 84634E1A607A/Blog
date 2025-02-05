@@ -2,6 +2,8 @@
 
 This is the code repository for my blog ([aajax.top](https://aajax.top))
 
+Credits to Cloudflare Pages! It has better connectivity than Github Pages, especially in China.
+
 ## Setting up the project
 
 ```bash
