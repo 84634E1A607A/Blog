@@ -2,6 +2,8 @@
 title: Tsinghua-Secure - 802.1X 与攻击
 date: 2025-02-06 16:04:58
 tags:
+  - 网络
+  - 网络安全
 ---
 
 这篇博客的前面一段是流水账, 是与学校推送有关的. 后面是对 Tsinghua-Secure 有关的攻击的探讨.
