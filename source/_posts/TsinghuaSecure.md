@@ -104,3 +104,120 @@ STA --> AP : Encrypted 802.11 Traffic
 之后我在查如何解析这些 Hex String 的时候找到了 [**hostapd-wpe**](https://github.com/OpenSecurityResearch/hostapd-wpe) 这个仓库, 它完美符合我的想象: 通过 patching hostapd 可以伪造一个 RADIUS server, 其作用就是在用户连接到它的时候把 Challenge 和 Response 给打出来. 不过在编译的时候我遇到了亿点问题, 主要是对 `openssl-1.0-dev` 这个老掉牙现在在仓库里找不着了的库的引用导致的. 后来了解到 Kali 源上面有这个玩意的 Binary (不愧是 Kali), 我就小小用了一下. 他还支持另一个很有潜力 (x) 的功能: 它允许在用户给任何密码的时候都接受, 这样就可以监控连进来的用户的流量了.
 
 折腾了半天 (literally), 感觉还行, 故作此 ()
+
+---
+
+## 在 Arch 上的安装与调试
+
+**Update 2024-02-09**: 由于我的笔记本电脑疑似有些太新了 (Ultra 200V), 需要 Linux Kernel 6.12 才能用, 所以我实际使用了 Arch Linux.
+
+Arch Linux 上面的 hostapd-wpe 作为一个 [AUR](https://aur.archlinux.org/packages/hostapd-wpe) 出现, 但是这个 AUR 安装之后并不像 Arch 一样带有全套的配置, 这些配置啥的需要自己生成. 简单地说:
+
+### 配置文件 hostapd-wpe.conf
+
+这有一份示例文件:
+
+```ini
+interface=wlo1
+
+logger_syslog=0
+logger_stdout=-1
+logger_stdout_level=2
+
+country_code=CN
+ieee80211d=1
+ssid=PKU Secure
+hw_mode=g
+channel=11
+beacon_int=90
+#rts_threshold=2048
+#fragm_threshold=2048
+supported_rates=10 20 55 110 60 90 120 180 240 360 480 540
+basic_rates=20 55 110
+preamble=1
+wmm_enabled=1
+
+ieee80211n=1
+ht_capab=[SHORT-GI-20]
+require_ht=0
+
+auth_algs=1
+ap_isolate=1
+ieee8021x=1
+eapol_version=1
+wpa=2
+wpa_key_mgmt=WPA-EAP
+wpa_pairwise=CCMP
+rsn_pairwise=CCMP
+pac_key_lifetime=604800
+pac_key_refresh_time=86400
+pac_opaque_encr_key=000102030405060708090a0b0c0d0e0f
+
+
+eap_server=1
+eap_fast_a_id=8485454491921910bcb70b0a01020000
+eap_fast_a_id_info=Huawei
+eap_fast_prov=3
+eap_user_file=eap_user
+ca_cert=ca.pem
+server_cert=server.pem
+private_key=server.prv
+private_key_passwd=whatever
+```
+
+我们需要做的主要是修改这个文件以做到两件事:
+
+其一是让客户端能正常尝试连接以获取 Hash; 这件事较为简单, 这份配置文件就能用.
+
+其二是 *如何伪装自己使得客户端觉得你比真正的 AP 更好, 而优先选择连接你*. 这件事就比较麻烦了, 为了这事我又折腾了半天 (然后还没成功).
+
+在这份配置文件里面 (配置文件的具体格式见 [官方文档](https://w1.fi/cgit/hostap/plain/hostapd/) ), 我们设置了使用内建的 RADIUS Server, 设置了使用的证书文件 (都是自签名的), 配置了 AP 的信道为 2.4GHz CH11, 把该开的东西都开了. 里面有两行注释掉的内容, 这两个是为了... *理论上* 是在干扰较严重的情况下用短帧提高 Wi-Fi 传输成功率; 但 *实际上* 如果压到太低, 会导致 PEAP 握手包 (尤其是 TLS Handshake 里面要传输证书) 被分片, 最后导致 Association Failure. <u>应该限制 A-MPDU 长度来提高成功率.</u>
+
+而客户端 **常常 Prefer 更高级的热点** - 也就是说如果你能用 Wi-Fi 7 发射信号 (打开 HT, VHT, EHT 啥的) 并打开 80MHz 频宽, 那么客户端就很喜欢你 (x). 如果能用 5GHz 频段发射信号, 那就比 2.4GHz 优先级高得多. 因此我尝试在我的电脑上开 5GHz 热点 ~~然后大败而归~~, 这个后面说.
+
+这个文件里面引用了好几个文件.
+
+### eap_user
+
+这个文件是用来配置内置 RADIUS Server 的凭据的. 由于 Patch 了这个 Server, 我们只需要一个 Dummy One 就行:
+
+```
+# WPE - DO NOT REMOVE - These entries are specifically in here 
+*		PEAP,TTLS,TLS,FAST
+"t"	    TTLS-PAP,TTLS-CHAP,TTLS-MSCHAP,MSCHAPV2,MD5,GTC,TTLS,TTLS-MSCHAPV2  "t"	[2]
+```
+
+允许任何用户用 PEAP 认证, 随便塞点能用的就行.
+
+### 一堆私钥和证书
+
+使用以下方式来生成这一坨证书:
+
+```sh
+# 私钥
+openssl genpkey -algorithm RSA -out /etc/hostapd/server.prv -aes256
+# 服务器证书
+openssl req -new -x509 -key /etc/hostapd/server.prv -out /etc/hostapd/server.pem -days 3650
+# CA 签名请求
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -keyout /etc/hostapd/ca.key -out /etc/hostapd/ca.csr
+# CA 自签名证书
+openssl x509 -req -in /etc/hostapd/ca.csr -signkey /etc/hostapd/ca.key -out /etc/hostapd/ca.pem -days 3650
+```
+
+这样就完活了.
+
+## 5G AP?
+
+这之后我尝试发射 5G 信号, 然后发现所有信道都是 `No-IR` 状态, 用不了. 我上网查了半天, 最后决定看来只能先 Patch 一下 `iwlwifi` module, 把 `No-IR` 给删了 ( 比如 [这个 Patch](https://github.com/CristianVladescu/5ghz-ap-driver-patches/blob/main/iwlwifi_no_ir.patch) ). 在折腾了一番之后完全失败, 即便删掉了 No-IR 还是没法发射信号, 遂暂时作罢, 下单了 MTK 的 USB *免驱* 网卡, 择日再战 (x)
+
+TUNA 的群友对 "有人用过 intel 网卡的热点吗" 评论道:
+
+> 不存在的, 建议换 mtk
+
+## Hostapd 的一些坑
+
+我在调试 hostapd 的时候被坑惨了, 主要原因是 hostapd 的不少设置项的文档都写着
+
+> If this field is not included in hostapd.conf, hostapd will not control RTS threshold and 'iwconfig wlan# rts \<val\>' can be used to set it.
+
+这句话有一个隐含的意思: 如果 hostapd 更改了这个配置, 在停止的时候他 *不会帮你改回去*. 我尝试通过注释掉一些设置来 Debug 的时候, 这个行为实际导致了某个设置项一旦写上去, 那么就 *半永久* 地生效了, 注释掉也没用... 直到我打开另一台电脑的 Monitor Mode 抓包看到了异常的 Fragmented Frame 才反应过来.
