@@ -64,6 +64,8 @@ eduroam 是一个全球性的无线网络服务，旨在为全球研究和教育
 
 ## 802.1X PEAP
 
+{% fold "Mermaid Src" %}
+
 ```mermaid
 sequenceDiagram
 
@@ -80,6 +82,8 @@ Note over STA, AP : EAPOL 4-way handshake
 
 STA --> AP : Encrypted 802.11 Traffic
 ```
+
+{% endfold %}
 
 ![PEAP Auth](TsinghuaSecure/1xpeap.svg)
 
@@ -109,13 +113,15 @@ STA --> AP : Encrypted 802.11 Traffic
 
 ## 在 Arch 上的安装与调试
 
-**Update 2024-02-09**: 由于我的笔记本电脑疑似有些太新了 (Ultra 200V), 需要 Linux Kernel 6.12 才能用, 所以我实际使用了 Arch Linux.
+**Update 2025-02-09**: 由于我的笔记本电脑疑似有些太新了 (Ultra 200V), 需要 Linux Kernel 6.12 才能用, 所以我实际使用了 Arch Linux.
 
 Arch Linux 上面的 hostapd-wpe 作为一个 [AUR](https://aur.archlinux.org/packages/hostapd-wpe) 出现, 但是这个 AUR 安装之后并不像 Arch 一样带有全套的配置, 这些配置啥的需要自己生成. 简单地说:
 
 ### 配置文件 hostapd-wpe.conf
 
 这有一份示例文件:
+
+{% fold "hostapd-wpe.conf" %}
 
 ```ini
 interface=wlo1
@@ -164,6 +170,8 @@ server_cert=server.pem
 private_key=server.prv
 private_key_passwd=whatever
 ```
+
+{% endfold %}
 
 我们需要做的主要是修改这个文件以做到两件事:
 
@@ -221,3 +229,102 @@ TUNA 的群友对 "有人用过 intel 网卡的热点吗" 评论道:
 > If this field is not included in hostapd.conf, hostapd will not control RTS threshold and 'iwconfig wlan# rts \<val\>' can be used to set it.
 
 这句话有一个隐含的意思: 如果 hostapd 更改了这个配置, 在停止的时候他 *不会帮你改回去*. 我尝试通过注释掉一些设置来 Debug 的时候, 这个行为实际导致了某个设置项一旦写上去, 那么就 *半永久* 地生效了, 注释掉也没用... 直到我打开另一台电脑的 Monitor Mode 抓包看到了异常的 Fragmented Frame 才反应过来.
+
+## MSCHAPv2 (2)
+
+**UPDATE 2025-02-12:** 我的新 WiFi 网卡到了, 我又研究了一下:
+
+首先是关于 MSCHAPv2 哈希解密有关的, 我们研究 MSCHAPv2 的流程:
+
+{% fold "Mermaid Src" %}
+
+```mermaid
+sequenceDiagram
+participant Client
+participant Server
+
+Server ->> Client : EAP Identity Request
+Client ->> Server : Identity Response
+Server ->> Client : MSCHAPv2 & 16 Octets of Server Challenge
+Client ->> Server : 16 Octets of Client Challenge & <br /> 24 Octets of NT-Response
+Server ->> Client : Success
+Client ->> Server : Success
+```
+
+{% endfold %}
+
+![MSCHAPv2](./TsinghuaSecure/mschapv2.svg)
+
+具体使用 Server Challenge, Peer Challenge 和 username, password 计算 NT-Response 的方式如下:
+
+{% fold "Mermaid Src" %}
+
+```mermaid
+flowchart TB
+
+AC["Auth (Server) Challenge, AC"]
+PC["Peer (Client) Challenge, PC"]
+USER[Username, USER]
+PASS[Password, PASS]
+
+PC --> CHSUM
+AC --> CHSUM
+USER --> CHSUM
+
+subgraph GENCHHASH ["Generate Challenge Hash"]
+CHHASH[Challenge Hash]
+CHSUM["CHSUM = PC + AC + UTF-8(USER)"]
+CHSHA["CHSHA = SHA1(CHSUM)"]
+CHHASH["CHHASH = CHSHA[:8]"]
+CHSUM --> CHSHA
+CHSHA --> CHHASH
+end
+
+PASS --> PWUCS
+
+subgraph GENPWHASH ["Generate Password Hash"]
+direction LR
+
+PWUCS["PWUCS = UTF16-LE(PASS)"]
+PWHASH["PWHASH = MD4(PWUCS)"]
+
+PWUCS --> PWHASH
+end
+
+CHHASH --> DES1
+CHHASH --> DES2
+CHHASH --> DES3
+PWHASH --> K1
+PWHASH --> K2
+PWHASH --> K3
+
+subgraph GENRESP ["Generate Challenge Response"]
+K1["K1 = PWHASH[:7]"] -->
+DES1["DES1 = DES(CHHASH, key=K1)"]
+K2["K2 = PWHASH[7:14]"] -->
+DES2["DES2 = DES(CHHASH, key=K2)"]
+K3["K3 = PWHASH[15:16] + '\x00' * 5"] -->
+DES3["DES3 = DES(CHHASH, key=K3)"]
+
+DES1 --> RESP
+DES2 --> RESP
+DES3 --> RESP
+
+RESP["RESP = DES1 + DES2 + DES3 (Concat)"]
+end
+
+RESPONSE["MSCHAPv2 Response"]
+RESP --> RESPONSE
+```
+
+{% endfold %}
+
+![MSCHAP Reponse](./TsinghuaSecure/mschap_resp.svg)
+
+(这个图花了我 20 min) 可以看出来的是这里从 Response 可以直接逆向得到各个 DES 块的 Plaintext 和 Ciphertext, 进而可以利用 Known Plaintext Attack 得到 PWHASH; 不过更好的方式还是得到大量的 Hash 然后爆破弱密码.
+
+此外, 由于 Client Challenge 的缘故, 我们没办法把盐 (这里的 DES 明文) 固定, 所以比较可惜.
+
+## 5G AP (2)
+
+新网卡是 MTK 的, 但是默认情况下依然是大量信道 No-IR. 还得 Patch 驱动 (). 不过我用 36 信道的 HT40+ 试过了, 确实是可以用并获得哈希的.
