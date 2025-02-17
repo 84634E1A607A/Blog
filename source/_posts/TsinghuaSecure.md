@@ -328,3 +328,56 @@ RESP --> RESPONSE
 ## 5G AP (2)
 
 新网卡是 MTK 的, 但是默认情况下依然是大量信道 No-IR. 还得 Patch 驱动 (). 不过我用 36 信道的 HT40+ 试过了, 确实是可以用并获得哈希的.
+
+## 5G AP (3)
+
+**UPDATE 2025-02-17:** 开学了, 终于可以实地实验了! 我又研究了一下究竟如何才能正确发射 5GHz 信号, 外加得到了一些短期的成果. 首先是关于 No-IR 的问题: 我终于是看懂了到底是怎么一回事.
+
+是否 PASSIVE-SCAN 取决于 Regulatory DB 怎么说. 对于内嵌的这张 Intel 的网卡, 其 RegDB 是写死在固件里面的 (`iw reg get` 显示 `self-managed`, 不由系统统一管理), 是 "CN, DFS-UNSET", 且同时在所有信道都要求 Passive Scan. 因此, Linux Driver 也遵照这个固件指引的 RegDB 去执行. 之前 Patch Driver 的时候虽然删掉了这段逻辑, 但是网卡的固件没变, 不 Passive Scan 就尝试发射信号进入 AP 模式的命令会被固件直接 Reject 掉 (太安全了!).
+
+而 MTK 的卡确实没有这个问题, 其 Regulatory Domain 就是系统的. 然而, Arch 默认没有安装 RegDB (crda), 系统 Fallback 到了 `00` Domain, 此时只允许大部分国家都有的那些 channel, 且都要 Passive Scan.
+
+我在一圈搜索之后终于意识到了这一点, 安装了 CRDA 并修改了 Config 文件, 将地区设置为 CN. 重启之后的默认地区就是 CN 了, 这时的符合中国无线电标准的那些频率就不需要 Passive-Scan 了, 可以直接发射信号.
+
+我这张卡支持的规格不高, 只有 802.11ac, 40MHz 频宽. 在教学楼里面竞争不过校园网 AP (没办法喽), 不过在户外没有 Tsinghua-Secure 信号的地方还是很有效的.
+
+## 实地攻击
+
+我在几段时间和地点进行了测试:
+
+- 刚下课, 教学楼门口
+- 已经上课了, 学堂路
+- 饭点, 某没有校园网的食堂
+- 饭点, 某有校园网的食堂
+- 晚上, 操场
+
+在各个地方我都能收到一些连接请求和哈希. 人越多, 用手机的人越多, 校园网越差, 尝试连接我的伪基站的人越多. 比起 2.4GHz 的热点, 客户端倾向于先连接 5GHz 的. 不少客户端能观测到连续连接两次的特征, 应该是第一次用于测试是否可连接, 第二次正式连接.
+
+同时, **对各个系统的观测如下**:
+
+- Android
+  - "不校验证书": 直接连接
+  - "使用系统证书" + "tsinghua.edu.cn 域名": 安全的. 会 SSL Alert 后退出
+- iOS
+  - 会弹出提示, 新的证书与老的不同, 可以查看证书. 至于用户会不会点确认, 我不好说
+- Windows
+  - 与 iOS 相似, 但 Windows 不会告诉用户当前的证书是啥, 只会问用户 "你是否认为你应该在此处看到此 SSID"
+- Linux
+  - 与 Android 相似 (?) 未测试
+
+这告诉我们 **信任系统证书 + 校验域名是安全的做法**. *应当* 让 its 出一版新的 Tsinghua-Secure 教程, 指导大家这么用.
+
+**对所有哈希的观测如下**:
+
+我们总共拿到了近 2000 次登录尝试的 Hash, 属于 367 个不同的用户 (包括我自己). 如果用 DES 强行解密的方式, 解出所有的 MD4 哈希 (这等同于知道了认证凭据) 需要 4 年 (爆破工具为 1 张 4070s). 因此我还是选择了 *ROCKYOU.txt* 的方式.
+
+使用 Kali 的 Rockyou + 一些 Rules, 总时间在 4h 以内, 截至写下这段话的时候跑了 60% 左右
+
+````
+Guess.Base.......: File (../wordlists/rockyou.txt)
+Guess.Mod........: Rules (../wordlists/OneRuleToRuleThemLong.rule)
+Speed.#1.........: 23522.3 MH/s (40.10ms) @ Accel:512 Loops:256 Thr:128 Vec:1
+Recovered........: 58/367 (15.80%) Digests (total)
+````
+
+Quite Good (?)
