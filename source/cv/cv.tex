@@ -1,0 +1,129 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{ctex}  % 添加中文支持
+\usepackage{xcolor}  % 添加颜色支持
+\definecolor{tsinghua_purple}{HTML}{660874}  % 定义颜色
+\usepackage{titlesec}
+
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+
+\titleformat{\section}{\color{tsinghua_purple}\zihao{4}\heiti}{}{0em}{}
+
+\title{个人简历}
+\date{}
+
+\begin{document}
+
+% Reduce space around title
+\maketitle
+\vspace{-2em}
+
+\section*{个人简介}
+我叫董业恺, 现清华大学计算机系科协网络部副主席. 我拥有丰富的软件工程, 网络技术与网络安全实践经验, 对网络安全和下一代互联网, 天地一体化互联网等方向有浓厚的兴趣.
+
+\section*{教育背景}
+\noindent
+\begin{tabular}{p{0.17\textwidth}p{0.83\textwidth}}
+    2022.9 - 2023.8 & 清华大学电机工程与应用电子技术系 \newline
+        \fontsize{8pt}{10pt}\selectfont 本科二年级转系到清华大学计算机科学与技术系 \\
+
+    2023.9 - 至今 & 清华大学计算机科学与技术系 \newline
+        \fontsize{8pt}{10pt}\selectfont 本科在读，主修计算机科学与技术专业 \\
+\end{tabular}
+
+\section*{技术技能}
+\begin{itemize}[left=0pt]
+    \item \textbf{网络协议分析与应用}: 我熟练掌握包括但不限于 SNMP, STP, DHCP, ARP, TCP, IPMI 等协议的原理和应用方法, 能准确定位网络故障, 快速解决网络问题;
+    \item \textbf{网络配置与架构}: 我具备大量配置交换机, 路由器等网络设施的经验, 能快速调通中等规模的网络并利用策略路由等手段完成网络配置.
+    \item \textbf{网络安全与维护}: 我擅长发现与利用网络安全漏洞, 尤其是网络基础设施和 Web 应用方面. 我在教育网护网行动等活动中取得了良好的成绩, 在校内有 `水木白帽' 称号, 协助信息化技术中心发现并处理了多处网络安全隐患.
+    \item \textbf{软件工程与开发}: 我开发了多个软件工程项目, 部分项目已交付并投入使用. 我也积极参与社区项目的贡献, 对软件工程有读到的见解.
+    \item \textbf{服务运维与管理}: 我接手维护了酒井 ID (\href{https://stu.cs.tsinghua.edu.cn}{stu.cs.tsinghua.edu.cn}), Git9 (\href{https://git.net9.org}{git.net9.org}), THUInfo APP (\href{https://app.cs.tsinghua.edu.cn}{app.cs.tsinghua.edu.cn}) 等多个项目, 接触了 Grafana 等自动化运维的工具与手段.
+\end{itemize}
+
+\section*{获得荣誉}
+\begin{itemize}[left=0pt]
+    \item 清华大学优秀科协骨干
+    \item 清华大学软件工程课程优秀大作业
+    \item THUCTF 2022 二等奖, 新生特别奖
+\end{itemize}
+
+\section*{项目经历}
+\noindent
+\begin{tabular}{p{0.17\textwidth}p{0.83\textwidth}}
+    2023.1 - 2023.5 & \textbf{RainDropWeb 雨实验平台开发 (个人项目)}
+        \fontsize{8pt}{10pt}\selectfont
+        \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 为数字电路实验课程的实验平台开发了具有跨平台, 响应式特性的客户端.
+            \item 逆向了其通信协议以支持自定义的实现;
+        \end{itemize} \\
+
+        2023.9 - 至今 & \textbf{THUInfo APP 维护 (个人项目)}
+        \fontsize{8pt}{10pt}\selectfont
+        \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 维护了整合校园常用功能的 THUInfo APP 软件;
+        \end{itemize} \\
+
+        2024.2 - 2024.5 & \textbf{即时通讯系统开发 (课程大作业)}
+        \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 在软件工程课程上开发了即时通讯系统, 被评为优秀大作业;
+        \end{itemize} \\
+
+        2024.6 - 2024.11 & \textbf{清华大学学生社团管理系统 (科协项目)}
+        \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 带队完成了共青团清华大学委员会的学生社团管理系统项目, 部署在 \href{https://shetuan.student.tsinghua.edu.cn}{shetuan.student.tsinghua.edu.cn};
+        \end{itemize} \\
+
+        2023.9 - 2024.11 & \textbf{计算机系学生节网络架构和弹幕机重构 (科协项目)}
+        \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 两次组织了计算机系学生节的网络运维工作, 重构了现有网络架构, 给出了详细的文档.
+            \item 主持了对弹幕机的重构, 扩展了系统功能, 简化了系统结构, 使之稳定运行;
+        \end{itemize} \\
+
+        2024.10 - 2024.12 & \textbf{南区地下二层机房改造工作 (社团项目)}
+        \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 参与设计了南区地下二层学生兴趣团队服务器机房, 重构了网络架构并部署了状态监测系统.
+        \end{itemize}
+\end{tabular}
+
+\section*{社会工作}
+\noindent
+\begin{tabular}{p{0.17\textwidth}p{0.83\textwidth}}
+    2023.5 - 2024.4 & \textbf{计算机系科协网络部干事}
+        \fontsize{8pt}{10pt}\selectfont
+        \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 整理了科协存量服务文档, 得到了科协存量信息系统目录
+        \end{itemize} \\
+
+    2024.7 - 2024.8 & \textbf{计算机系科协与清华算协联合暑培讲师}
+        \fontsize{8pt}{10pt}\selectfont
+        \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 讲授 Linux \& Git 和 Django 有关技术
+        \end{itemize} \\
+
+    2024.5 - 至今 & \textbf{计算机系科协网络部副主席}
+        \fontsize{8pt}{10pt}\selectfont
+        \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+            \item 完成了科协服务向新系馆机房迁移
+            \item 校内 Dify LLM 平台部署
+            \item 完成了科协存量服务运维与清退
+            \item 完成了 FTP9 和 Cloud9 部署等工作
+        \end{itemize}
+\end{tabular}
+
+\section*{课程成绩}
+\noindent 我取得满绩的课程包括但不限于:
+\begin{itemize}[left=20pt]
+    \setlength{\itemsep}{0pt}
+    \item 计算机网络原理
+    \item 计算机网络安全技术
+    \item 无线移动网络技术
+    \item 软件工程
+    \item 计算机系统概论
+\end{itemize}
+
+\section*{联系方式}
+\noindent 博客链接：\href{https://aajax.top}{aajax.top}; 邮箱：\href{mailto:i@aajax.top}{i@aajax.top}
+
+\end{document}
