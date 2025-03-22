@@ -5,9 +5,12 @@
 # Site
 title: Ajax's Blog
 subtitle: ''
-description: ''
+description: 'Ajax 的博客小站, 偶尔发发技术心得'
 keywords:
-author: <a href="mailto:i@aajax.top">Ajax Dong</a>
+  - 博客
+  - Ajax
+  - Blog
+author: <a href='mailto:i@aajax.top'>Ajax Dong</a>
 language: zh
 timezone: 'Asia/Shanghai'
 

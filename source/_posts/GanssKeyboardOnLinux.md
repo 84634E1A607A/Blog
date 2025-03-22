@@ -1,6 +1,7 @@
 ---
 title: 买了个机械键盘 - GANSS (高斯) GS3104T Pro on Linux (我 F1 炸了!)
 date: 2025-03-12 18:56:26
+description: 本文记录了在 Linux 系统上配置 GANSS GS3104T Pro 机械键盘的过程，分析了 F1 键失效的原因，并提供了解决方案及相关调试经验。
 tags:
   - 技术
   - Linux
