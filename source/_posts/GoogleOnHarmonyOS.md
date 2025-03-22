@@ -1,6 +1,7 @@
 ---
 title: 在 HarmonyOS 上装 Google (资料汇总)
 date: 2024-01-28 14:09:45
+description: 本文记录了在 HarmonyOS 上安装 Google 服务的全过程，包括绕过限制的方法、未认证问题的解决方案及相关工具和调试经验的总结。
 tags:
   - 技术
 ---
