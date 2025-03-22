@@ -1,6 +1,7 @@
 ---
 title: Networking Guide for 9# Roaming Guide
 date: 2024-12-06 19:29:54
+description: 本文记录了 2024 学生节网络搭建的全过程，包括 WLC 部署、WLAN 配置、Systemd-Networkd 替换传统网络管理工具、交换机配置优化及实际运行情况分析，同时分享了直播与弹幕系统的改进经验，并对工物学生节无线网的配置问题进行了详细探讨，提出了改进建议。
 tags:
   - 网络
   - 技术

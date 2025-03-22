@@ -1,6 +1,7 @@
 ---
 title: 解码 H3C OSPF MIB 并构建网络拓扑
 date: 2024-12-25 15:19:00
+description: 本文介绍了如何通过解码 H3C OSPF MIB 构建网络拓扑，并分析了 SNMP 暴露带来的安全隐患及其解决方法。
 tags:
   - 网络
   - 网络安全

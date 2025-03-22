@@ -1,6 +1,7 @@
 ---
 title: GoAuthing 在 Windows 上维持校园网登录
 date: 2024-03-10 14:55:51
+description: 本文介绍了在 Windows 系统上使用 GoAuthing 实现校园网自动登录的方法，包括配置文件创建、脚本编写、任务计划设置及其局限性分析。
 tags:
   - 网络
   - 技术
