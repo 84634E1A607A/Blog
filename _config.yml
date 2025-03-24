@@ -123,4 +123,4 @@ kroki:
   inserts:
     - diagram: mermaid
       after: 0
-      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ebd5df', 'background': '#fdfbfc', 'noteBkgColor': '#f6ecf0'}}}%%"
+      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ebd5df', 'secondaryColor': '#e6f7ff', 'tertiaryColor': '#f0fbfc', 'background': '#fdfbfc', 'noteBkgColor': '#f6ecf0'}}}%%"
