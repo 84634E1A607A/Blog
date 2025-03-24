@@ -15,6 +15,7 @@
     "hexo": "^7.3.0",
     "hexo-asset-link": "^2.2.3",
     "hexo-deployer-git": "^4.0.0",
+    "hexo-filter-kroki": "^2.1.10",
     "hexo-fold": "^1.0.5",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
@@ -29,6 +30,6 @@
     "hexo-renderer-swig": "^2.0.0",
     "hexo-server": "^3.0.0",
     "hexo-theme-landscape": "^1.1.0",
-    "ws": ">=8.18.1"
+    "ws": "^8.18.1"
   }
 }
