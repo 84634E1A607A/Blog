@@ -118,3 +118,9 @@ feed:
 
 fold:
   bg_color: "#fdf5f5"
+
+kroki:
+  inserts:
+    - diagram: mermaid
+      after: 0
+      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ebd5df', 'background': '#fdfbfc', 'noteBkgColor': '#f6ecf0'}}}%%"

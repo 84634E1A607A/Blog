@@ -65,8 +65,6 @@ eduroam 是一个全球性的无线网络服务，旨在为全球研究和教育
 
 ## 802.1X PEAP
 
-{% fold "Mermaid Src" %}
-
 ```mermaid
 sequenceDiagram
 
@@ -83,10 +81,6 @@ Note over STA, AP : EAPOL 4-way handshake
 
 STA --> AP : Encrypted 802.11 Traffic
 ```
-
-{% endfold %}
-
-![PEAP Auth](TsinghuaSecure/1xpeap.svg)
 
 首先我们观察 PEAP 架构整体的认证过程:
 
@@ -237,8 +231,6 @@ TUNA 的群友对 "有人用过 intel 网卡的热点吗" 评论道:
 
 首先是关于 MSCHAPv2 哈希解密有关的, 我们研究 MSCHAPv2 的流程:
 
-{% fold "Mermaid Src" %}
-
 ```mermaid
 sequenceDiagram
 participant Client
@@ -252,13 +244,7 @@ Server ->> Client : Success
 Client ->> Server : Success
 ```
 
-{% endfold %}
-
-![MSCHAPv2](./TsinghuaSecure/mschapv2.svg)
-
 具体使用 Server Challenge, Peer Challenge 和 username, password 计算 NT-Response 的方式如下:
-
-{% fold "Mermaid Src" %}
 
 ```mermaid
 flowchart TB
@@ -317,10 +303,6 @@ end
 RESPONSE["MSCHAPv2 Response"]
 RESP --> RESPONSE
 ```
-
-{% endfold %}
-
-![MSCHAP Reponse](./TsinghuaSecure/mschap_resp.svg)
 
 (这个图花了我 20 min) 可以看出来的是这里从 Response 可以直接逆向得到各个 DES 块的 Plaintext 和 Ciphertext, 进而可以利用 Known Plaintext Attack 得到 PWHASH; 不过更好的方式还是得到大量的 Hash 然后爆破弱密码.
 
