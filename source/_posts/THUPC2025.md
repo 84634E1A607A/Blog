@@ -164,7 +164,7 @@ Access VLAN 1| F12_1226_SW
 一开始, 我想折腾一下 *Hybrid Port* (其实是被各种交换机的不同叫法搞混了), 于是把到 1224 的口配成了 Hybrid 模式. 但是我似乎错误地配置了 Hybrid 模式, 最后不通 (问题: 楼层交换机我没有权限) (但是我觉得我调的是对的).
 
 ```sh
-interface range Gi1/0/24
+interface Gi1/0/24
   port link-type hybrid
   port hybrid pvid vlan 222
   port hybrid vlan 1 111 333 tagged
@@ -173,7 +173,7 @@ interface range Gi1/0/24
 后来我紧急跟老师打电话, 给改成了 Trunk 模式, 然后就通了 (但是为什么呢... 我觉得这两个是一样的啊?)
 
 ```sh
-interface range Gi1/0/24
+interface Gi1/0/24
   port link-type trunk
   port trunk pvid vlan 222
   port trunk permit vlan 1 111 222 333
@@ -211,6 +211,80 @@ VLAN 111, 222, 333| F12_SW2
 
 解决方案是确认了构型没有风险后将新接的这个线的两侧端口的 STP 给禁用了.
 
+### 隔离
+
+为了给选手的网保证安全性, 显然是不能让选手间互相访问的. 因此, 要给选手的机器间做二层隔离 (port-isolation). 然而非常不幸的问题是这个 *port*-isolation 顾名思义是以 port 为粒度的, 也就是说不能只给某一个 port 的某一个 VLAN 用. 因此我们没法对 3 层和 12 层间做端口隔离, 不然我们的内部 VLAN 就也遭殃了. 因此, 我干脆给 3 楼的选手单独开了一个 VLAN (333), 而 12 层的用 VLAN 111, 在网关上的 vlan-interface 之间做 isolation. 这个就满足了按 VLAN 粒度的隔离.
+
+### 网关
+
+我们这次勉为其难的用了光纤 + SFP+ 的万兆网关 (主要的 Concern 是电口会不会不稳定), 我找算协要了一个能插 PCIe 万兆网卡的机器. 然后这次比赛的锅就从这里开始了.
+
+本来周五我去调试网络, 我的预期是花费时间最多的是调 12 楼的 14 台交换机. 然而, 实际上, 当我把 U 盘插进机器之后, 我发现机器的默认启动项是硬盘 (显然). 因此我决定进 BIOS 调启动顺序. 但是神奇的事情发生了! 进了 BIOS 之后一小段时间, USB 键盘就统统失灵了, 整个机器只有一个电源键能按, 而且 **两台电脑都是如此...** 后来我实在绷不住, 直接放弃了 BIOS, 按 F12 选 U 盘了. 这样的坏处就是没法自恢复, 万一断电需要手动介入 (Anyway, 反正我得搁这儿待着.).
+
+在网关上照例配了 systemd-networkd, 用了 iptables (懒得写 nftables), 测试正确后就算大功告成了. 防火墙比起上次去 CodeLink 要简单些, 但是增加了源地址验证, 不允许互访, 只允许访问 OJ 的 IP (刚刚看到才发现我忘记 ctstate new 了, 因此除了网关, 管理网的其他人也访问不了选手的机器, 这下更安全了xs)
+
+{% fold "Firewall Rules" %}
+
+```sh
+#! /bin/bash
+
+ipt() {
+	iptables $@
+}
+
+ipt -F
+ipt -t nat -F
+
+ipt -P FORWARD DROP
+ipt -P INPUT DROP
+
+# Reject private address space
+iptables -N BLOCK_PRIVATE
+iptables -F BLOCK_PRIVATE
+iptables -A BLOCK_PRIVATE -d 10.0.0.0/8 -j REJECT --reject-with icmp-admin-prohibited
+iptables -A BLOCK_PRIVATE -d 172.16.0.0/12 -j REJECT --reject-with icmp-admin-prohibited
+iptables -A BLOCK_PRIVATE -d 192.168.0.0/16 -j REJECT --reject-with icmp-admin-prohibited
+iptables -A BLOCK_PRIVATE -d 127.0.0.0/8 -j REJECT --reject-with icmp-admin-prohibited
+iptables -A BLOCK_PRIVATE -d 169.254.0.0/16 -j REJECT --reject-with icmp-admin-prohibited
+iptables -A BLOCK_PRIVATE -d 224.0.0.0/4 -j REJECT --reject-with icmp-admin-prohibited
+# END
+
+ipt -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+ipt -A INPUT -i inner-net -j ACCEPT
+ipt -A INPUT -i enp2s0f1 -p tcp --dport 22 -j ACCEPT
+
+# DHCP
+ipt -A INPUT -p udp --dport 67 -j ACCEPT
+
+# DNS
+ipt -A INPUT -p udp --dport 53 -j ACCEPT
+
+# TFTP, HTTP
+ipt -A INPUT -p udp --dport 69 -j ACCEPT
+ipt -A INPUT -p tcp --dport 80 -j ACCEPT
+
+ipt -A INPUT -p icmp -j ACCEPT
+
+
+ipt -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+ipt -A FORWARD -i comp-net ! -s 172.23.12.0/22 -j DROP
+
+# Competition firewall
+ipt -A FORWARD -i comp-net ! -d 81.70.214.95 -j REJECT --reject-with icmp-admin-prohibited
+ipt -t nat -A PREROUTING -i comp-net -p udp --dport 53 -j DNAT --to-destination 172.23.12.1
+
+ipt -A FORWARD -s 172.23.12.0/22 -j BLOCK_PRIVATE
+ipt -A FORWARD -s 172.23.12.0/22 -j ACCEPT 
+ipt -A FORWARD -i inner-net -j ACCEPT
+
+
+```
+
+{% endfold %}
+
+
 
 <!--
 
@@ -231,3 +305,4 @@ VLAN 111, 222, 333| F12_SW2
 - 好吵 (x) 感觉脑袋大
 
 -->
+
