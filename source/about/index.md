@@ -65,3 +65,13 @@ Anyway. 高考我没有考到计算机专业, 在电气专业. 大一的时候�
 ## 关于我
 
 我会什么呢? 好像会很多东西, 又好像啥也不精通. 我只能说, 当我面对一个问题的时候, 我能尽我所能迅速解决它. 我遇到过很多问题, 也解决过很多问题, 这些都是我的经验和我的优势. 这是我学习的能力.
+
+## 也可以去这里看看!
+
+高中和咱折腾网课的 [Nico](https://www.lozumi.com)
+
+THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.cn)
+
+是可爱的 [Adamanteyecc](https://note.adamanteye.cc/) 的笔记喵
+
+评论的二楼 [Clever Jimmy](https://leverimmy.top/)
