@@ -15,8 +15,8 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3(hexo@7.3.0(chokidar@3.6.0))
       hexo-filter-kroki:
-        specifier: ^2.1.10
-        version: 2.1.10
+        specifier: file:./filter/hexo-filter-kroki
+        version: file:filter/hexo-filter-kroki
       hexo-fold:
         specifier: ^1.0.5
         version: 1.0.5
@@ -468,8 +468,8 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  hexo-filter-kroki@2.1.10:
-    resolution: {integrity: sha512-f+lVQ0VDu00qemcUkYOUCWMu6ut+LIRbjnfSbEG88kQFhy58+LEQsicCaux0rLkRDYzWD/Iszix5/3P5AAdYgg==}
+  hexo-filter-kroki@file:filter/hexo-filter-kroki:
+    resolution: {directory: filter/hexo-filter-kroki, type: directory}
 
   hexo-fold@1.0.5:
     resolution: {integrity: sha512-X/QItWZtLCNKJGG1fmp2coVoYy8Y/Ql1pFWCyDeNow8tMAz09TuxBTxumSIapST/yXaAuFexPK2O8ZC2pfafgA==}
@@ -1518,7 +1518,7 @@ snapshots:
       resolve: 1.22.10
       tildify: 2.0.0
 
-  hexo-filter-kroki@2.1.10:
+  hexo-filter-kroki@file:filter/hexo-filter-kroki:
     dependencies:
       pako: 1.0.11
 

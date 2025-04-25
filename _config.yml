@@ -120,9 +120,16 @@ fold:
   bg_color: "#fdf5f5"
 
 kroki:
+  className: kroki
+  darkClassName: kroki-dark
+  darkModeEnabled: true
+  link: inlineBase64
   inserts:
     - diagram: mermaid
       after: 0
       fragment: "%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ebd5df', 'secondaryColor': '#e6f7ff', 'tertiaryColor': '#f0fbfc', 'background': '#fdfbfc', 'noteBkgColor': '#f6ecf0'}}}%%"
+    - diagram: mermaid-dark
+      after: 0
+      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'darkMode': true, 'primaryColor': '#37072a', 'secondaryColor': '#071e26', 'tertiaryColor': '#000b2e', 'background': '#0b0d0c', 'noteBkgColor': '#340832', 'noteTextColor': '#ddd'}}}%%"
 
 canonical: true
