@@ -130,6 +130,6 @@ kroki:
       fragment: "%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ebd5df', 'secondaryColor': '#e6f7ff', 'tertiaryColor': '#f0fbfc', 'background': '#fdfbfc', 'noteBkgColor': '#f6ecf0'}}}%%"
     - diagram: mermaid-dark
       after: 0
-      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'darkMode': true, 'primaryColor': '#37072a', 'secondaryColor': '#071e26', 'tertiaryColor': '#000b2e', 'background': '#0b0d0c', 'noteBkgColor': '#340832', 'noteTextColor': '#ddd'}}}%%"
+      fragment: "%%{init: {'theme': 'base', 'themeVariables': {'darkMode': true, 'primaryColor': '#3f3036', 'secondaryColor': '#00111a', 'tertiaryColor': '#1b1719', 'background': '#111111', 'noteBkgColor': '#0d020d', 'noteTextColor': '#ddd'}}}%%"
 
 canonical: true
