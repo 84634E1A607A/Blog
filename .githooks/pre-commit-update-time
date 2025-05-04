@@ -14,7 +14,8 @@ for FILE in $FILES; do
     [ ! -f "$FILE" ] && continue
 
     # Get the last commit time for this file (in ISO 8601 format)
-    LAST_EDIT=$(git log -1 --format="%cd" --date=format:"%Y-%m-%d %H:%M:%S" -- "$FILE")
+    # LAST_EDIT=$(git log -1 --format="%cd" --date=format:"%Y-%m-%d %H:%M:%S" -- "$FILE")
+    LAST_EDIT=$(date +"%Y-%m-%d %H:%M:%S")
 
     echo "$FILE set to $LAST_EDIT"
 

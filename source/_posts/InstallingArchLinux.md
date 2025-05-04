@@ -1,8 +1,8 @@
 ---
-updated: 2025-05-04 14:46:25
+updated: 2025-05-04 15:38:42
 title: 装 Arch Linux!
 date: 2025-05-03 22:52:59
-description: 
+description: 这篇文章记录了作者在安装 Arch Linux 的过程中遇到的各种问题和解决方案，包括全盘加密、Secure Boot、TPM 配置、桌面环境选择、电源管理、Btrfs 快照、以及与 Electron 应用的兼容性问题等。通过这次安装，作者分享了许多实用的经验和技巧，为想要尝试 Arch Linux 的用户提供了参考。
 tags:
   - 技术
   - Linux
