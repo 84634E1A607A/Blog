@@ -1,0 +1,40 @@
+#!/bin/bash
+
+echo "Updating post modify time"
+
+# Directory where your Hexo posts are stored
+POST_DIR="source/_posts"
+
+# Get list of staged markdown files under POST_DIR
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "^$POST_DIR/.*\.md$")
+
+for FILE in $FILES; do
+    # Skip if file doesn't exist yet (e.g., deleted)
+    [ ! -f "$FILE" ] && continue
+
+    # Get the last commit time for this file (in ISO 8601 format)
+    LAST_EDIT=$(git log -1 --format="%cI" -- "$FILE")
+
+    # Check if front-matter contains 'updated' field
+    if grep -q "^updated:" "$FILE"; then
+        # Replace existing updated field
+        sed -i -E "s/^updated:.*$/updated: $LAST_EDIT/" "$FILE"
+    else
+        # Insert 'updated' field after the first line (assuming it’s the start of front-matter)
+        awk -v date="$LAST_EDIT" '
+            BEGIN { inserted=0 }
+            /^---$/ && ++count == 2 { inserted=1 }
+            {
+                print
+                if (!inserted && count == 1 && $0 !~ /^updated:/) {
+                    print "updated: " date
+                    inserted=1
+                }
+            }
+        ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    fi
+
+    # Re-add modified file to staging
+    git add "$FILE"
+done
+
