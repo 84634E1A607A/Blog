@@ -1,3 +1,5 @@
 #! /bin/bash
 
+. ./.githooks/pre-commit-update-time
+
 npm run build -b

@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: SNMP is not only "Monitoring" Protocol - Exploiting H3C SNMP
 date: 2024-11-25 14:04:08
 description: 本文探讨了 SNMP 的管理功能及其安全隐患，通过实际案例分析了 H3C 设备的配置漏洞，详细记录了利用 SNMP 获取权限的过程，包括配置文件管理、用户创建尝试及技术难点，并提出了相关安全建议。

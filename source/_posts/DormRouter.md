@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Setting up Software Router for my Dorm
 date: 2024-02-28 10:22:04
 description: 本文记录了在寝室中搭建软路由的全过程，包括需求分析、系统架构选择、网络配置、IPv6 支持、路由优化及稳定性问题的解决方案。

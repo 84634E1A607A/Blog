@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Configuring Phicomm FS3812
 date: 2024-06-11 12:26:25
 description: 本文记录了配置斐讯 FS3812 弱三层网管交换机的全过程，包括 Console 调试、Web 管理配置、固件分析及内部照片分享，并探讨了串口调试的技术细节和固件修改的可能性。
