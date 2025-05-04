@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Hello world! & Summary of Autumn Semester 2023
 date: 2024-01-19 19:38:10
 description: 本文是作者的第一篇博客，记录了 2023 秋季学期的总结，包括科协工作、学业感悟、课程体验以及对寒假和下学期的规划展望。

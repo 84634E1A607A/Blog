@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Upgrading Gitlab and Configuring OAuth2 Generic
 date: 2024-01-20 10:49:32
 description: This post details the process of upgrading Gitlab CE from version 11.1.1 to 16.8.0, addressing encountered issues, debugging OAuth2 integration with a custom identity provider, and configuring the omniauth-oauth2-generic gem for seamless authentication.
