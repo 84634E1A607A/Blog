@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Migrating to Cloudflare Pages & Self-hosted LFS
 date: 2025-02-07 19:18:53
 description: 本文记录了将博客迁移到 Cloudflare Pages 的过程，并介绍了如何解决 Git LFS 配额问题以及自建 LFS 服务的实践。

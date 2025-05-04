@@ -1,4 +1,5 @@
 ---
+updated: 2025-05-04 14:46:25
 title: 装 Arch Linux!
 date: 2025-05-03 22:52:59
 description: 

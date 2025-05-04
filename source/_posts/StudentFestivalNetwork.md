@@ -1,4 +1,5 @@
 ---
+updated: 2025-03-23 00:48:09
 title: Network on Ninetune - A Quick Guide
 date: 2024-01-20 07:32:30
 description: 本文记录了 2023 学生节网络搭建的全过程，包括路由方案重做、WiFi 配置优化、NAT 和 VLAN 的应用、网络安全策略的实施、流量控制与 VPN 配置，以及无线 AP 的布置与信道调整，详细探讨了网络架构设计、技术实现及实际运行效果，并总结了经验与改进建议。

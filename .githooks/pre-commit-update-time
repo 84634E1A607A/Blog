@@ -7,13 +7,16 @@ POST_DIR="source/_posts"
 
 # Get list of staged markdown files under POST_DIR
 FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "^$POST_DIR/.*\.md$")
+# FILES=$(git ls-files | grep "^$POST_DIR/.*\.md$")
 
 for FILE in $FILES; do
     # Skip if file doesn't exist yet (e.g., deleted)
     [ ! -f "$FILE" ] && continue
 
     # Get the last commit time for this file (in ISO 8601 format)
-    LAST_EDIT=$(git log -1 --format="%cI" -- "$FILE")
+    LAST_EDIT=$(git log -1 --format="%cd" --date=format:"%Y-%m-%d %H:%M:%S" -- "$FILE")
+
+    echo "$FILE set to $LAST_EDIT"
 
     # Check if front-matter contains 'updated' field
     if grep -q "^updated:" "$FILE"; then
