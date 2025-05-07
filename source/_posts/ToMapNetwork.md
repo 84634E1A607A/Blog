@@ -153,6 +153,10 @@ B2 --> D2
 
 [PeeringDB](https://www.peeringdb.com/) 记录了大量 IXP (Internet eXchange Provider) 的信息和连接了哪些 AS.
 
+### Hurricane Electric BGP
+
+[BGP.he.net](https://bgp.he.net/) 是一个提供 BGP 信息的网站, 作用和 RIPEstat 类似.
+
 ## 一些问题与经验
 
 ### 网络测绘是以设备 (逻辑设备) 为中心的
@@ -286,3 +290,9 @@ X <-->|同一个 /127
 ### 很多时候你是对的, 数据是错的
 
 因为有大量的数据, 而且 Traceroute 本身不很稳定 (谁知道他 ** 的路上有多少幺蛾子), 你拿到的数据可能包含奇怪的问题. 如果出现了与预期不符的现象, 记得先复现一下, 看看是不是当时的网络波动或者奇怪的问题导致的 (我真的被坑死了).
+
+## 一些参考资料
+
+[Paris Traceroute 的介绍](https://www.kentik.com/blog/the-power-of-paris-traceroute-for-modern-load-balanced-networks/) 和 [网站](https://paris-traceroute.net/) - 这个是 Traceroute 的一个变种, 主要是为了解决公网上的负载均衡问题.
+
+这玩意不原生支持 IPv6... (论文是 06 年的, 也正常) 但是感觉 mtr 之类的工具应该早就实现了这些功能. 那为什么结果里面还是有屎呢..?
