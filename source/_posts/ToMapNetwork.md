@@ -1,5 +1,5 @@
 ---
-updated: 2025-04-28 18:00:37
+updated: 2025-05-08 10:01:00
 title: 进行网络测绘的方法与挑战
 date: 2025-04-27 20:01:39
 description: 进行网络测绘的方法与挑战，探讨网络拓扑结构、路由策略、性能分析等方面的工具与经验，记录测绘过程中遇到的问题与解决方案。
@@ -142,6 +142,16 @@ B2 --> D2
 ### RIPE Atlas
 
 [RIPE Atlas](https://atlas.ripe.net/) 是一个可以用于网络测绘的网站, 可以很方便地用上面的全球各地的 Probe 做 ping, traceroute, DNS Lookup 等等, 也可以找上面已有的公开数据来使用. 它有 API 文档, 可以看.
+
+RIPE Atlas 还有好几个东西:
+
+[CLI Tools](https://ripe-atlas-tools.readthedocs.io/en/latest/) 这个甚至有 Debian 的 apt 包. 也可以在 conda 环境下装. 包名应该是 `ripe.atlas.tools`. 这个比网页在很多情况下更方便一些.
+
+[Python Client](https://ripe-atlas-cousteau.readthedocs.io/en/latest/) 不过最近更新是 2016 年. 不知道是不是因为和 `isc-dhcp-client` 一样觉得自己 "工程已毕, 言尽于此". 暂时没用过.
+
+[Python Library](https://github.com/RIPE-NCC/ripe-atlas-sagan) 和前面不同, 这个库的主要作用是解析 Atlas 的结果.
+
+[Google BigQuery](https://github.com/RIPE-NCC/ripe-atlas-bigquery) 这也是我写博客的时候才发现的, RIPE 把数据库扔到 Google BigQuery 上面去了, 说不定这个比自己下载 10GB 数据自己 Parse 成 DB 好用 (吗). 我刚刚看了看, 它里面的数据很多, 但是数据没有原始的 json 全 (比如 ittl, MPLS 啥的).
 
 ### RIPEstat
 
