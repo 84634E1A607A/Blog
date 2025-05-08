@@ -1,5 +1,5 @@
 ---
-updated: 2025-04-28 18:00:37
+updated: 2025-05-08 10:01:00
 title: 进行网络测绘的方法与挑战
 date: 2025-04-27 20:01:39
 description: 进行网络测绘的方法与挑战，探讨网络拓扑结构、路由策略、性能分析等方面的工具与经验，记录测绘过程中遇到的问题与解决方案。
@@ -143,6 +143,16 @@ B2 --> D2
 
 [RIPE Atlas](https://atlas.ripe.net/) 是一个可以用于网络测绘的网站, 可以很方便地用上面的全球各地的 Probe 做 ping, traceroute, DNS Lookup 等等, 也可以找上面已有的公开数据来使用. 它有 API 文档, 可以看.
 
+RIPE Atlas 还有好几个东西:
+
+[CLI Tools](https://ripe-atlas-tools.readthedocs.io/en/latest/) 这个甚至有 Debian 的 apt 包. 也可以在 conda 环境下装. 包名应该是 `ripe.atlas.tools`. 这个比网页在很多情况下更方便一些.
+
+[Python Client](https://ripe-atlas-cousteau.readthedocs.io/en/latest/) 不过最近更新是 2016 年. 不知道是不是因为和 `isc-dhcp-client` 一样觉得自己 "工程已毕, 言尽于此". 暂时没用过.
+
+[Python Library](https://github.com/RIPE-NCC/ripe-atlas-sagan) 和前面不同, 这个库的主要作用是解析 Atlas 的结果.
+
+[Google BigQuery](https://github.com/RIPE-NCC/ripe-atlas-bigquery) 这也是我写博客的时候才发现的, RIPE 把数据库扔到 Google BigQuery 上面去了, 说不定这个比自己下载 10GB 数据自己 Parse 成 DB 好用 (吗). 我刚刚看了看, 它里面的数据很多, 但是数据没有原始的 json 全 (比如 ittl, MPLS 啥的).
+
 ### RIPEstat
 
 [RIPEstat](https://stat.ripe.net/) 是 RIPE NCC 的用于研究 BGP 协议的 Looking Glass, 从这里可以看到几乎实时的 BGP 情况, 它的 [BGPlay](https://stat.ripe.net/widget/bgplay) 工具提供了简单直观的检查 BGP 路由的方式.
@@ -152,6 +162,10 @@ B2 --> D2
 ### PeeringDB
 
 [PeeringDB](https://www.peeringdb.com/) 记录了大量 IXP (Internet eXchange Provider) 的信息和连接了哪些 AS.
+
+### Hurricane Electric BGP
+
+[BGP.he.net](https://bgp.he.net/) 是一个提供 BGP 信息的网站, 作用和 RIPEstat 类似.
 
 ## 一些问题与经验
 
@@ -286,3 +300,9 @@ X <-->|同一个 /127
 ### 很多时候你是对的, 数据是错的
 
 因为有大量的数据, 而且 Traceroute 本身不很稳定 (谁知道他 ** 的路上有多少幺蛾子), 你拿到的数据可能包含奇怪的问题. 如果出现了与预期不符的现象, 记得先复现一下, 看看是不是当时的网络波动或者奇怪的问题导致的 (我真的被坑死了).
+
+## 一些参考资料
+
+[Paris Traceroute 的介绍](https://www.kentik.com/blog/the-power-of-paris-traceroute-for-modern-load-balanced-networks/) 和 [网站](https://paris-traceroute.net/) - 这个是 Traceroute 的一个变种, 主要是为了解决公网上的负载均衡问题.
+
+这玩意不原生支持 IPv6... (论文是 06 年的, 也正常) 但是感觉 mtr 之类的工具应该早就实现了这些功能. 那为什么结果里面还是有屎呢..?
