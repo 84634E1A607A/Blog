@@ -1,5 +1,5 @@
 ---
-updated: 2025-05-08 22:33:41
+updated: 2025-05-09 09:33:44
 title: 在科协的两年
 date: 2025-05-08 10:54:21
 tags:
@@ -110,7 +110,7 @@ tags:
 
 然后因为这个我们决定把 Hera 上面的两块没用上的盘挂上去. 我在组建了 RAID1 之后尝试扩容现有的 Datastore, 于是有了 Harry 经典表情包
 
-<div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+<div style="display: flex; flex-direction: row; justify-content: space-evenly; flex-wrap: wrap;">
 
 ![NO](2YearsSAST/NO.png)
 
