@@ -1,6 +1,6 @@
 ---
 title: Docker isn't that great - Docker 的使用技巧和踩坑总结
-updated: 2025-05-15 20:38:19
+updated: 2025-05-15 21:20:23
 date: 2025-05-15 18:25:51
 description: 深入解析 Docker 容器化的常见陷阱与避坑指南，从镜像源污染、日志雪崩到网络配置反直觉设计，揭秘容器化浪潮下的运维暗礁与实战解决方案。
 tags:
@@ -236,7 +236,7 @@ table ip6 filter {
 
 可以通过新建一个 Network 并指定 `com.docker.network.bridge.name` 让 Docker 新建 (或者是 Attach to? 我忘了) 一个名为其值的网卡. (这样就可以用 systemd 管理了)
 
-```shell
+```bash
 docker network create --driver=bridge \
                       --opt "com.docker.network.bridge.name"="kali-bridge" \
                       --subnet=172.30.14.0/24 \
