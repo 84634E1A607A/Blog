@@ -74,4 +74,6 @@ THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.
 
 是可爱的 [Adamanteyecc](https://note.adamanteye.cc/) 的笔记喵
 
+写博客眼光独到, 在博客里面藏 Cloudflare Access 的 [hash](https://land.hash.memorial/) 妹妹
+
 评论的二楼 [Clever Jimmy](https://leverimmy.top/)

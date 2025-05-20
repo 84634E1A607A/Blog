@@ -1,5 +1,5 @@
 ---
-updated: 2025-05-04 15:38:42
+updated: 2025-05-20 17:40:31
 title: 装 Arch Linux!
 date: 2025-05-03 22:52:59
 description: 这篇文章记录了作者在安装 Arch Linux 的过程中遇到的各种问题和解决方案，包括全盘加密、Secure Boot、TPM 配置、桌面环境选择、电源管理、Btrfs 快照、以及与 Electron 应用的兼容性问题等。通过这次安装，作者分享了许多实用的经验和技巧，为想要尝试 Arch Linux 的用户提供了参考。
@@ -22,7 +22,7 @@ tags:
 
 然后我就去逛了一圈, 发现身边的用 Linux 的人不是 Ubuntu 就是 Arch Linux. 再加上我电脑上本来已经装 Arch Linux 试过一遍错了, 遂选择 Arch.
 
-但是仍然有些拿不准, 然后 Hash 妹妹给我发了一个知乎问答 [家长们，你们认为孩子沉迷游戏严重还是沉迷Linux严重呢？](https://www.zhihu.com/question/668039071), 但是尽管如此我还是要装 (bushi). 她极力推荐了 OpenSUSE (但是说实话我基本没见过有人用), 但是我最后还是选择了 Arch (或许下次有时间试试).
+但是仍然有些拿不准, 然后 hash 妹妹给我发了一个知乎问答 [家长们，你们认为孩子沉迷游戏严重还是沉迷Linux严重呢？](https://www.zhihu.com/question/668039071), 但是尽管如此我还是要装 (bushi). 她极力推荐了 OpenSUSE (但是说实话我基本没见过有人用), 但是我最后还是选择了 Arch (或许下次有时间试试).
 
 
 
