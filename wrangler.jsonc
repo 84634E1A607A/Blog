@@ -6,5 +6,11 @@
     "not_found_handling": "404-page"
   },
   "preview_urls": true,
-  "workers_dev": false
+  "workers_dev": false,
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 0.1
+    }
+  }
 }
