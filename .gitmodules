@@ -1,6 +1,4 @@
 [submodule "themes/Nlvi"]
 	path = themes/Nlvi
-	url = git@github.com:84634E1A607A/blog-theme.git
-[submodule "filter/hexo-filter-kroki"]
-	path = filter/hexo-filter-kroki
-	url = git@github.com:84634E1A607A/hexo-filter-kroki.git
+	url = https://github.com/84634E1A607A/blog-theme.git
+

@@ -1,0 +1,10 @@
+{
+  "name": "blog",
+  "compatibility_date": "2025-06-01",
+  "assets": {
+    "directory": "./public/",
+    "not_found_handling": "404-page"
+  },
+  "preview_urls": true,
+  "workers_dev": false
+}
