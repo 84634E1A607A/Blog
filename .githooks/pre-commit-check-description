@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "Checking for missing or empty 'description:' in post headers..."
+
+POST_DIR="source/_posts"
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "^$POST_DIR/.*\.md$")
+
+PROBLEM_FILES=()
+
+for FILE in $FILES; do
+    [ ! -f "$FILE" ] && continue
+
+    # Extract front-matter (between first two --- lines)
+    FRONT_MATTER=$(awk '/^---/{f=!f; if(++c==2) exit} f' "$FILE")
+
+    # Find description line
+    DESC_LINE=$(echo "$FRONT_MATTER" | grep "^description:")
+
+    # Check for missing or empty description
+    if [ -z "$DESC_LINE" ] || [[ "$DESC_LINE" =~ ^description:[[:space:]]*$ ]]; then
+        PROBLEM_FILES+=("$FILE")
+    fi
+done
+
+if [ ${#PROBLEM_FILES[@]} -ne 0 ]; then
+    echo "ERROR: The following files are missing a 'description:' or have an empty 'description:' in their front-matter:"
+    for f in "${PROBLEM_FILES[@]}"; do
+        echo "  $f"
+    done
+    exit 1
+fi
+
+echo "All staged posts have a non-empty 'description:' field."
