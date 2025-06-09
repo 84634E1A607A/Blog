@@ -3,7 +3,7 @@ export default {
     const url = new URL(request.url);
     const matchRead = url.pathname.match(/^\/api\/read\/(.+)$/);
     if (matchRead) {
-      const key = match[1];
+      const key = matchRead[1];
       // Increment view count atomically
       await env.BLOG_VIEW_COUNT.put(key, ((parseInt(await env.BLOG_VIEW_COUNT.get(key)) || 0) + 1).toString());
       // 1x1 transparent PNG
