@@ -14,5 +14,11 @@
       "enabled": true,
       "head_sampling_rate": 0.1
     }
-  }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "BLOG_VIEW_COUNT",
+      "id": "BLOG_VIEW_COUNT"
+    }
+  ]
 }
