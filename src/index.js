@@ -21,8 +21,7 @@ export default {
       console.log(logEntry);
 
       // Store log in KV
-      const requestId = request.headers.get('CF-Request-ID');
-      await env.BLOG_VIEW_COUNT.put(`${LOG_KEY}:${requestId}`, JSON.stringify(logEntry), {
+      await env.BLOG_VIEW_COUNT.put(`${LOG_KEY}:${Date.now()}`, JSON.stringify(logEntry), {
         expirationTtl: 60 * 60 * 24 // 1 day
       });
 
