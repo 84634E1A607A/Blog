@@ -73,7 +73,7 @@ export default {
     const logs = [];
     let cursor;
     do {
-      const list = await env.BLOG_VIEW_COUNT.list({ LOG_KEY, cursor });
+      const list = await env.BLOG_VIEW_COUNT.list({ prefix: LOG_KEY, cursor: cursor });
       for (const key of list.keys) {
         const value = await env.BLOG_VIEW_COUNT.get(key.name);
         if (value) logs.push(JSON.parse(value));
@@ -84,15 +84,36 @@ export default {
     if (logs.length === 0) return;
 
     // Send email via Resend
+    const escapeHtml = (str) => str.replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[char]));
+
     const rows = logs.map(log => `
       <tr>
-      <td style="border: 1px solid #ddd; padding: 8px;">${log.page}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">${log.userAgent}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">${log.userIP}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">${log.userLocation}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">${log.timestamp}</td>
+      <td class="table-cell">${escapeHtml(log.page)}</td>
+      <td class="table-cell">${escapeHtml(log.userAgent)}</td>
+      <td class="table-cell">${escapeHtml(log.userIP)}</td>
+      <td class="table-cell">${escapeHtml(log.userLocation)}</td>
+      <td class="table-cell">${escapeHtml(log.timestamp)}</td>
       </tr>
     `).join('');
+
+    const styles = `
+      <style>
+        .table-cell {
+          border: 1px solid #ddd;
+          padding: 6px;
+        }
+        .table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+      </style>
+    `;
 
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -104,15 +125,16 @@ export default {
       from: `Blog Worker <blog-worker@aajax.top>`,
       to: `Ajax <i@aajax.top>`,
       subject: `Blog Views Report - ${new Date().toISOString().split('T')[0]}`,
-      html: `<p>Daily blog views report:</p>
-      <table style="width: 100%; border-collapse: collapse;">
+      html: `${styles}
+      <p>Daily blog views report:</p>
+      <table class="table">
         <thead>
         <tr>
-          <th style="border: 1px solid #ddd; padding: 8px;">Page</th>
-          <th style="border: 1px solid #ddd; padding: 8px;">User Agent</th>
-          <th style="border: 1px solid #ddd; padding: 8px;">User IP</th>
-          <th style="border: 1px solid #ddd; padding: 8px;">Location</th>
-          <th style="border: 1px solid #ddd; padding: 8px;">Timestamp</th>
+          <th class="table-cell">Page</th>
+          <th class="table-cell">User Agent</th>
+          <th class="table-cell">User IP</th>
+          <th class="table-cell">Location</th>
+          <th class="table-cell">Timestamp</th>
         </tr>
         </thead>
         <tbody>
