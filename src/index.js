@@ -52,16 +52,16 @@ export default {
       });
     }
 
-    // Testing purpose
-    if (url.pathname === '/api/test') {
-      await this.scheduled({ scheduled: true }, env, ctx);
-      return new Response('Test completed', {
-        headers: {
-          'Content-Type': 'text/plain',
-          'Cache-Control': 'no-store',
-        }
-      });
-    }
+    // // Testing purpose
+    // if (url.pathname === '/api/test') {
+    //   await this.scheduled({ scheduled: true }, env, ctx);
+    //   return new Response('Test completed', {
+    //     headers: {
+    //       'Content-Type': 'text/plain',
+    //       'Cache-Control': 'no-store',
+    //     }
+    //   });
+    // }
 
     // Return static content for other paths
     return env.STATIC_FILES.fetch(request);
