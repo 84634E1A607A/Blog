@@ -91,15 +91,24 @@ export default {
       "'": '&#39;',
     }[char]));
 
-    const rows = logs.map(log => `
+    const rows = logs.map(log => {
+      const formattedDate = new Date(new Date(log.timestamp).getTime() + 8 * 60 * 60 * 1000)
+        .toISOString()
+        .replace('T', ' ')
+        .replace(/-/g, '/')
+        .split('.')[0]
+        .replace(/:/g, '-');
+
+      return `
       <tr>
+      <td class="table-cell">${escapeHtml(formattedDate)}</td>
       <td class="table-cell">${escapeHtml(log.page)}</td>
-      <td class="table-cell">${escapeHtml(log.userAgent)}</td>
       <td class="table-cell">${escapeHtml(log.userIP)}</td>
       <td class="table-cell">${escapeHtml(log.userLocation)}</td>
-      <td class="table-cell">${escapeHtml(log.timestamp)}</td>
+      <td class="table-cell">${escapeHtml(log.userAgent)}</td>
       </tr>
-    `).join('');
+      `;
+    }).join('');
 
     const styles = `
       <style>
@@ -129,11 +138,11 @@ export default {
       <table class="table">
         <thead>
         <tr>
+          <th class="table-cell">Timestamp</th>
           <th class="table-cell">Page</th>
-          <th class="table-cell">User Agent</th>
           <th class="table-cell">User IP</th>
           <th class="table-cell">Location</th>
-          <th class="table-cell">Timestamp</th>
+          <th class="table-cell">User Agent</th>
         </tr>
         </thead>
         <tbody>
