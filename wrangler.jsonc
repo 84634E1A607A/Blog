@@ -21,5 +21,8 @@
       "binding": "BLOG_VIEW_COUNT",
       "id": "aab783bb8b3a4cef88eef6e0833f1f56"
     }
-  ]
+  ],
+  "triggers": {
+    "crons": ["0 0 * * *"]
+  }
 }
