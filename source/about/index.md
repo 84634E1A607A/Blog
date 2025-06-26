@@ -79,7 +79,7 @@ Anyway. 高考我没有考到计算机专业, 在电气专业. 大一的时候�
 
 THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.cn)
 
-是可爱的 [Adamanteye](https://note.adamanteye.cc/) 的笔记喵
+是可爱的 [adamanteye](https://note.adamanteye.cc/) 的笔记喵
 
 写博客眼光独到, 对前端有很高造诣, 在博客里面藏 Cloudflare Access 的 [hash](https://land.hash.memorial/) 妹妹 (现在在咱的抗议下取消了, 乐)
 
