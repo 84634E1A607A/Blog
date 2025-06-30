@@ -114,7 +114,7 @@ sitemap:
 
 feed:
   type: atom
-  # template: _atom.xml
+  template: _atom.xml
   content: false
   limit: 20
 
