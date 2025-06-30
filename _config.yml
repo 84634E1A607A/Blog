@@ -114,7 +114,8 @@ sitemap:
 
 feed:
   type: atom
-  path: atom.xml
+  # template: _atom.xml
+  content: false
   limit: 20
 
 fold:
