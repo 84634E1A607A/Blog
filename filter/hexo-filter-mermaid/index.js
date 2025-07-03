@@ -5,11 +5,21 @@ hexo.extend.tag.register("mermaid", (args, diagram) => {
     };
 
     if (conf.darkModeEnabled) {
-        return `<pre class="mermaid mermaid-light">${conf.init[0]}\n${diagram}</pre>
-        <pre class="mermaid mermaid-dark">${conf.init[1]}\n${diagram}</pre>`;
+        return `<div class="mermaid-container">
+        <pre class="mermaid mermaid-light">${conf.init[0]}\n${diagram}</pre>
+        <pre class="mermaid mermaid-dark">${conf.init[1]}\n${diagram}</pre>
+        <div class="mermaid-print-fallback" style="display: none;">
+            <pre class="mermaid-code">${diagram}</pre>
+        </div>
+        </div>`;
     }
 
-    return `<pre class="mermaid">${conf.init[0]}\n${diagram}</pre>`;
+    return `<div class="mermaid-container">
+    <pre class="mermaid">${conf.init[0]}\n${diagram}</pre>
+    <div class="mermaid-print-fallback" style="display: none;">
+        <pre class="mermaid-code">${diagram}</pre>
+    </div>
+    </div>`;
 }, {
     async: true,
     ends: true
