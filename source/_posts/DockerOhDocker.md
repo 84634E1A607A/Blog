@@ -1,6 +1,6 @@
 ---
 title: Docker isn't that great - Docker 的使用技巧和踩坑总结
-updated: 2025-05-15 21:30:07
+updated: 2025-07-10 17:30:19
 date: 2025-05-15 18:25:51
 description: 深入解析 Docker 容器化的常见陷阱与避坑指南，从镜像源污染、日志雪崩到网络配置反直觉设计，揭秘容器化浪潮下的运维暗礁与实战解决方案。
 tags:
@@ -282,3 +282,99 @@ Token=::1
 
 给弄紧凑一点.
 
+### nftables... again
+
+今天起了个临时的 HTTP Server, 然后不通... 具体情况是:
+
+```yml
+services:
+  data-server:
+    image: nginx:latest
+    ports:
+      - "40965:80"
+    volumes:
+      - /dummy/data/dir:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./.htpasswd:/etc/nginx/.htpasswd:ro
+    restart: unless-stopped
+```
+
+然后我给 nftables 的 forward 防火墙里面添加了一条
+
+```
+chain forward {
+  type filter hook forward priority filter - 1; policy accept;
+  ct state { established, related } accept
+  iifname { ... } accept
+  tcp dport 40965 accept  # Added accept rule here
+  iifname { "enp2s0", ... } ct state new drop
+}
+```
+
+然后... 不通. 怎么都不通. 我想了很久也没想明白, 遂前去问 DeepSeek. 没想到还真给 DeepSeek 想出来了.
+
+> The packet is dropped due to a rule in the `inet firewall` table's `forward` chain. Here's the detailed explanation:
+>
+> 1. **Packet Details**:
+>    - Source: `36.110.129.2:49461`
+>    - Destination: `166.111.17.92:40965` (TCP SYN)
+>    - Incoming Interface: `enp2s0`
+>
+> 2. **DNAT Processing**:
+>    - The NAT table (`ip nat`) has a rule in the `DOCKER` chain:
+>      ```
+>      iifname != "br-067836a0b6f1" tcp dport 40965 dnat to 172.21.0.2:80
+>      ```
+>    - Since the packet arrives on `enp2s0` (not `br-067836a0b6f1`) with destination port `40965`, it is DNAT'd to `172.21.0.2:80`.
+>
+> 3. **Forward Chain in `inet firewall` Table**:
+>    - After DNAT, the packet enters the `forward` chain (priority `filter - 1`, processed **before** the main filter table):
+>      ```nftables
+>      chain forward {
+>          ct state { established, related } accept
+>          iifname { "azgw", "lan-bridge" } accept
+>          tcp dport 8086 accept
+>          tcp dport 40965 accept       # ❌ Does NOT match (post-DNAT port is 80, not 40965)
+>          iifname { "enp2s0", ... } ct state new drop  # 👈 DROPS THE PACKET
+>      }
+>      ```
+>    - The packet is a **new connection** (`ct state new`) arriving on `enp2s0`.
+>    - None of the `accept` rules match:
+>      - Not `established/related`.
+>      - Not from `azgw`/`lan-bridge`.
+>      - Post-DNAT port is `80` (not `8086` or `40965`).
+>    - The rule `iifname { "enp2s0", ... } ct state new drop` explicitly **drops** the packet.
+>
+> #### Why the Allow Rule for Port 40965 Fails:
+> - The `tcp dport 40965` rule matches against the **post-DNAT port** (now `80`), not the original port (`40965`). Since the port no longer matches, the rule doesn't apply.
+>
+> #### Solution:
+> To allow this traffic, add a rule to accept **original destination port `40965`** in the `inet firewall forward` chain using `ct original`:
+> ```nftables
+> ct original dport 40965 accept  # Add this BEFORE the drop rule
+> ```
+> Revised chain:
+> ```nftables
+> chain forward {
+>     ct state { established, related } accept
+>     iifname { "azgw", "lan-bridge" } accept
+>     tcp dport 8086 accept
+>     ct original dport 40965 accept  # 👈 Allows original port 40965
+>     iifname { "enp2s0", ... } ct state new drop
+> }
+> ```
+> This rule matches the **original destination port** (`40965`) before DNAT, allowing the packet to proceed.
+
+虽然这个解决方案不太对, 但是, 他好聪明!
+
+解决方案:
+
+```
+chain forward {
+  ...
+  ct original proto-dst 40965 accept
+  ...
+}
+```
+
+所以, Docker...
