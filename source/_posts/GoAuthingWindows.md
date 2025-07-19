@@ -6,6 +6,7 @@ description: 本文介绍了如何在 Windows 系统上使用 GoAuthing 实现�
 tags:
   - 网络
   - 技术
+  - 运维
 ---
 
 [GoAuthing](https://github.com/z4yx/GoAuthing) 是学长开发的, [THU Services](https://thu.services/services/#_3) 推荐的用于 THU 准入认证的应用, 主要用于 Linux 下的命令行自动认证. 部分同学在 Windows 下也有类似的需求 (自动准入, 掉线后自动重连), 在半个小时的脚本小子之后得到了以下方法.

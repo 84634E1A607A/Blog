@@ -6,6 +6,7 @@ description: 本文探讨了如何为 Dell R630 服务器的 iDRAC7 和 iDRAC8 �
 tags:
   - 技术
   - 硬件
+  - 运维
 ---
 
 前两天试图上线机房里面的两台 R630 服务器, 惊奇地发现这两台的 License 都是 Express, 没有 Remote Console. 那么怎么才能搞到 Enterprise License 呢? 官方已经停止支持了, 买不到了. 打开淘宝, 上面有卖的, 但是总觉得买了会被坑. 遂上网查了查, 得到了一些方法. (侵删)

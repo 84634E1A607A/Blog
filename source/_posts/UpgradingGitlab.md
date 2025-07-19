@@ -5,6 +5,7 @@ date: 2024-01-20 10:49:32
 description: This post details the process of upgrading Gitlab CE from version 11.1.1 to 16.8.0, addressing encountered issues, debugging OAuth2 integration with a custom identity provider, and configuring the omniauth-oauth2-generic gem for seamless authentication.
 tags:
   - 技术
+  - 运维
 ---
 
 前几天我把科协的 Git9 从自编译的 11.1.1 一路升级到 16.8.0, 中途遇到了一些问题, 找了不少资料也解决不了, 因此放在这里.
