@@ -5,6 +5,7 @@ date: 2024-01-20 18:10:57
 description: This post discusses two usrmerge issues encountered during upgrades from Debian 9 to Debian 12 and Ubuntu 20.04 LTS to 22.04 LTS, detailing the problems caused by a statically linked `/bin/cp` and duplicate `ld-linux-x86-64.so.2` files, along with solutions and workarounds.
 tags:
   - 技术
+  - 运维
 ---
 
 Several days ago I encountered two separate usrmerge issues on different OSes. One upgrading from Debian 9 to Debian 12; the other upgrading from Ubuntu 20.04 LTS to Ubuntu 22.04 LTS. I solved them both, and here's what I did.
