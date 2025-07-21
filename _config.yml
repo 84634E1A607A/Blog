@@ -128,3 +128,9 @@ mermaid:
     - "%%{init: {'theme': 'base', 'themeVariables': {'darkMode': true, 'primaryColor': '#3f3036', 'secondaryColor': '#00111a', 'tertiaryColor': '#1b1719', 'background': '#111111', 'noteBkgColor': '#0d020d', 'noteTextColor': '#ddd'}}}%%"
 
 canonical: true
+
+ogp_image:
+  url: https://aajax.top/theme.jpg
+  width: 1200
+  height: 630
+  alt: Theme Image for Ajax's Blog

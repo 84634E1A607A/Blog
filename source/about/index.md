@@ -84,3 +84,45 @@ THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.
 写博客眼光独到, 对前端有很高造诣, 在博客里面藏 Cloudflare Access 的 [hash](https://land.hash.memorial/) 妹妹 (现在在咱的抗议下取消了, 乐)
 
 评论的二楼 [Clever Jimmy](https://leverimmy.top/)
+
+## Acknowledgements
+
+博客使用了 [Hexo](https://hexo.io/), 主题原本为 [Nlvi](https://github.com/ColMugX/hexo-theme-Nlvi), 后来被咱大兴土木, 现在已经魔改地不成样子了.
+
+字体是西文 [Roboto](https://fonts.google.com/specimen/Roboto) ([OFL License](https://fonts.google.com/specimen/Roboto/license)); 中文系统不同使用 System Font; 等宽字体 [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) ([SIL OFL 1.1 License](https://www.jetbrains.com/lp/mono/#license)).
+
+博客的 icon 来自 Pixiv 的 [✨](https://www.pixiv.net/en/artworks/125597074), 原作者是 [ぴろ瀬](https://heripiro.tumblr.com/). 我没搞明白这玩意到底 License 是啥, 能不能这么用, 但是不管咋样我写了一封邮件询问, 但是石沉大海, 没有回复. 但是咱还是好像用w, 所以就先用着吧 awa.
+
+### Hexo
+
+> Copyright (c) 2012-present Tommy Chen
+> 
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+> 
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+> 
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+### Nlvi
+
+> MIT License
+> 
+> Copyright (c) 2017-2019 Co1MugX
+> 
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
+> 
+> The above copyright notice and this permission notice shall be included in all
+> copies or substantial portions of the Software.
+> 
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> SOFTWARE.
