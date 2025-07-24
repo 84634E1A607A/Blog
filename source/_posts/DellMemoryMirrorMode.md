@@ -1,6 +1,6 @@
 ---
 title: Dell PowerEdge 服务器的内存模式
-updated: 2025-07-24 15:40:18
+updated: 2025-07-24 15:44:27
 date: 2025-07-24 13:09:27
 description: 本文详细记录了作者在 Dell PowerEdge R720 服务器出现内存故障（DIMM_B10 报错）时的诊断与处理过程，通过分析Intel E5 v2处理器的内存控制器架构、不同AI模型对非对称内存交错模式的技术解读，并实际测试了Dell服务器提供的Advanced ECC、Spare Rank和Mirroring三种内存容错模式，最终采用内存镜像模式成功实现系统临时恢复，同时指出彻底解决方案需更换所有非对称内存模块以优化服务器稳定性。
 tags:
@@ -32,7 +32,7 @@ DIMM_B10 是 CPU2 通道 1 插槽 2, 它 **损坏**, 但是依然 **可识别**.
 
 ---
 
-[Claude](./DellMemoryMirrorMode/DIMMInterleaving/Claude.md) *[Share Link](https://claude.ai/share/4baa4095-51e7-41d1-b0f5-2f403ac63545)*:
+[Claude](./DellMemoryMirrorMode/DIMMInterleaving/Claude.txt) *[Share Link](https://claude.ai/share/4baa4095-51e7-41d1-b0f5-2f403ac63545)*:
 
 > The memory controller interleaves across ranks within the channel. Since all your DIMMs are dual-rank (2Rx8/2Rx4), each channel has 6 total ranks. The interleaving typically occurs at cache line boundaries (64 bytes on x86), so consecutive 64-byte blocks alternate between ranks.
 >
@@ -42,7 +42,7 @@ DIMM_B10 是 CPU2 通道 1 插槽 2, 它 **损坏**, 但是依然 **可识别**.
 
 ---
 
-[GPT](./DellMemoryMirrorMode/DIMMInterleaving/GPT-4o.md) *[Share Link](https://chatgpt.com/share/6881d4bf-5944-8012-a794-66e3c8d53672)*:
+[GPT](./DellMemoryMirrorMode/DIMMInterleaving/GPT-4o.txt) *[Share Link](https://chatgpt.com/share/6881d4bf-5944-8012-a794-66e3c8d53672)*:
 
 > Intel’s controller will usually interleave memory accesses between DIMMs *if the sizes are equal*, but in this case you have unequal sizes (16 GB vs. 8 GB). This leads to **non-uniform interleaving**.
 >
@@ -55,7 +55,7 @@ DIMM_B10 是 CPU2 通道 1 插槽 2, 它 **损坏**, 但是依然 **可识别**.
 
 ---
 
-[DeepSeek](./DellMemoryMirrorMode/DIMMInterleaving/DeepSeek.md):
+[DeepSeek](./DellMemoryMirrorMode/DIMMInterleaving/DeepSeek.txt):
 
 > 1. **地址映射与交织：**
 >    - 内存控制器会将系统物理地址映射到通道、Rank Group 内的 Rank、Bank、行和列。
@@ -67,7 +67,7 @@ DIMM_B10 是 CPU2 通道 1 插槽 2, 它 **损坏**, 但是依然 **可识别**.
 
 ---
 
-[ChatGLM](./DellMemoryMirrorMode/DIMMInterleaving/ChatGLM.md) *[Share Link](https://chatglm.cn/share/fFSet0Sd)*
+[ChatGLM](./DellMemoryMirrorMode/DIMMInterleaving/ChatGLM.txt) *[Share Link](https://chatglm.cn/share/fFSet0Sd)*
 
 > 1. No Interleaving Enabled
 >    - The E5-2680v2 requires **identical DIMMs** (same capacity, rank, and die configuration) in a channel to enable DIMM interleaving.
