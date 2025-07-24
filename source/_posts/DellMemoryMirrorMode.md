@@ -1,11 +1,16 @@
 ---
 title: Dell PowerEdge 服务器的内存模式
-updated: 2025-07-24 15:44:27
+updated: 2025-07-24 15:48:49
 date: 2025-07-24 13:09:27
 description: 本文详细记录了作者在 Dell PowerEdge R720 服务器出现内存故障（DIMM_B10 报错）时的诊断与处理过程，通过分析Intel E5 v2处理器的内存控制器架构、不同AI模型对非对称内存交错模式的技术解读，并实际测试了Dell服务器提供的Advanced ECC、Spare Rank和Mirroring三种内存容错模式，最终采用内存镜像模式成功实现系统临时恢复，同时指出彻底解决方案需更换所有非对称内存模块以优化服务器稳定性。
 tags:
   - 运维
   - 硬件
+ogp_image:
+  url: mem_error.jpg
+  width: 1806
+  height: 670
+  alt: iDRAC 内存报错
 ---
 
 故逝是这样的... 昨天凌晨调试 SA5212M4 的阴间 BMC 到晚上一点, 困死了, 遂睡觉. 早上起来翻看邮件发现天塌了, Grafana 给我发了 10 封告警邮件. 放在 {% post_link NewOfficeBuilding 新系馆 %} 的服务器上面所有服务都崩了. 我 ~~连夜~~ 用手机打开 iDRAC, 进去之后就看到了不幸的消息, *Correctable memory error rate exceeded for DIMM_B10*. 但是暑假老师们都放假了, 机房值班的老师比较忙, 我也在实习过程中抽不开身去机房. 于是我开始思考一个问题: 我能不能在不物理介入的情况下暂时解决这个问题呢?
