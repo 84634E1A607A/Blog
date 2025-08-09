@@ -1,6 +1,6 @@
 ---
 title: QUICAP - A L2 mesh VPN built on QUIC (planed)
-updated: 2025-08-09 11:44:10
+updated: 2025-08-09 14:34:36
 date: 2025-08-08 11:43:08
 description: QUICAP 是一种基于 QUIC 协议构建的 Mesh VPN 方案，采用 PKI 系统进行节点鉴权，支持二层 / 三层隧道及应用层代理模式，并能自动优化路由以应对网络拓扑变更。本文分析了现有 VPN 方案的局限性，介绍了 QUICAP 的实现机制，包括 mTLS 认证、TUN/TAP 接口和双连接模式等核心技术。
 tags:
@@ -71,6 +71,8 @@ QUIC serves as the transport layer for HTTP/3, making it challenging for traffic
 ## QUICAP Name
 
 The name QUICAP encompasses several concepts: QUIC-encapsulation, referring to the encapsulation of Layer 2 or Layer 3 traffic within QUIC; QUIC-TAP, denoting the use of TAP interfaces for Layer 2 tunneling; and QUIC UP, highlighting QUIC as a universal protocol for tunneling. This name reflects QUICAP’s core principles of encapsulation, flexibility, and performance.
+
+The code repo of QUICAP is at: [Github](https://github.com/84634E1A607A/quicap)
 
 (Note: The following specifications describe intended features and planned implementations. Actual development is ongoing, and these details represent our goals rather than completed work.)
 (P.S. As a side project, chances are that QUICAP will stop being maintained actively if we lose interest.)
@@ -156,5 +158,46 @@ end
 
 N2TUN -->|发送数据包| N2NS[节点 2 的网络栈]
 ```
+
+### MTU 问题
+
+我们考虑这个隧道的 MTU 问题. QUICAP 的 MTU 由物理链路 MTU, QUIC 头部共同决定.
+
+我们的物理链路 MTU 一般是 1500, 但也有 1492 的 PPPoE 等情况存在. QUICAP 需要具有 MTU 发现的功能, 以便在建立连接后确认 TUN/TAP 接口的 MTU. QUIC 的短头部由 5 字节的必选头部和最长 20 字节的连接 ID 构成, 之后有不超过 5 字节的帧头部. 此外, QUIC 连接建立在 IPv4 UDP (28 字节) 或 IPv6 UDP (48 字节) 上, 需要减去这些头部的长度. 因此, QUICAP 的 MTU 可能只有 1420 字节左右.
+
+为了减小开销, 我们可以采取以下策略:
+
+- 在连接建立之后尽快协商更短的连接 ID (如 2 字节), 以减小 QUIC 头部的长度;
+- 在 QUIC 连接建立后, 主动探测实际的链路 MTU, 并动态修改 TUN/TAP 接口的 MTU;
+
+如果 MTU 设置不正确, 则可能导致 QUIC 数据包被分片, 显著降低性能. 可选的, 我们可以在 QUICAP 中检测报文大小, 对可能导致 QUIC 分片的报文按照其 DF 位返回 ICMP 错误, 以便上层应用能够调整报文大小.
+
+### Happy-Eyeballs
+
+QUICAP 计划支持 Happy-Eyeballs, 但是不仅仅是 v6 优先的简单策略. 我们希望 QUICAP 同时尝试建立两个连接, 并根据 QUIC 估计的 RTT 来选择更高速的连接进行数据传输.
+
+可能会有人问, 为什么不 v6 优先呢? 因为...
+
+```sh
+ajax@l ~> ping h.aajax.top -6 -c 3
+PING h.aajax.top (240e:368:81a:9556:13ff:4af1:fdae:1ff3) 56 data bytes
+64 bytes from 240e:368:81a:9556:13ff:4af1:fdae:1ff3: icmp_seq=1 ttl=41 time=174 ms
+64 bytes from 240e:368:81a:9556:13ff:4af1:fdae:1ff3: icmp_seq=2 ttl=41 time=173 ms
+64 bytes from 240e:368:81a:9556:13ff:4af1:fdae:1ff3: icmp_seq=3 ttl=41 time=173 ms
+
+--- h.aajax.top ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 173.259/173.440/173.789/0.246 ms
+
+PING h.aajax.top (219.140.112.49) 56(84) bytes of data.
+64 bytes from 219.140.112.49: icmp_seq=1 ttl=50 time=24.9 ms
+64 bytes from 219.140.112.49: icmp_seq=2 ttl=50 time=24.4 ms
+64 bytes from 219.140.112.49: icmp_seq=3 ttl=50 time=24.3 ms
+
+--- h.aajax.top ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 24.269/24.528/24.926/0.285 ms
+```
+别问我为什么从学校到我家的 IPv6 的延迟搞得好像跨过了太平洋一样.
 
 ## 未完待续
