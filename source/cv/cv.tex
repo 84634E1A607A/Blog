@@ -6,6 +6,8 @@
 \usepackage{xcolor}  % 添加颜色支持
 \definecolor{tsinghua_purple}{HTML}{660874}  % 定义颜色
 \usepackage{titlesec}
+\usepackage{titling}
+\usepackage{multicol}
 
 \geometry{left=1in,right=1in,top=1in,bottom=1in}
 
@@ -15,10 +17,11 @@
 \date{}
 
 \begin{document}
-
-% Reduce space around title
+% Reduce vertical space above the title
+% negative droptitle moves the title upward (adjust value as needed)
+\setlength{\droptitle}{-6em}
 \maketitle
-\vspace{-2em}
+\vspace{-4em}
 
 \section*{个人简介}
 我叫董业恺, 曾任清华大学计算机系科协网络部副主席. 我拥有丰富的软件工程, 网络技术与网络安全实践经验, 对网络安全和下一代互联网, 天地一体化互联网等方向有浓厚的兴趣.
@@ -39,18 +42,38 @@
     \item \textbf{网络配置与架构}: 我具备大量配置交换机, 路由器等网络设施的经验, 能快速调通中等规模的网络并利用策略路由等手段完成网络配置.
     \item \textbf{网络探测与分析}: 我能够在短时间内综合利用工具绘制目标网络的骨干拓扑, 理清网络架构, 完成仿真模型, 分析网络脆弱性.
     \item \textbf{网络安全与维护}: 我擅长发现与利用网络安全漏洞, 在 THUCTF 等活动中取得了良好的成绩, 在校内有 `水木白帽' 称号, 协助信息化技术中心发现并处理了多处网络安全隐患.
-    \item \textbf{软件工程与开发}: 我开发了多个软件工程项目, 部分项目已交付并投入使用. 我也积极参与社区项目的贡献, 对软件工程有读到的见解.
+    \item \textbf{软件工程与开发}: 我开发了多个软件工程项目, 部分项目已交付并投入使用. 我也积极参与社区项目的贡献, 对软件工程有独到的见解.
     \item \textbf{服务运维与管理}: 我接手维护了酒井 ID (\href{https://stu.cs.tsinghua.edu.cn}{stu.cs.tsinghua.edu.cn}), Git9 (\href{https://git.net9.org}{git.net9.org}), THUInfo APP (\href{https://app.cs.tsinghua.edu.cn}{app.cs.tsinghua.edu.cn}) 等多个项目, 接触了 Grafana 等自动化运维的工具与手段.
 \end{itemize}
 
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+\section*{课程成绩}
+\noindent 我取得满绩的课程包括但不限于:
+\begin{itemize}[left=10pt]
+    \setlength{\itemsep}{0pt}
+    \item 网络专题训练
+    \item 计算机网络原理
+    \item 计算机网络安全技术
+    \item 无线移动网络技术
+    \item 软件工程
+    \item 计算机系统概论
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
 \section*{获得荣誉}
 \begin{itemize}[left=0pt]
+    \setlength{\itemsep}{0pt}
     \item 360 集团专业实践优秀实习生
     \item 清华大学计算机科学与技术系优秀共青团员
     \item 清华大学优秀科协骨干
     \item 清华大学软件工程课程优秀大作业
     \item THUCTF 2022 二等奖, 新生特别奖
 \end{itemize}
+\end{minipage}
+
+\vspace{1em}
 
 \section*{项目经历}
 \noindent
@@ -58,7 +81,7 @@
     2023.1 - 2023.5 & \textbf{RainDropWeb 雨实验平台开发 (个人项目)}
         \fontsize{8pt}{10pt}\selectfont
         \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
-            \item 为数字电路实验课程的实验平台开发了具有跨平台, 响应式特性的客户端.
+            \item 为数字电路实验课程的实验平台开发了跨平台, 响应式的客户端.
             \item 逆向了其通信协议以支持自定义的实现;
         \end{itemize} \\
 
@@ -101,6 +124,30 @@
         \end{itemize}
 \end{tabular}
 
+% \section*{科研经历}
+% \noindent
+% \begin{tabular}{p{0.17\textwidth}p{0.83\textwidth}}
+%     2025.2 - 2025.6 & \textbf{星链骨干网结构探测}
+%         \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+%             \item 综合利用多种探测手段, 充分利用 Traceroute 特性, 编写专用工具加速探测;
+%             \item 可得到全部骨干网 IP 的精确位置, 星链 PoP 之间的互联关系.
+%         \end{itemize} \\
+%     2025.3 - 2025.4 & \textbf{星链 IPv6 分配策略研究}
+%         \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+%             \item 发现其分配策略按照地域划分, 同地域类似 ISP 分配策略;
+%             \item 可以判断星链当前活跃用户数, 近期活跃用户数, 粗略估计终端比例.
+%         \end{itemize} \\
+%     2025.5 - 2025.6 & \textbf{星链终端固件研究}
+%         \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+%             \item 逆向分析星链终端固件, 尝试摸清入网流程.
+%         \end{itemize} \\
+%     2025.8 - 2025.9 & \textbf{Catching the Spectrum Misuse of Direct-to-Cell Satellites at Scale}
+%         \fontsize{8pt}{10pt}\selectfont \begin{itemize}[left=0pt,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+%             \item 可以通过 LTE TA 信息和 TLE 推算连接的卫星;
+%             \item 已投稿至 MobiCom'26.
+%         \end{itemize}
+% \end{tabular}
+
 \section*{社会工作}
 \noindent
 \begin{tabular}{p{0.17\textwidth}p{0.83\textwidth}}
@@ -125,18 +172,6 @@
             \item 完成了 FTP9 和 Cloud9 部署等工作
         \end{itemize}
 \end{tabular}
-
-\section*{课程成绩}
-\noindent 我取得满绩的课程包括但不限于:
-\begin{itemize}[left=20pt]
-    \setlength{\itemsep}{0pt}
-    \item 网络专题训练
-    \item 计算机网络原理
-    \item 计算机网络安全技术
-    \item 无线移动网络技术
-    \item 软件工程
-    \item 计算机系统概论
-\end{itemize}
 
 \section*{联系方式}
 \noindent 博客链接：\href{https://aajax.top}{aajax.top}; 邮箱：\href{mailto:i@aajax.top}{i@aajax.top}; GitHub: \href{https://github.com/84634E1A607A/}{84634E1A607A}
