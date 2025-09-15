@@ -15,6 +15,8 @@ description: 我, 站主 Ajax, 是一个喜欢折腾网络 / 网安 / 软件 / �
 
 我是 Ajax, 由于 `ajax.top` 太贵了而选择了 [`aajax.top`](https://aajax.top) (也就是本站). 我的邮箱是 i@aajax.top, 欢迎邮件交流~
 
+我的 GPG 公钥在 [这里](https://aajax.top/Ajax.gpg).
+
 我看学长们的博客有人往里面放自己的简历的, ~~但是看看我的生平 (什么) 好像也没啥能放的~~, 还是放一个在这吧: [我的简历](/cv/cv.pdf). 那么这里放点什么呢?
 
 那还是放一点生平罢:
