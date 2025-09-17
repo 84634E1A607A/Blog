@@ -1,0 +1,28 @@
+{
+  "name": "blog",
+  "compatibility_date": "2025-06-01",
+  "main": "./src/index.js",
+  "assets": {
+    "directory": "./public/",
+    "not_found_handling": "404-page",
+    "binding": "STATIC_FILES"
+  },
+  "preview_urls": true,
+  "workers_dev": false,
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": false
+    }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "BLOG_VIEW_COUNT",
+      "id": "aab783bb8b3a4cef88eef6e0833f1f56"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 0 * * *"]
+  }
+}

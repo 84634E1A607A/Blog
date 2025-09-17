@@ -1,0 +1,18 @@
+{
+    "name": "hexo-filter-mermaid",
+    "version": "0.0.1",
+    "description": "Transform mermaid code to <pre> tag",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "mermaid"
+    ],
+    "dependencies": {},
+    "author": {
+        "name": "Ajax",
+        "email": "i@aajax.top"
+    },
+    "license": "MIT"
+}

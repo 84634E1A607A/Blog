@@ -1,0 +1,7 @@
+#! /bin/bash
+
+. ./.githooks/pre-commit-update-time
+
+. ./.githooks/pre-commit-check-description
+
+pnpm run build -b
