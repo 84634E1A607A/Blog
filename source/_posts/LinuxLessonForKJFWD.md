@@ -1,6 +1,6 @@
 ---
 title: 给科服的 Linux 课程
-updated: 2025-10-03 11:11:24
+updated: 2025-10-03 14:32:43
 date: 2025-10-02 22:39:05
 description: 本文面向科服人员，系统讲解了Linux系统安装与维护的核心流程，涵盖发行版选择、分区方案、双系统配置及驱动问题排查，重点强调Ubuntu LTS版本的实操步骤与硬件兼容性解决方案，并针对新型设备提供HWE内核安装指导，最终总结出一套适用于客户需求的标准化部署方法。
 tags:
@@ -309,7 +309,9 @@ Password: 密码, 建议复杂一点 (真的...)
 
 ---
 
-## 装 HWE Kernel
+## 一些杂七杂八的
+
+### 装 HWE Kernel
 
 前提: 联网 ()
 
@@ -349,11 +351,85 @@ Ubuntu 用 NetworkManager 管网, 桌面版有 GUI. 一般来说不会有事.
 
 网上搜索硬件的型号 + linux driver, 一般能找到 deb 包, 尝试用
 
-```
+```bash
 sudo apt install ./xxx.deb
 ```
 
 安装, 装上去成功, 装不上去倒闭, 用 `sudo apt purge xxx` 卸载.
+
+---
+
+### 卸载双系统的 Linux (修引导)
+
+一般来说双系统的时候我们都是用 GRUB 引导 Windows. 在安装的时候, GRUB 会自动搜索 Windows 的引导并添加引导项.
+
+GRUB 的一般状况是:
+
+```mermaid
+flowchart TD
+U[UEFI] --> G1["GRUB in EFI part"]
+G1 --> |读取 EFI 分区内的配置| G2["GRUB in BOOT part;
+我们安装的时候常常没有 BOOT 分区,
+此时会直接查找 / 分区的 /boot/grub/grub.cfg"]
+G2 --> |显示引导菜单| K["Linux Kernel"]
+```
+
+因此: 卸载双系统的时候 **不能直接删 Linux 分区** (或者说, 还不够), 要 **同时删除 GRUB 引导**.
+
+```text
+root@ajax-ubuntu-vm-kjfwd:/boot/efi# ls -R
+.:
+EFI
+
+./EFI:
+BOOT  ubuntu
+
+./EFI/BOOT:
+BOOTX64.EFI  fbx64.efi  mmx64.efi
+
+./EFI/ubuntu:
+BOOTX64.CSV  grub.cfg  grubx64.efi  mmx64.efi  shimx64.efi
+```
+
+在这种配置中, 我们需要:
+
+- 把 `/EFI/ubuntu` 删掉
+- 把 `/EFI/BOOT` 里面的 BOOTX64.EFI 删掉, 用 Windows 的 `/EFI/Microsoft/Boot/bootmgfw.efi` 代替
+
+重启之后应该就直接进 Windows 了.
+
+---
+
+修 GDM / Gnome
+
+这个... 不会 (x) 但是一般可以通过重装这个组件解决. 如:
+
+- 删除用户配置
+  
+  ```bash
+  mkdir -p ~/gnome-backup
+  mv ~/.config/dconf ~/gnome-backup/
+  mv ~/.config/gnome* ~/gnome-backup/ 2>/dev/null
+  mv ~/.local/share/gnome* ~/gnome-backup/ 2>/dev/null
+  mv ~/.cache/gnome* ~/gnome-backup/ 2>/dev/null
+  dconf reset -f /
+  ```
+
+- 把 Gnome 和 GDM 的系统配置也扬了重来
+  
+  ```bash
+  sudo rm -rf /etc/dconf /etc/gdm3 /etc/xdg/gnome* /var/lib/gdm3
+  sudo dconf update
+  ```
+
+然后应该就好了... 吧. 不然就整个扬了重装
+
+```bash
+sudo apt-get purge gnome-shell gdm3
+sudo apt-get install gnome-shell gdm3
+```
+
+不然就换 LightDM + Xfce (x)
 
 ---
 
