@@ -1,6 +1,6 @@
 ---
 title: Scripting with QCAT - 到底是什么 nt 能写出这种玩意?
-updated: 2025-10-07 11:23:44
+updated: 2025-10-07 13:03:24
 date: 2025-09-04 17:15:52
 description: 本文详细记录了使用高通基带日志分析工具QCAT进行大规模数据导出时遇到的挑战及解决方案，包括命令行导出时的配置文件异常膨胀问题、工作区自定义限制、Python API文档缺陷等技术难点，通过配置文件权限控制、工作区手动修改、管理员权限运行等手段最终实现了自动化处理，结论表明QCAT工具虽功能强大但存在严重的工程实现缺陷，需要用户通过非常规方法才能完成基本的数据处理任务。
 tags:
@@ -1252,6 +1252,9 @@ QCAT 就是一坨大的
 
 看来学长也非常喜爱 QCAT 啊~
 
-> <img src="./ScriptingWithQCAT/cute_cat.png" alt="Cute Cat" style="max-width:50%;" />
+> <p> <img src="cute_cat.png" alt="Cute Cat" style="max-width:50%;" /> </p>
+> 
+>
 > cute cat
+>
 > 简称QCAT
