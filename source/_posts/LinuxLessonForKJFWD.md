@@ -1,6 +1,6 @@
 ---
 title: 给科服的 Linux 课程
-updated: 2025-10-03 14:32:43
+updated: 2025-10-28 16:56:28
 date: 2025-10-02 22:39:05
 description: 本文面向科服人员，系统讲解了Linux系统安装与维护的核心流程，涵盖发行版选择、分区方案、双系统配置及驱动问题排查，重点强调Ubuntu LTS版本的实操步骤与硬件兼容性解决方案，并针对新型设备提供HWE内核安装指导，最终总结出一套适用于客户需求的标准化部署方法。
 tags:
@@ -48,6 +48,18 @@ Linux 发行版有 [很多分支](https://en.wikipedia.org/wiki/List_of_Linux_di
 (自动化的客户): 机器人上位机要用 Linux
 
 ...
+
+---
+
+### YLW: 你要不要推荐一下 WSL2?
+
+不可能! 我完全不推荐 WSL2! 虽然很多时候 WSL2 也不是不能用, 但是:
+
+- 对于不少用户, 他们的 GUI 应用就是 Linux 的
+- 对于不少用户, 他们要直接操作硬件 (USB 设备, 机器人等)
+- 对于少数用户, (比如我), 他妈的 WSL2 的网络栈到底是他妈的什么玩意?
+
+以及, WSL2 似乎还有一坨诸如文件系统的神秘权限问题; 访问 Windows 文件系统的性能问题; bla bla bla...
 
 ---
 
@@ -143,6 +155,26 @@ Ubuntu
 
 ---
 
+### 培训用虚拟机
+
+
+对于我们培训, 我造了 35 个 ESXi 上的虚拟机, Lab-1~35. 由于磁盘空间不够了, 前 30 台在 SSD 上面, 后 5 台在机械盘上面. 到时候给大家发账号密码, 大家登录 ESXi 随机选取一台 (雾)
+
+虚拟机的配置:
+
+- 8 vCPU
+- 8G RAM
+- SATA Controller 0
+  - 0:0 DVD (Disconnected)
+  - 0:1 Ventoy (15G)
+  - 0:4 Windows (40G)
+
+**使用之前请先打快照!** 免得炸了无法恢复
+
+已经预装好了 Windows 11 LTSC 2024, Ventoy 里面有 WePE, FirPE 和 Ubuntu 24.04.3 ISO. 
+
+---
+
 ### BIOS 设置
 
 我们只讲 UEFI 启动, 不讲传统 BIOS 启动 (这样的客户让他换电脑x) (或者找我)
@@ -154,6 +186,26 @@ Ubuntu
 - 什么 RST 啥的管他的, 先关了 (x)
 - 如果没有启动 Override, 就把 U 盘提到第一位
 
+> 对于我们虚拟机, 我设置了第一次启动的时候会直接进入 EFI Options; 后续你需要在 ESXi 里面设置一下下次启动进入 EFI Options
+> 
+> ![Force EFI](./LinuxLessonForKJFWD/vcsa_efi.png)
+
+---
+
+### 开始装之前...
+
+一定建议参考 [分区方案](#分区方案) 这一节, **先想好分区方案**.
+
+同时, 如果是双系统, 很可能会涉及到 **需要先从硬盘里面挤一点空间出来** 的问题, 我们一般选用 DiskGenius 或者 傲梅分区助手 来干这些事情.
+
+> 对于我们虚拟机, 我阴差阳错的 Windows 那个分区还爆炸了, 所以大家还需要先在 WinPE 里面把 Windows 分区 CHKDSK 修好, 然后用 DG 挤出一点空间来装 Ubuntu.
+> 
+> 那个 Windows 好像似了... 吗? 我不确定, 但是如果你进不去 Windows, 那可能 *或许* 不是你的问题 (x)
+> 
+> 我建议给 Windows 调到 14GB - 20GB, 剩下的空间给 Ubuntu 用. (当然, 实际上你不可能给客户装这么小的 Windows)
+>
+> ![DG Resize](./LinuxLessonForKJFWD/vcsa_dg.png)
+
 ---
 
 ### 开始装
@@ -161,6 +213,30 @@ Ubuntu
 进 Ubuntu 的 ISO, 在 GRUB 界面, 选第一个 (如果客户的电脑比较新, 找一下 HWE 版本的内核... 但是这里没有, 看上去要先启动再安装了)
 
 ![GRUB](./LinuxLessonForKJFWD/grub.png)
+
+#### nomodeset
+
+Reference: [What does `nomodeset` do](https://askubuntu.com/questions/207175/what-does-nomodeset-do)
+
+如果客户的电脑比较新, 然后直接启动进不去 (黑屏 / 花屏 / 卡在奇怪的地方), 可以考虑使用 `nomodeset` 参数启动, 具体的方法是:
+
+- 在这个 GRUB 界面, 当高亮在第一个选项的时候, 按下 `e` 键进入编辑界面
+- 找到以 `linux` 开头的那一行, 行尾应该有 `quiet splash`.
+  - `quiet`: 静默启动
+  - `splash`: 显示启动画面
+- 把这两个都删了 (便于调试), 然后在行尾加上 `nomodeset`
+  - `nomodeset`: 禁用内核模式设置, 让内核使用基本的显卡驱动启动
+- 按 `F10` 启动
+
+或者也可以用 `safe graphics` 选项启动 (如果有的话).
+
+---
+
+### 检查一下你的屏幕分辨率...
+
+如果分辨率太低, 可能后面某一步的 "Next" 按钮会被挡住, 导致你点不了 (x)
+
+如果出现这样的情况... 好吧我也不知道咋办, 或许可以找另一台机器, 试一下键盘快捷键, 理论上用 Tab 可以切到 "Next" 按钮然后按回车
 
 ---
 
@@ -175,6 +251,8 @@ Ubuntu
 Ubuntu 不需要联网就能装; Debian (如果用 netinst) 则需要从网上下载软件包. 一般来说, 在这里如果识别到了无线网卡就很好 (说明装上也能识别); 但是万一没有识别... 那就说明要装 HWE 了.
 
 也可以直接用有线网. 在校园网里面没法准入, 可以尝试用 USB 连手机, 打开 USB Tethering (中文叫啥? 通过 USB 共享网络?).
+
+> 虚拟机的网络是工场的神秘网, 我觉得它有一些大问题, 所以要不大家就无网络装吧
 
 ---
 
@@ -238,6 +316,8 @@ Ubuntu 不需要联网就能装; Debian (如果用 netinst) 则需要从网上�
 
 ![New Partition Table](./LinuxLessonForKJFWD/newtable.png)
 
+> 对于虚拟机, 也可以示意性的给 1G 的 SWAP, 不过我觉得无所谓了
+
 ---
 
 点一下底下的 "Device for Bootloader Installation" 选项, 选中你要装系统的硬盘 (不是分区, 是整个硬盘). 此时安装工具会自动帮你建立一个 EFI 分区.
@@ -283,6 +363,10 @@ Ubuntu 不需要联网就能装; Debian (如果用 netinst) 则需要从网上�
 ![Partition with Windows installed](./LinuxLessonForKJFWD/partitionwin2.png)
 
 EFI 分区直接用 Windows 的就行
+
+#### 如果你忘记了缩容...
+
+你可以尝试用 GParted 试试; 但是如果它告诉你 NTFS 分区有问题... 那你就重启进 PE 用 DG 罢
 
 ---
 
@@ -434,3 +518,94 @@ sudo apt-get install gnome-shell gdm3
 ---
 
 别的... 再说 ()
+
+## Aux
+
+以下是一些神秘东西
+
+### 如何 Nginx 反代 vCSA
+
+vCSA 设计出来是给内网用的, 用反代之后 SSO 会不通过, 经过了一些折腾, 有以下可用的配置:
+
+```nginx
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    # 想不到吧我支持 QUIC
+    listen 443 quic;
+    listen [::]:443 quic;
+
+    server_name skyworks-vcsa.aajax.top;
+
+    ssl_certificate /etc/nginx/ssl/aajax.top/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/aajax.top/key.pem;
+
+    access_log  /var/log/nginx/skyworks-vcsa.access.log  main;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Alt-Svc 'h3=":443"; ma=3600';
+
+    proxy_http_version 1.1;
+    # proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_set_header Origin https://10.0.0.3;
+
+    proxy_connect_timeout 60s;
+    proxy_send_timeout 3600s;
+    proxy_read_timeout 3600s;
+    proxy_set_header Accept-Encoding ""; # 给 gz 关了, 免得替换失败
+
+    location / {
+        proxy_pass https://10.0.0.3;    # internal vCSA IP / FQDN
+        proxy_ssl_verify off;
+        proxy_redirect ~https?:\/\/10\.0\.0\.3(.*)$ https://skyworks-vcsa.aajax.top$1; # 给所有重定向改地址
+
+        # 然后把所有的 10.0.0.3 统统替换了
+        sub_filter '10.0.0.3' 'skyworks-vcsa.aajax.top';
+        sub_filter_once off;  # Replace all occurrences
+        sub_filter_types *;
+    }
+}
+```
+
+### 如何 Bulk Provison ESXi VM
+
+对, powershell 是一个跨平台的工具... 你可以在 Linux 上面装 PowerCLI 然后跑脚本
+
+```pwsh
+Connect-VIServer -Server 10.0.0.3 -User administrator@vsphere.local -Password 'xxx'
+
+# ===== CONFIGURE THESE =====
+$templateName = "Template Windows VM"
+$folderName   = "xxx"              # 这样方便给不用的用户给管理权限
+$datastore    = "datastore1"       # your datastore name
+$networkName  = "Skyworks Net"     # target network
+$resourcePool = "Resources"        # default pool unless you have custom
+$numVMs       = 30
+$vmPrefix     = "Lab-"
+$startIndex   = 1
+# ===========================
+
+$template = Get-Template -Name $templateName
+$folder   = Get-Folder -Name $folderName
+$pool     = Get-ResourcePool -Name $resourcePool
+
+for ($i = $startIndex; $i -le $numVMs; $i++) {
+    $vmName = "{0}{1:D2}" -f $vmPrefix, $i
+    Write-Host "→ Deploying $vmName..."
+    New-VM -Name $vmName `
+           -Template $template `
+           -Location $folder `
+           -Datastore $datastore `
+           -ResourcePool $pool `
+           -Confirm:$false `
+		       -Verbose `             # 多输出点信息没有坏处
+		       -RunAsync              # 创建之后立即返回, 等 vCSA 慢慢弄
+}
+```
+
+
