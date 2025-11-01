@@ -1,6 +1,6 @@
 ---
 title: 给科服的 Linux 课程
-updated: 2025-10-28 16:56:28
+updated: 2025-11-01 19:57:25
 date: 2025-10-02 22:39:05
 description: 本文面向科服人员，系统讲解了Linux系统安装与维护的核心流程，涵盖发行版选择、分区方案、双系统配置及驱动问题排查，重点强调Ubuntu LTS版本的实操步骤与硬件兼容性解决方案，并针对新型设备提供HWE内核安装指导，最终总结出一套适用于客户需求的标准化部署方法。
 tags:
@@ -453,8 +453,10 @@ GRUB 的一般状况是:
 flowchart TD
 U[UEFI] --> G1["GRUB in EFI part"]
 G1 --> |读取 EFI 分区内的配置| G2["GRUB in BOOT part;
-我们安装的时候常常没有 BOOT 分区,
-此时会直接查找 / 分区的 /boot/grub/grub.cfg"]
+我们安装的时候常常
+没有 BOOT 分区,
+此时会直接查找 / 分区的
+/boot/grub/grub.cfg"]
 G2 --> |显示引导菜单| K["Linux Kernel"]
 ```
 
@@ -608,4 +610,58 @@ for ($i = $startIndex; $i -le $numVMs; $i++) {
 }
 ```
 
+创建 Checkpoint:
 
+```pwsh
+# Folder containing the VMs
+$folderName = "KJFWD"
+
+# Snapshot configuration
+$snapshotName = "Init"
+$snapshotDescription = ""
+$includeMemory = $false
+$quiesce = $false
+
+# Get the folder
+$folder = Get-Folder -Name $folderName
+
+# Get all VMs in that folder
+$vms = Get-VM -Location $folder
+
+foreach ($vm in $vms) {
+    Write-Host "→ Creating snapshot for VM: $($vm.Name)..."
+    New-Snapshot -VM $vm `
+                 -Name $snapshotName `
+                 -Description $snapshotDescription `
+                 -Memory:$includeMemory `
+                 -Quiesce:$quiesce
+}
+```
+
+强制关闭 VM
+
+```pwsh
+Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object { Stop-VM -VM $_ -Confirm:$false -Kill }
+```
+
+回滚 Checkpoint
+
+```pwsh
+Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
+    $snap = Get-Snapshot -VM $_ -Name "Init" -ErrorAction SilentlyContinue
+    if ($snap) {
+        Set-VM -VM $_ -Snapshot $snap -Confirm:$false -RunAsync
+        Write-Host "Reverted $($_.Name) to snapshot 'Init'"
+    } else {
+        Write-Warning "Snapshot 'Init' not found for $($_.Name)"
+    }
+}
+```
+
+修改 VM 参数
+
+```pwsh
+Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
+    Set-VM -VM $_ -MemoryGB 6 -NumCPU 2 -Confirm:$false -RunAsync
+}
+```
