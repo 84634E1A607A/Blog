@@ -1,6 +1,6 @@
 ---
 title: 给科服的 Linux 课程
-updated: 2025-11-02 13:33:23
+updated: 2025-11-16 23:52:56
 date: 2025-10-02 22:39:05
 description: "本文面向科服人员: 系统讲解了Linux系统安装与维护的核心流程: 涵盖发行版选择、分区方案、双系统配置及驱动问题排查: 重点强调Ubuntu LTS版本的实操步骤与硬件兼容性解决方案: 并针对新型设备提供HWE内核安装指导: 最终总结出一套适用于客户需求的标准化部署方法。"
 tags:
@@ -706,5 +706,19 @@ Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
 ```pwsh
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     Set-VM -VM $_ -MemoryGB 6 -NumCPU 2 -Confirm:$false -RunAsync
+}
+```
+
+给所有 VM 都删了
+
+```pwsh
+Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
+    if (Read-Host "Destroy VM '$($_.Name)'? (y/n)" -eq "y") {
+        Stop-VM -VM $_ -Confirm:$false -Kill -RunAsync
+        Remove-VM -VM $_ -DeletePermanently -Confirm:$false -RunAsync
+        Write-Host "Destroyed VM $($_.Name)"
+    } else {
+        Write-Host "Skipped VM $($_.Name)"
+    }
 }
 ```
