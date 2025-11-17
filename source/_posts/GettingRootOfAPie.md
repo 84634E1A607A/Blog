@@ -1,6 +1,6 @@
 ---
 title: 简单打了个 Root - 我也不知道这是个啥板子, 但是反正能用
-updated: 2025-11-16 23:52:56
+updated: 2025-11-17 22:52:29
 date: 2025-11-16 19:21:39
 description: 本文记录了一次在未知ARM板子上通过DirtyPipe漏洞实现本地提权的完整过程，包括硬件探索、LPE路径分析、针对ARM64架构的payload定制以及最终获取root权限的实战经验，并指出了架构差异对漏洞利用的影响及解决方案。
 tags:
@@ -219,3 +219,59 @@ root
 于是, 倒闭!
 
 他们又研究了一下如何继续折腾这块板子... 不过后面的部分我就没什么兴趣了, 或许这篇就到此为止.
+
+
+
+## 后记... 1?
+
+于是今天 (11/17) 我去用万用表量了一下, 发现果不其然, TX, RX 和 GND 都接在一起了...
+
+但是不是因为 ylw 焊得烂, 而是那两个空焊盘, 我本以为是类似这样的结构 (我当时肉眼看了走线, 但是没有量通断)
+
+```mermaid
+flowchart LR
+
+MCU --- R --- Empty --- Pin
+```
+
+结果实际上是
+
+```mermaid
+flowchart LR
+
+MCU --- R --- JOINT[" "]:::empty --- Pin
+JOINT --- Empty --- GND
+
+classDef empty fill:transparent,stroke:transparent,width:0px,height:0px;
+```
+
+于是... 我们当时直接一坨锡, 把 TX 和 RX 都焊死在 GND 上面了 (笑)
+
+于是我又接上逻辑分析仪看了一眼, 串口的波特率是 1500000 (好高!), U-Boot 启动失败,
+
+```
+## Executing script at 39000000
+Wrong Ramdisk Image Format
+Ramdisk image is corrupt or invalid
+SCRIPT FAILED: continuing...
+Card did not respond to voltage select!
+mmc_init: -95, time 9
+```
+
+InitRd 看上去烂了. 怎么回事呢?
+
+一看...
+
+```
+  267659 config-6.18.0-rc5-edge-rockchip64
+20521472 vmlinuz-5.4.2-rockchip64
+43526656 vmlinuz-6.18.0-rc5-edge-rockchip64
+22823035 uInitrd-6.18.0-rc5-edge-rockchip64
+22822971 initrd.img-6.18.0-rc5-edge-rockchip64
+ 5952152 System.map-6.18.0-rc5-edge-rockchip64
+```
+
+谁他妈更新 Kernel 给 Debian Buster (10) 上了个 6.18.0 RC5? 我看着我写博客的 Arch Linux 的 6.17.7-arch1-1 陷入了沉思...
+
+后面的事情我就懒得掺和了, 等哪天他们折腾亮了再说.
+
