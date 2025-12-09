@@ -31,5 +31,8 @@
     "hexo-theme-landscape": "^1.1.0",
     "typogr": "^0.6.8",
     "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "hexo-neat": "^1.0.9"
   }
 }
