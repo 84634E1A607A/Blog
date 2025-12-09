@@ -39,6 +39,19 @@ export default {
       });
     }
 
+    const matchViews = url.pathname.match(/^\/api\/views\/(.+)$/);
+    if (matchViews) {
+      const key = matchViews[1];
+      // Fetch view count
+      const count = await env.BLOG_VIEW_COUNT.get(key);
+      return new Response(count || '0', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store',
+        }
+      });
+    }
+
     // Route for Giscus CSS
     if (url.pathname === '/giscus-theme.css') {
       const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
@@ -55,19 +68,6 @@ export default {
       } else {
         return new Response('CSS not found', { status: 404 });
       }
-    }
-
-    const matchViews = url.pathname.match(/^\/api\/views\/(.+)$/);
-    if (matchViews) {
-      const key = matchViews[1];
-      // Fetch view count
-      const count = await env.BLOG_VIEW_COUNT.get(key);
-      return new Response(count || '0', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store',
-        }
-      });
     }
 
     // // Testing purpose
