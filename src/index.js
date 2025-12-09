@@ -66,7 +66,7 @@ export default {
           }
         });
       } else {
-        return new Response('CSS not found', { status: 404 });
+        return new Response('CSS not found', { status: 500 });
       }
     }
 
