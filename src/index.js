@@ -39,6 +39,24 @@ export default {
       });
     }
 
+    // Route for Giscus CSS
+    if (url.pathname === '/giscus-theme.css') {
+      const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
+      if (cssContent) {
+        return new Response(cssContent, {
+          headers: {
+            'Content-Type': 'text/css',
+            'Cache-Control': 'public, max-age=604800', // 7 days
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+          }
+        });
+      } else {
+        return new Response('CSS not found', { status: 404 });
+      }
+    }
+
     const matchViews = url.pathname.match(/^\/api\/views\/(.+)$/);
     if (matchViews) {
       const key = matchViews[1];
