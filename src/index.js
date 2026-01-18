@@ -3,6 +3,12 @@ const LOG_KEY = 'blog_view_log';
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // Redirect /Ajax.gpg to OpenPGP key server
+    if (url.pathname === '/Ajax.gpg') {
+      return Response.redirect('https://keys.openpgp.org/vks/v1/by-fingerprint/C2938BB2BE46925BC3AD831CC342EF3F96F5AA37', 302);
+    }
+
     const matchRead = url.pathname.match(/^\/api\/read\/(.+)$/);
     if (matchRead) {
       const key = matchRead[1];
