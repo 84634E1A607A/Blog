@@ -103,14 +103,6 @@ export default {
     if (logs.length === 0) return;
 
     // Send email via Resend
-    const escapeHtml = (str) => str.replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;',
-    }[char]));
-
     const rows = logs.map(log => {
       const formattedDate = new Date(new Date(log.timestamp).getTime() + 8 * 60 * 60 * 1000)
         .toISOString()
@@ -119,29 +111,8 @@ export default {
         .split('.')[0]
         .replace(/:/g, '-');
 
-      return `
-      <tr>
-      <td class="table-cell">${escapeHtml(formattedDate)}</td>
-      <td class="table-cell">${escapeHtml(log.page)}</td>
-      <td class="table-cell">${escapeHtml(log.userIP)}</td>
-      <td class="table-cell">${escapeHtml(log.userLocation)}</td>
-      <td class="table-cell">${escapeHtml(log.userAgent)}</td>
-      </tr>
-      `;
-    }).join('');
-
-    const styles = `
-      <style>
-        .table-cell {
-          border: 1px solid #ddd;
-          padding: 6px;
-        }
-        .table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-      </style>
-    `;
+      return `+ ${formattedDate.padEnd(19)} | ${log.userIP.padEnd(15)} | ${log.userLocation.padEnd(25)}\n    ${log.page} | ${log.userAgent}`;
+    }).join('\n');
 
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -153,22 +124,7 @@ export default {
       from: `Blog Worker <blog-worker@aajax.top>`,
       to: `Ajax <i@aajax.top>`,
       subject: `Blog Views Report - ${new Date().toISOString().split('T')[0]}`,
-      html: `${styles}
-      <p>Daily blog views report:</p>
-      <table class="table">
-        <thead>
-        <tr>
-          <th class="table-cell">Timestamp</th>
-          <th class="table-cell">Page</th>
-          <th class="table-cell">User IP</th>
-          <th class="table-cell">Location</th>
-          <th class="table-cell">User Agent</th>
-        </tr>
-        </thead>
-        <tbody>
-        ${rows}
-        </tbody>
-      </table>`,
+      text: `Daily blog views report:\n\n${'= Timestamp'.padEnd(19)} | ${'User IP'.padEnd(15)} | ${'Location'.padEnd(25)}\n    Page | User Agent\n${rows}`,
       }),
     });
   }
