@@ -4,11 +4,6 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Redirect /Ajax.gpg to OpenPGP key server
-    if (url.pathname === '/Ajax.gpg') {
-      return Response.redirect('https://keys.openpgp.org/vks/v1/by-fingerprint/C2938BB2BE46925BC3AD831CC342EF3F96F5AA37', 302);
-    }
-
     const matchRead = url.pathname.match(/^\/api\/read\/(.+)$/);
     if (matchRead) {
       const key = matchRead[1];
@@ -58,23 +53,24 @@ export default {
       });
     }
 
-    // Route for Giscus CSS
-    if (url.pathname === '/giscus-theme.css') {
-      const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
-      if (cssContent) {
-        return new Response(cssContent, {
-          headers: {
-            'Content-Type': 'text/css',
-            'Cache-Control': 'public, max-age=604800', // 7 days
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers': 'Content-Type',
-          }
-        });
-      } else {
-        return new Response('CSS not found', { status: 500 });
-      }
-    }
+    // Since the CSS is now stable, we can comment this out.
+    // // Route for Giscus CSS
+    // if (url.pathname === '/giscus-theme.css') {
+    //   const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
+    //   if (cssContent) {
+    //     return new Response(cssContent, {
+    //       headers: {
+    //         'Content-Type': 'text/css',
+    //         'Cache-Control': 'public, max-age=604800', // 7 days
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'GET',
+    //         'Access-Control-Allow-Headers': 'Content-Type',
+    //       }
+    //     });
+    //   } else {
+    //     return new Response('CSS not found', { status: 500 });
+    //   }
+    // }
 
     // // Testing purpose
     // if (url.pathname === '/api/test') {
