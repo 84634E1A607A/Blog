@@ -4,11 +4,6 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Redirect /Ajax.gpg to OpenPGP key server
-    if (url.pathname === '/Ajax.gpg') {
-      return Response.redirect('https://keys.openpgp.org/vks/v1/by-fingerprint/C2938BB2BE46925BC3AD831CC342EF3F96F5AA37', 302);
-    }
-
     const matchRead = url.pathname.match(/^\/api\/read\/(.+)$/);
     if (matchRead) {
       const key = matchRead[1];
@@ -58,23 +53,24 @@ export default {
       });
     }
 
-    // Route for Giscus CSS
-    if (url.pathname === '/giscus-theme.css') {
-      const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
-      if (cssContent) {
-        return new Response(cssContent, {
-          headers: {
-            'Content-Type': 'text/css',
-            'Cache-Control': 'public, max-age=604800', // 7 days
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers': 'Content-Type',
-          }
-        });
-      } else {
-        return new Response('CSS not found', { status: 500 });
-      }
-    }
+    // Since the CSS is now stable, we can comment this out.
+    // // Route for Giscus CSS
+    // if (url.pathname === '/giscus-theme.css') {
+    //   const cssContent = await env.BLOG_VIEW_COUNT.get('GISCUS_CSS');
+    //   if (cssContent) {
+    //     return new Response(cssContent, {
+    //       headers: {
+    //         'Content-Type': 'text/css',
+    //         'Cache-Control': 'public, max-age=604800', // 7 days
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'GET',
+    //         'Access-Control-Allow-Headers': 'Content-Type',
+    //       }
+    //     });
+    //   } else {
+    //     return new Response('CSS not found', { status: 500 });
+    //   }
+    // }
 
     // // Testing purpose
     // if (url.pathname === '/api/test') {
@@ -107,14 +103,6 @@ export default {
     if (logs.length === 0) return;
 
     // Send email via Resend
-    const escapeHtml = (str) => str.replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;',
-    }[char]));
-
     const rows = logs.map(log => {
       const formattedDate = new Date(new Date(log.timestamp).getTime() + 8 * 60 * 60 * 1000)
         .toISOString()
@@ -123,29 +111,8 @@ export default {
         .split('.')[0]
         .replace(/:/g, '-');
 
-      return `
-      <tr>
-      <td class="table-cell">${escapeHtml(formattedDate)}</td>
-      <td class="table-cell">${escapeHtml(log.page)}</td>
-      <td class="table-cell">${escapeHtml(log.userIP)}</td>
-      <td class="table-cell">${escapeHtml(log.userLocation)}</td>
-      <td class="table-cell">${escapeHtml(log.userAgent)}</td>
-      </tr>
-      `;
-    }).join('');
-
-    const styles = `
-      <style>
-        .table-cell {
-          border: 1px solid #ddd;
-          padding: 6px;
-        }
-        .table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-      </style>
-    `;
+      return `+ ${formattedDate.padEnd(19)} | ${log.userIP.padEnd(15)} | ${log.userLocation.padEnd(25)}\n    ${log.page} | ${log.userAgent}`;
+    }).join('\n');
 
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -157,22 +124,7 @@ export default {
       from: `Blog Worker <blog-worker@aajax.top>`,
       to: `Ajax <i@aajax.top>`,
       subject: `Blog Views Report - ${new Date().toISOString().split('T')[0]}`,
-      html: `${styles}
-      <p>Daily blog views report:</p>
-      <table class="table">
-        <thead>
-        <tr>
-          <th class="table-cell">Timestamp</th>
-          <th class="table-cell">Page</th>
-          <th class="table-cell">User IP</th>
-          <th class="table-cell">Location</th>
-          <th class="table-cell">User Agent</th>
-        </tr>
-        </thead>
-        <tbody>
-        ${rows}
-        </tbody>
-      </table>`,
+      text: `Daily blog views report:\n\n${'= Timestamp'.padEnd(19)} | ${'User IP'.padEnd(15)} | ${'Location'.padEnd(25)}\n    Page | User Agent\n${rows}`,
       }),
     });
   }

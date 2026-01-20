@@ -94,6 +94,7 @@ pagination_dir: page
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
+  - _redirects
 exclude:
 ignore:
 
@@ -140,9 +141,7 @@ neat_html:
   enable: true
   exclude:
 neat_css:
-  enable: true
-  exclude:
-    - '*.min.css'
+  enable: false
 neat_js:
   enable: true
   mangle: true
@@ -150,3 +149,7 @@ neat_js:
   compress:
   exclude:
     - '*.min.js'
+clean_css:
+  level: 2
+  rebase: false
+  sourceMap: false

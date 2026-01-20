@@ -14,6 +14,9 @@ importers:
       hexo-asset-link:
         specifier: ^2.3.1
         version: 2.3.1(hexo@7.3.0(chokidar@3.6.0))
+      hexo-clean-css:
+        specifier: ^2.0.0
+        version: 2.0.0
       hexo-filter-mermaid:
         specifier: file:filter/hexo-filter-mermaid
         version: file:filter/hexo-filter-mermaid
@@ -146,6 +149,10 @@ packages:
   clean-css@4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
+
+  clean-css@5.3.3:
+    resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
+    engines: {node: '>= 10.0'}
 
   command-exists@1.2.9:
     resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
@@ -338,6 +345,10 @@ packages:
     resolution: {integrity: sha512-vtp7AvGrF3V6lX3+mzkLWKSmmfJ7rcctULOFp0YdTIKoy6xDjSdcDTk0m/XViA3m7FefAL7hIZ5hZn6t9+NdvA==}
     peerDependencies:
       hexo: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+
+  hexo-clean-css@2.0.0:
+    resolution: {integrity: sha512-hmRaZgPax4v1mOPoTVZng/AtQaLztKKgEv7qMRL/6bO/5TeOtuTAXWmil2pjcZayz5saXe5SgWE5M2WGS6WhoQ==}
+    engines: {node: '>= 10.18.1'}
 
   hexo-cli@4.3.2:
     resolution: {integrity: sha512-druJeBgLpG9ncDS5AhBHdAXk0G4CFj8Qes09pApyZ6bR+nJW1JYiDMuilhudaKDdq+1l49jWXVTidkcb7p0Jbw==}
@@ -969,6 +980,10 @@ snapshots:
     dependencies:
       source-map: 0.6.1
 
+  clean-css@5.3.3:
+    dependencies:
+      source-map: 0.6.1
+
   command-exists@1.2.9: {}
 
   commander@1.0.5:
@@ -1145,6 +1160,11 @@ snapshots:
   hexo-asset-link@2.3.1(hexo@7.3.0(chokidar@3.6.0)):
     dependencies:
       hexo: 7.3.0(chokidar@3.6.0)
+
+  hexo-clean-css@2.0.0:
+    dependencies:
+      clean-css: 5.3.3
+      micromatch: 4.0.8
 
   hexo-cli@4.3.2:
     dependencies:
