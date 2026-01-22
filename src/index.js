@@ -111,7 +111,7 @@ export default {
         .split('.')[0]
         .replace(/:/g, '-');
 
-      return `+ ${formattedDate.padEnd(19)} | ${log.userIP.padEnd(15)} | ${log.userLocation.padEnd(25)}\n    ${log.page} | ${log.userAgent}`;
+      return `+ ${formattedDate.padEnd(19)} | ${log.userIP.padEnd(15)} | ${log.userLocation.padEnd(25)}\n    ${log.page} | ${log.userAgent}\n`;
     }).join('\n');
 
     await fetch('https://api.resend.com/emails', {
