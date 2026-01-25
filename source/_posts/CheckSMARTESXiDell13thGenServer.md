@@ -1,6 +1,6 @@
 ---
 title: How to get drive SMART status on Dell 12th / 13th Gen Servers with ESXi
-updated: 2026-01-25 13:18:39
+updated: 2026-01-25 16:21:59
 date: 2026-01-25 10:39:35
 description: "This article addresses the challenge of monitoring drive health on Dell 12th/13th Gen servers running ESXi by demonstrating the use of perccli to extract raw SMART hex data, concluding that parsing this output with scripts or AI effectively circumvents standard tool limitations."
 tags:
@@ -16,6 +16,8 @@ TL, DR:
 ```
 
 This will print the raw SMART data in hex format. I haven't found a good parser for this, just feed it to ChatGPT along with the drive model, and ask him to parse it for you.
+
+Or, I asked CodeX to tailor `smartctl` to read from the hex blob and targets WASM. [Try it yourself!](https://smart.aajax.top)
 
 <!-- more -->
 
@@ -266,3 +268,9 @@ But the output is raw hex, instead of human-readable, clean table of SMART attri
 - ChatGPT suggested that we may use skdump to parse the hex blob. It requires a libatasmart format blob. May be able to craft one from the hex data above, but I doubt if it is actually worth the effort.
 
 - My thoughts: maybe I can adjust smartctl to read from hex blob and print SMART data. Let's try it with CodeX.
+
+## The Webtool
+
+So I forked the smartmontools repo, and asked CodeX to help me modify `smartctl` to read from the hex blob above. He did this pretty well, and compiled it to WASM. Then I asked him to build a frontend web page to use this modified `smartctl` to parse the hex blob. The tool is now live at [smart.aajax.top](https://smart.aajax.top). Just paste device data and the hex blob into the textarea, and click "Parse SMART Data", you will get a clean SMART attribute table.
+
+See [this link](https://smart.aajax.top/?sn=PHLA8105012N256CGN&md=INTEL%20SSDSC2KW256G8&fw=LHF002C&rd=01000532006464250000000000000932006464d68e00000000000c320064640e000000000000aa33005c5c00000000000000ab3200555523000000000000ac3200646400000000000000ad33005e5e35009900630000ae320064640c000000000000b73200646400000000000000b83300646400000000000000bb3200646420000000000000be32001a211a002100180000c0320064640c000000000000c73200646400000000000000e132006464a69e0700000000e23200646400000000000000e33200646400000000000000e43200646400000000000000e833005c5c00000000000000e932005a5a00000000000000ec32005a5a00000000000000f132006464a69e0700000000f23200646418100900000000f9320064644f640000000000fc320064646300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005303000100020f000000000000000000000000204c484630303243000000000000534d32323539dc0500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000af) for an example input.
