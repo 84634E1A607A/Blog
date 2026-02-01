@@ -1,6 +1,6 @@
 ---
 title: 捡了一台 HR650X -- 附加折腾日记
-updated: 2026-02-01 20:36:25
+updated: 2026-02-01 20:48:04
 date: 2026-01-31 18:49:09
 description: "记录入手二手联想 HR650X 双路 3647 平台服务器后，从选购、硬件搭配到 BIOS/BMC 救砖、PCIe 拆分隐藏选项挖掘与串口调试的完整折腾过程，并给出整机功耗与 BMC 功能等实际体验，最终结论是这批二手机型在经过 BIOS/BMC 升级与 VRM TDP 修改后可稳定作为服务器使用。"
 tags:
@@ -275,6 +275,8 @@ Ctrl+PgDn Ctrl+PgUp +/- Pages  PgDn Next PgUp Prev device              15:41:49
 
 所以... 你就说能不能拆分吧.jpg
 
+(修改教程: 进入 RU.efi, Alt+= 进入 UEFI Variable 编辑, 输入 (直接输入) iioconfig 回车找到 "SocketIIOConfig", 回车进入, 找到对应的 VarOffset 修改成上述表格里面的值, Ctrl+W 写入 (如果是 KVM 记得别 Ctrl+W 给浏览器页面关了), 然后重启)
+
 ## BMC
 
 然后我要强烈吐槽这玩意的 BMC. 不知道是谁干的好事, 但是应该不是我的问题, BMC 的 HTTP 跳转 HTTPS 的请求响应长这样:
@@ -353,3 +355,9 @@ BMC 里面能保存 2MB 的 SOL Log, 如果不是前述的抽象 RU.efi 一直�
 ## 总结?
 
 总体上说, 是一次成功的捡垃圾. 我的小水管路由器变成了 2U 服务器, 这下可以自由安装虚拟机啥的跑神秘计算服务了.
+
+最后来点图
+
+![Server](./HR650XServer/SERVER.jpg)
+
+![Server 2](./HR650XServer/SERVER2.jpg)
