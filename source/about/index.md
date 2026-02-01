@@ -93,7 +93,7 @@ THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.
 
 字体是西文 [Roboto](https://fonts.google.com/specimen/Roboto) ([OFL License](https://fonts.google.com/specimen/Roboto/license)); 中文系统不同使用 System Font; 等宽字体 [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) ([SIL OFL 1.1 License](https://www.jetbrains.com/lp/mono/#license)).
 
-博客的 icon 来自 Pixiv 的 [✨](https://www.pixiv.net/en/artworks/125597074), 原作者是 [ぴろ瀬](https://heripiro.tumblr.com/). 我没搞明白这玩意到底 License 是啥, 能不能这么用, 但是不管咋样我写了一封邮件询问, 但是石沉大海, 没有回复. 但是咱还是好像用w, 所以就先用着吧 awa.
+博客的 icon 来自 Pixiv 的 [✨](https://www.pixiv.net/en/artworks/125597074), 原作者是 [ぴろ瀬](https://heripiro.tumblr.com/). 我没搞明白这玩意到底 License 是啥, 能不能这么用, 但是不管咋样我写了一封邮件询问, 但是石沉大海, 没有回复. 但是咱还是好想用w, 所以就先用着吧 awa.
 
 Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多了w
 

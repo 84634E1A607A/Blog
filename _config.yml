@@ -70,6 +70,7 @@ shiki:
     - transformerNotationHighlight
     - transformerNotationWordHighlight
     - transformerRenderWhitespace
+    - transformerNotationFocus
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
