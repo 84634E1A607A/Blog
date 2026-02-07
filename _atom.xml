@@ -17,7 +17,7 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   {% for post in posts.toArray() %}
   <entry>
-    <title>{{ post.title }}</title>
+    <title>{{ post.title | safe }}</title>
     <link href="{{ post.permalink | uriencode }}"/>
     <id>{{ post.permalink | uriencode }}</id>
     <published>{{ post.date.toISOString() }}</published>
