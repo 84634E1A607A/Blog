@@ -1,0 +1,59 @@
+diff --git a/dist/main.js b/dist/main.js
+index ad200944d32db823b16b82c2cbbc925a55d392ca..d9aef8c3e20bcefba34a950b3d2b9f1dec18ffc3 100644
+--- a/dist/main.js
++++ b/dist/main.js
+@@ -1,4 +1,7 @@
+ "use strict";
++
++const { highlightTokens, fromAlias } = require("@master-hash/tree-sitter-highlight");
++
+ var __defProp = Object.defineProperty;
+ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+ var __getOwnPropNames = Object.getOwnPropertyNames;
+@@ -9902,7 +9905,7 @@ var constants = {
+   // See: <https://html.spec.whatwg.org/#attribute-name-state>.
+   name: [
+     ["	\n\f\r &/=>".split(""), "	\n\f\r \"&'/=>`".split("")],
+-    [`\0	
++    [`\0\t
+ \f\r "&'/<=>`.split(""), "\0	\n\f\r \"&'/<=>`".split("")]
+   ],
+   // See: <https://html.spec.whatwg.org/#attribute-value-(unquoted)-state>.
+@@ -10926,6 +10929,8 @@ function codeToTokensBase(internal, code, options = {}) {
+   const { theme, colorMap } = internal.setTheme(themeName);
+   if (lang239 === "ansi")
+     return tokenizeAnsiWithTheme(theme, code, options);
++  const __hash_a = fromAlias(lang239);
++  if (__hash_a !== null) { return highlightTokens(code, __hash_a).tokens; }
+   const _grammar = internal.getLanguage(lang239);
+   if (options.grammarState) {
+     if (options.grammarState.lang !== _grammar.name) {
+@@ -11216,7 +11221,13 @@ function codeToTokens(internal, code, options) {
+   let themeName;
+   let rootStyle;
+   let grammarState;
+-  if ("themes" in options) {
++  if (fromAlias(options.lang) !== null) {
++    tokens = codeToTokensBase(
++      internal,
++      code,
++      options
++    );
++  } else if ("themes" in options) {
+     const {
+       defaultColor = "light",
+       cssVariablePrefix = "--shiki-",
+diff --git a/package.json b/package.json
+index 5112aac320040d9a80310ca6349d0ae2f081d1b2..2219f004e3a84bcf7a804277643c0b44a56e75d2 100644
+--- a/package.json
++++ b/package.json
+@@ -28,6 +28,9 @@
+   ],
+   "author": "HPCesia",
+   "license": "MIT",
++  "dependencies": {
++    "@master-hash/tree-sitter-highlight": "^1.2.2"
++  },
+   "devDependencies": {
+     "@shikijs/transformers": "^3.8.1",
+     "@types/node": "^22.16.5",

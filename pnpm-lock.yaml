@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  hexo-highlighter-shiki:
+    hash: 8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974
+    path: patches/hexo-highlighter-shiki.patch
+
 importers:
 
   .:
@@ -46,7 +51,7 @@ importers:
         version: 2.0.0
       hexo-highlighter-shiki:
         specifier: ^1.2.3
-        version: 1.2.3(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0))
+        version: 1.2.3(patch_hash=8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0))
       hexo-renderer-ejs:
         specifier: ^2.0.0
         version: 2.0.0
@@ -69,6 +74,9 @@ importers:
         specifier: ^8.19.0
         version: 8.19.0
     devDependencies:
+      '@master-hash/tree-sitter-highlight':
+        specifier: ^1.2.2
+        version: 1.2.2
       hexo-neat:
         specifier: ^1.0.9
         version: 1.0.9
@@ -77,6 +85,9 @@ packages:
 
   '@adobe/css-tools@4.3.3':
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==}
+
+  '@master-hash/tree-sitter-highlight@1.2.2':
+    resolution: {integrity: sha512-+rUIBK/vZtDNM2p9Y/psm0dHUvCX2Cgh8c6j3COTRxO+5BhlEvBWHT2Kodx/xKopUflg/FAc6e+b545PKWSWKw==}
 
   a-sync-waterfall@1.0.1:
     resolution: {integrity: sha512-RYTOHHdWipFUliRFMCS4X2Yn2X8M87V/OpSqWzKKOGhzqyUxzyVmhHDH9sAvG+ZuQf/TAOFsLCpMw09I1ufUnA==}
@@ -915,6 +926,8 @@ snapshots:
 
   '@adobe/css-tools@4.3.3': {}
 
+  '@master-hash/tree-sitter-highlight@1.2.2': {}
+
   a-sync-waterfall@1.0.1: {}
 
   abbrev@2.0.0: {}
@@ -1250,7 +1263,7 @@ snapshots:
     dependencies:
       hexo-pagination: 3.0.0
 
-  hexo-highlighter-shiki@1.2.3(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0)):
+  hexo-highlighter-shiki@1.2.3(patch_hash=8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0)):
     dependencies:
       hexo: 7.3.0(chokidar@3.6.0)
       hexo-util: 3.3.0

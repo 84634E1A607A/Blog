@@ -34,6 +34,7 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@master-hash/tree-sitter-highlight": "^1.2.2",
     "hexo-neat": "^1.0.9"
   }
 }
