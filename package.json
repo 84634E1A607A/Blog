@@ -9,17 +9,17 @@
     "server": "hexo server"
   },
   "hexo": {
-    "version": "7.3.0"
+    "version": "8.1.1"
   },
   "dependencies": {
-    "hexo": "^7.3.0",
+    "hexo": "^8.1.1",
     "hexo-asset-link": "^2.3.1",
     "hexo-clean-css": "^2.0.0",
     "hexo-filter-mermaid": "file:filter/hexo-filter-mermaid",
     "hexo-fold": "^1.0.5",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^3.0.0",
+    "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-search": "^2.4.3",
     "hexo-generator-sitemap": "^3.0.1",
