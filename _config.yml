@@ -62,7 +62,7 @@ shiki:
   theme:
     light: snazzy-light
     dark: laserwave
-  default_color: light
+  default_color: false
   line_number: true
   original_lang_name: true
   transformers:

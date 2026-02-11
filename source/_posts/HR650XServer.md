@@ -138,7 +138,7 @@ Aux Firmware Rev Info     :
 
 {% fold "这里节选一些设置项, 虽然是节选, 但是还是很长" %}
 
-```yaml
+```yml
 0x115F4: 	Form FormId: 0x47A, Title: "Socket0 Configuration" { 01 86 7A 04 0A 01 }
 0x115FA: 		SuppressIf  { 0A 82 }
 0x115FC: 			EqIdVal QuestionId: 0xB2, Value: 0x0 { 12 06 B2 00 00 00 }
