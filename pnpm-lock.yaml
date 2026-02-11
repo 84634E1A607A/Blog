@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   hexo-highlighter-shiki:
-    hash: 8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974
+    hash: 15b075b90602121b1af24f16466bf648d9dfe8e8bcac39cdebdd2258f28fddeb
     path: patches/hexo-highlighter-shiki.patch
 
 importers:
@@ -51,7 +51,7 @@ importers:
         version: 2.0.0
       hexo-highlighter-shiki:
         specifier: ^1.2.3
-        version: 1.2.3(patch_hash=8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0))
+        version: 1.2.3(patch_hash=15b075b90602121b1af24f16466bf648d9dfe8e8bcac39cdebdd2258f28fddeb)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0))
       hexo-renderer-ejs:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1263,7 +1263,7 @@ snapshots:
     dependencies:
       hexo-pagination: 3.0.0
 
-  hexo-highlighter-shiki@1.2.3(patch_hash=8685139320fb70c1c7f0df211f686093c6295288bf7753afae90931024e15974)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0)):
+  hexo-highlighter-shiki@1.2.3(patch_hash=15b075b90602121b1af24f16466bf648d9dfe8e8bcac39cdebdd2258f28fddeb)(hexo-util@3.3.0)(hexo@7.3.0(chokidar@3.6.0)):
     dependencies:
       hexo: 7.3.0(chokidar@3.6.0)
       hexo-util: 3.3.0

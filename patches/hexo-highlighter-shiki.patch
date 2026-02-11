@@ -24,7 +24,7 @@ index ad200944d32db823b16b82c2cbbc925a55d392ca..d9aef8c3e20bcefba34a950b3d2b9f1d
    if (lang239 === "ansi")
      return tokenizeAnsiWithTheme(theme, code, options);
 +  const __hash_a = fromAlias(lang239);
-+  if (__hash_a !== null) { return highlightTokens(code, __hash_a).tokens; }
++  if (__hash_a !== null && !code.includes("[!code")) { return highlightTokens(code, __hash_a).tokens; }
    const _grammar = internal.getLanguage(lang239);
    if (options.grammarState) {
      if (options.grammarState.lang !== _grammar.name) {
@@ -33,7 +33,7 @@ index ad200944d32db823b16b82c2cbbc925a55d392ca..d9aef8c3e20bcefba34a950b3d2b9f1d
    let rootStyle;
    let grammarState;
 -  if ("themes" in options) {
-+  if (fromAlias(options.lang) !== null) {
++  if (fromAlias(options.lang) !== null && !code.includes("[!code")) {
 +    tokens = codeToTokensBase(
 +      internal,
 +      code,
