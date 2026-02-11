@@ -34,7 +34,7 @@ IPv4 地址是不够用的, 连接校园网也只能获取到 1 个 v4 地址. �
 
 现在你已经知道这些前置知识了, 来看看活动网络的架构吧!
 
-![活动网络架构](StudentFestivalNetwork/Activity Network.png)
+![活动网络架构](StudentFestivalNetwork/Activity%20Network.png)
 
 活动网的架构其实很简单. 有一个 NUC 充当路由器, 两台交换机互相连接, 下面挂着 8 个 AP (就是发射无线信号的东西). 是不是简单易懂啊 (x
 
