@@ -1,5 +1,0 @@
-packages:
-  - '.'
-
-patchedDependencies:
-  hexo-highlighter-shiki: patches/hexo-highlighter-shiki.patch

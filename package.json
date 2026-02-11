@@ -8,6 +8,11 @@
     "deploy": "hexo deploy",
     "server": "hexo server"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "hexo-highlighter-shiki": "patches/hexo-highlighter-shiki.patch"
+    }
+  },
   "hexo": {
     "version": "8.1.1"
   },
