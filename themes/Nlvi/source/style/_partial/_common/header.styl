@@ -1,0 +1,108 @@
+.mobile-header
+  display: none
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  z-index: 50
+  +mobile()
+    display: block
+  .mobile-header-nav
+    +flex-wrapper(row)
+      justify-content: space-between
+    +theme_light()
+      background-color: mix($theme-color-main, #fff, 15%)
+      color: #000
+    +theme_dark()
+      background-color: mix($theme-color-main-dark, #101010, 20%)
+      color: #fff
+    min-height: 48px
+    height: 48px
+    .mobile-header-item
+      flex: .5
+      height: @width
+      color: inherit
+    .mobile-header-title
+      flex: 1
+      text-align: center
+      color: inherit
+      font-weight: 300
+      font-size: initial
+      a
+        font-family: $header-fonts
+        text-decoration: none
+        font-size: 32px
+        color: inherit
+        line-height: 1
+  .header-menu-item
+    position: relative
+    padding: 0 16px
+    box-sizing: border-box
+    height: 100%
+    display: flex
+    align-items: center
+  &.header-scroll
+    transition-sign()
+    +theme_light()
+      box-shadow: -4px -1px 8px mix(#fff, $theme-color-main)
+    +theme_dark()
+      box-shadow: -4px -1px 8px mix(#101010, $theme-color-main-dark)
+.mobile-header-body
+  display: none
+  width: 100%
+  &.show
+    display: block
+  .mobile-header-list
+    list-style: none
+    margin: 0
+    padding: 0
+    text-align: center
+    .mobile-nav-item
+      line-height: 1.5
+      padding: yard 0
+      border-bottom: 1px solid $theme-line-color
+      a
+        +theme_light()
+          color: $theme-text-color-main
+        +theme_dark()
+          color: $theme-text-color-main-dark
+      &:last-child
+        border-bottom-color: transparent
+
+.header-menu-line
+  position: relative
+  width: 20px
+  height: 1px
+  +theme_light()
+    background-color: $theme-color-main
+  +theme_dark()
+    background-color: $theme-color-main-dark
+  transform-origin: center
+  transition-sign(all)
+  &:before
+    position: absolute
+    top: 50%
+    left: 50%
+    content: ''
+    width: 10px
+    height: 10px
+    border: 1px solid transparent
+    border-width: 1px 0 0 1px
+    transform-origin: center
+    transition-sign(all)
+
+  &.show
+    transform: rotate(-90deg)
+    background-color: transparent
+    &:before
+      transform: rotate(135deg) translate(10%, 80%)
+      +theme_light()
+        border-color: $theme-color-main
+      +theme_dark()
+        border-color: $theme-color-main-dark
+
+#travelling, #mobile-travelling
+  +theme_light()
+    color: $theme-color-hint
+  +theme_dark()
+    color: $theme-color-hint-dark

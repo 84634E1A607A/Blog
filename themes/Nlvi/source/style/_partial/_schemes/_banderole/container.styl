@@ -1,0 +1,74 @@
+body
+  +theme_light()
+    background-color: $theme-color-content-background
+  +theme_dark()
+    background-color: $theme-color-content-background-dark
+  &.under
+    overflow-y: hidden
+
+.container
+  position: relative
+  overflow: hidden
+  overflow-wrap: break-word
+  .container-inner
+    width: 100%
+    padding-top: 100px
+    transition-sign()
+    padding-left: yard
+    padding-right: yard
+    +tablet()
+      padding-top: 72px
+      padding-right: 0
+      padding-left: 0
+    +mobile()
+      padding-top: 48px
+    &.under
+      border-radius: 12px
+      transform: scale(0.95)
+      transform-origin: top
+      filter: blur(16px)
+  
+  .container-inner.has_toc
+    padding-right: 200px
+    +tablet()
+      padding-top: 72px
+      padding-right: 0
+      padding-left: 0
+    +mobile()
+      padding-top: 48px
+    @media print
+      padding-right: 0
+      padding-top: 0
+
+.main
+  max-width: max-width
+  margin: 0 auto
+  +tablet()
+    width: 100%
+    max-width: 100%
+    padding: 0 (yard*2)
+
+.mermaid
+  text-align: center
+
+.mermaid-light
+  +theme_dark()
+    display: none
+  +theme_light()
+    display: inherit
+
+.mermaid-dark
+  +theme_light()
+    display: none
+  +theme_dark()
+    display: inherit
+
+// This acts as a print-time fallback
+.mermaid-code
+  font-size: 0.9em
+  line-height: 1.25
+  background: #f0f0f0
+  border: 1px solid #ccc
+  padding: 10px
+  white-space: pre-wrap !important
+  text-align: left !important

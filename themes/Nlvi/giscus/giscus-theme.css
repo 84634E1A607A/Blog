@@ -1,0 +1,270 @@
+:host,
+html {
+    --font-family-default: 'Roboto', "Microsoft YaHei", 'Helvetica Neue', 'Noto Sans SC', sans-serif;
+    --font-family-monospace: 'JetBrains Mono', monospace
+}
+
+main {
+    /* Light Mode - Syntax Highlighting Colors */
+    --color-prettylights-syntax-comment: #a1a4aa;
+    --color-prettylights-syntax-constant: #e6c07b;
+    --color-prettylights-syntax-entity: #c678dd;
+    --color-prettylights-syntax-storage-modifier-import: #383838;
+    --color-prettylights-syntax-entity-tag: #98c379;
+    --color-prettylights-syntax-keyword: #e06c75;
+    --color-prettylights-syntax-string: #98c379;
+    --color-prettylights-syntax-variable: #d19a66;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #e06c75;
+    --color-prettylights-syntax-invalid-illegal-text: #fff;
+    --color-prettylights-syntax-invalid-illegal-bg: #e06c75;
+    --color-prettylights-syntax-carriage-return-text: #fff;
+    --color-prettylights-syntax-carriage-return-bg: #e06c75;
+    --color-prettylights-syntax-string-regexp: #98c379;
+    --color-prettylights-syntax-markup-list: #d19a66;
+    --color-prettylights-syntax-markup-heading: #e6c07b;
+    --color-prettylights-syntax-markup-italic: #383838;
+    --color-prettylights-syntax-markup-bold: #383838;
+    --color-prettylights-syntax-markup-deleted-text: #e06c75;
+    --color-prettylights-syntax-markup-deleted-bg: #f7f7f7;
+    --color-prettylights-syntax-markup-inserted-text: #98c379;
+    --color-prettylights-syntax-markup-inserted-bg: color-mix(in srgb, #c3829e 3%, #fff);
+    --color-prettylights-syntax-markup-changed-text: #d19a66;
+    --color-prettylights-syntax-markup-changed-bg: #d19a66;
+    --color-prettylights-syntax-markup-ignored-text: #f0f0f0;
+    --color-prettylights-syntax-markup-ignored-bg: #e6c07b;
+    --color-prettylights-syntax-meta-diff-range: #c678dd;
+    --color-prettylights-syntax-brackethighlighter-angle: #666;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #666;
+    --color-prettylights-syntax-constant-other-reference-link: #5799de;
+    
+    /* Light Mode - Text Colors */
+    --text-muted-color: #999;
+    --text-normal-color: #383838;
+    --text-sub-color: #666;
+    
+    /* Light Mode - Theme Colors */
+    --theme-color-main: #c3829e;
+    --theme-color-hover: color-mix(in srgb, #c3829e 75%, #fff);
+    --theme-color-link: color-mix(in srgb, #c3829e 75%, #383838);
+    --background-color: #fff;
+    --content-background: color-mix(in srgb, #c3829e 3%, #fff);
+    --line-color: #f0f0f0;
+    
+    /* Transparent Control Background */
+    --color-segmented-control-bg: #0000
+}
+
+@media (prefers-color-scheme: dark) {
+    main {
+        /* Dark Mode - Syntax Highlighting Colors */
+        --color-prettylights-syntax-comment: #a1a4aa;
+        --color-prettylights-syntax-constant: #e6c07b;
+        --color-prettylights-syntax-entity: #c678dd;
+        --color-prettylights-syntax-storage-modifier-import: #f0f0f0;
+        --color-prettylights-syntax-entity-tag: #98c379;
+        --color-prettylights-syntax-keyword: #e06c75;
+        --color-prettylights-syntax-string: #98c379;
+        --color-prettylights-syntax-variable: #d19a66;
+        --color-prettylights-syntax-brackethighlighter-unmatched: #e06c75;
+        --color-prettylights-syntax-invalid-illegal-text: #fff;
+        --color-prettylights-syntax-invalid-illegal-bg: #e06c75;
+        --color-prettylights-syntax-carriage-return-text: #fff;
+        --color-prettylights-syntax-carriage-return-bg: #e06c75;
+        --color-prettylights-syntax-string-regexp: #98c379;
+        --color-prettylights-syntax-markup-list: #d19a66;
+        --color-prettylights-syntax-markup-heading: #e6c07b;
+        --color-prettylights-syntax-markup-italic: #f0f0f0;
+        --color-prettylights-syntax-markup-bold: #f0f0f0;
+        --color-prettylights-syntax-markup-deleted-text: #e06c75;
+        --color-prettylights-syntax-markup-deleted-bg: #202020;
+        --color-prettylights-syntax-markup-inserted-text: #98c379;
+        --color-prettylights-syntax-markup-inserted-bg: color-mix(in srgb, #feb0d1 3%, #000);
+        --color-prettylights-syntax-markup-changed-text: #d19a66;
+        --color-prettylights-syntax-markup-changed-bg: #d19a66;
+        --color-prettylights-syntax-markup-ignored-text: #101010;
+        --color-prettylights-syntax-markup-ignored-bg: #e6c07b;
+        --color-prettylights-syntax-meta-diff-range: #c678dd;
+        --color-prettylights-syntax-brackethighlighter-angle: #ddd;
+        --color-prettylights-syntax-sublimelinter-gutter-mark: #ddd;
+        --color-prettylights-syntax-constant-other-reference-link: #5799de;
+        
+        /* Dark Mode - Text Colors */
+        --text-muted-color: #bbb;
+        --text-normal-color: #f0f0f0;
+        --text-sub-color: #ddd;
+        
+        /* Dark Mode - Theme Colors */
+        --theme-color-main: #feb0d1;
+        --theme-color-hover: color-mix(in srgb, #feb0d1 75%, #000);
+        --theme-color-link: color-mix(in srgb, #feb0d1 75%, #ddd);
+        --background-color: #101010;
+        --content-background: color-mix(in srgb, #feb0d1 3%, #000);
+        --line-color: #101010;
+        
+        /* Transparent Control Background */
+        --color-segmented-control-bg: #0000
+    }
+}
+
+/* Giscus Comment Header Styles */
+.gsc-comments .gsc-header .gsc-left-header em a {
+    color: var(--text-muted-color);
+    text-underline-offset: 4px;
+    transition: all .2s
+}
+
+.gsc-comments .gsc-header .gsc-left-header em a:hover {
+    color: var(--text-normal-color)
+}
+
+/* Right Header Styles */
+.gsc-right-header {
+    border-radius: none
+}
+
+.gsc-right-header li:not(.BtnGroup-item--selected) {
+    border-left: none;
+    border-right: none;
+    border-top: none
+}
+
+.gsc-right-header li:not(.BtnGroup-item--selected) .btn:hover {
+    background-color: initial;
+    color: var(--text-normal-color)
+}
+
+/* Comment Box Styles */
+.gsc-comment-box-tabs {
+    display: none
+}
+
+.gsc-comment-box {
+    background-color: initial;
+    border: none
+}
+
+.gsc-comment-box-main .gsc-comment-box-write textarea.gsc-comment-box-textarea {
+    border-radius: .375rem .375rem 0 0;
+    background-color: var(--content-background);
+    color: var(--text-normal-color);
+}
+
+.gsc-comment-box-main .gsc-comment-box-write textarea.gsc-comment-box-textarea:focus {
+    border-color: var(--theme-color-main)
+}
+
+.gsc-comment-box-is-reply {
+    padding: 8px 16px;
+    border-top: solid 1px;
+}
+
+.gsc-comment-box-main, .gsc-comment-box-bottom {
+    margin: 0
+}
+
+.gsc-comment-box-bottom {
+    margin-top: 8px
+}
+
+/* Comment Box Buttons */
+.gsc-comment-box-bottom button.link-secondary.text-sm {
+    text-decoration: none;
+    border-radius: .375rem;
+}
+
+.gsc-comment-box-buttons button {
+    border-radius: 0
+}
+
+.gsc-comment-box-bottom button:hover,
+.gsc-comment-box-buttons .btn-primary {
+    color: var(--text-normal-color);
+    background-color: var(--theme-color-hover);
+    border-color: var(--theme-color-main)
+}
+
+.gsc-comment-box-buttons .btn-primary:disabled {
+    color: var(--text-muted-color);
+    opacity: 0.5
+}
+
+/* Comment Thread Styles */
+.gsc-comment {
+    background-color: var(--content-background)
+}
+
+.gsc-comment-author a {
+    color: var(--theme-color-link)
+}
+
+.gsc-comment-author a:hover {
+    color: var(--theme-color-hover)
+}
+
+.gsc-comment-content {
+    color: var(--text-normal-color)
+}
+
+.gsc-comment-content a {
+    color: var(--theme-color-link);
+    text-decoration: underline
+}
+
+.gsc-comment-content a:hover {
+    color: var(--theme-color-hover)
+}
+
+/* Reactions */
+.gsc-reactions-count {
+    background-color: var(--content-background)
+}
+
+.gsc-reactions-count:hover {
+    border-color: var(--theme-color-main)
+}
+
+.gsc-reactions-popover {
+    background-color: var(--content-background);
+    transition-duration: 0.3s
+}
+
+.gsc-direct-reaction-button.has-reacted {
+    border-color: var(--theme-color-main);
+    color: var(--theme-color-main)
+}
+
+/* Timeline Marker */
+.gsc-timeline-marker {
+    background-color: var(--line-color)
+}
+
+/* Reply Box */
+.gsc-reply-box {
+    background-color: var(--content-background)
+}
+
+.gsc-reply-box button:focus {
+    border-color: var(--theme-color-main);
+}
+
+/* Code Blocks */
+.gsc-comment-content pre,
+.gsc-comment-content code {
+    background-color: var(--content-background);
+    color: var(--text-normal-color)
+}
+
+/* Blockquotes */
+.gsc-comment-content blockquote {
+    border-left-color: var(--theme-color-main);
+    color: var(--text-sub-color)
+}
+
+/* Links in general */
+a.gsc-link {
+    color: var(--theme-color-link)
+}
+
+a.gsc-link:hover {
+    color: var(--theme-color-hover)
+}

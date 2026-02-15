@@ -1,0 +1,29 @@
+<div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>{{ theme.since }} ~ {{ date(null, 'YYYY') }}</span>
+        <span>❤</span>
+        {% if config.email %}
+        <a href='mailto:{{ config.email }}'>
+        {% endif %}
+
+        <span>{{ config.author }}</span>
+
+        {% if config.email %}
+        </a>
+        {% endif %}
+    </div>
+    <div class="theme">
+        <span>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+        </span>
+    </div>
+    {% if theme.visit_count %}
+    <div class="visit_count">
+        <i class="iconfont icon-eye"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-team"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    {% endif %}
+</div>

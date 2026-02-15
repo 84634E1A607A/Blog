@@ -1,0 +1,270 @@
+:host,
+html {
+    --font-family-default: {{FONT_ARTICLE}};
+    --font-family-monospace: {{FONT_CODE}}
+}
+
+main {
+    /* Light Mode - Syntax Highlighting Colors */
+    --color-prettylights-syntax-comment: {{CODE_COMMENT}};
+    --color-prettylights-syntax-constant: {{CODE_BUILTIN}};
+    --color-prettylights-syntax-entity: {{CODE_KEYWORD}};
+    --color-prettylights-syntax-storage-modifier-import: {{TEXT_MAIN}};
+    --color-prettylights-syntax-entity-tag: {{CODE_STRING}};
+    --color-prettylights-syntax-keyword: {{CODE_TITLE}};
+    --color-prettylights-syntax-string: {{CODE_STRING}};
+    --color-prettylights-syntax-variable: {{CODE_NUMBER}};
+    --color-prettylights-syntax-brackethighlighter-unmatched: {{CODE_TITLE}};
+    --color-prettylights-syntax-invalid-illegal-text: #fff;
+    --color-prettylights-syntax-invalid-illegal-bg: {{CODE_TITLE}};
+    --color-prettylights-syntax-carriage-return-text: #fff;
+    --color-prettylights-syntax-carriage-return-bg: {{CODE_TITLE}};
+    --color-prettylights-syntax-string-regexp: {{CODE_STRING}};
+    --color-prettylights-syntax-markup-list: {{CODE_NUMBER}};
+    --color-prettylights-syntax-markup-heading: {{CODE_BUILTIN}};
+    --color-prettylights-syntax-markup-italic: {{TEXT_MAIN}};
+    --color-prettylights-syntax-markup-bold: {{TEXT_MAIN}};
+    --color-prettylights-syntax-markup-deleted-text: {{CODE_TITLE}};
+    --color-prettylights-syntax-markup-deleted-bg: {{CODE_BACKGROUND_LIGHT}};
+    --color-prettylights-syntax-markup-inserted-text: {{CODE_STRING}};
+    --color-prettylights-syntax-markup-inserted-bg: {{CONTENT_BACKGROUND}};
+    --color-prettylights-syntax-markup-changed-text: {{CODE_NUMBER}};
+    --color-prettylights-syntax-markup-changed-bg: {{CODE_NUMBER}};
+    --color-prettylights-syntax-markup-ignored-text: {{LINE_COLOR}};
+    --color-prettylights-syntax-markup-ignored-bg: {{CODE_BUILTIN}};
+    --color-prettylights-syntax-meta-diff-range: {{CODE_KEYWORD}};
+    --color-prettylights-syntax-brackethighlighter-angle: {{TEXT_SUB}};
+    --color-prettylights-syntax-sublimelinter-gutter-mark: {{TEXT_SUB}};
+    --color-prettylights-syntax-constant-other-reference-link: {{CODE_PARAMS}};
+    
+    /* Light Mode - Text Colors */
+    --text-muted-color: {{TEXT_DESC}};
+    --text-normal-color: {{TEXT_MAIN}};
+    --text-sub-color: {{TEXT_SUB}};
+    
+    /* Light Mode - Theme Colors */
+    --theme-color-main: {{THEME_MAIN}};
+    --theme-color-hover: {{THEME_HOVER}};
+    --theme-color-link: {{THEME_LINK}};
+    --background-color: {{BACKGROUND}};
+    --content-background: {{CONTENT_BACKGROUND}};
+    --line-color: {{LINE_COLOR}};
+    
+    /* Transparent Control Background */
+    --color-segmented-control-bg: #0000
+}
+
+@media (prefers-color-scheme: dark) {
+    main {
+        /* Dark Mode - Syntax Highlighting Colors */
+        --color-prettylights-syntax-comment: {{CODE_COMMENT_DARK}};
+        --color-prettylights-syntax-constant: {{CODE_BUILTIN_DARK}};
+        --color-prettylights-syntax-entity: {{CODE_KEYWORD_DARK}};
+        --color-prettylights-syntax-storage-modifier-import: {{TEXT_MAIN_DARK}};
+        --color-prettylights-syntax-entity-tag: {{CODE_STRING_DARK}};
+        --color-prettylights-syntax-keyword: {{CODE_TITLE_DARK}};
+        --color-prettylights-syntax-string: {{CODE_STRING_DARK}};
+        --color-prettylights-syntax-variable: {{CODE_NUMBER_DARK}};
+        --color-prettylights-syntax-brackethighlighter-unmatched: {{CODE_TITLE_DARK}};
+        --color-prettylights-syntax-invalid-illegal-text: #fff;
+        --color-prettylights-syntax-invalid-illegal-bg: {{CODE_TITLE_DARK}};
+        --color-prettylights-syntax-carriage-return-text: #fff;
+        --color-prettylights-syntax-carriage-return-bg: {{CODE_TITLE_DARK}};
+        --color-prettylights-syntax-string-regexp: {{CODE_STRING_DARK}};
+        --color-prettylights-syntax-markup-list: {{CODE_NUMBER_DARK}};
+        --color-prettylights-syntax-markup-heading: {{CODE_BUILTIN_DARK}};
+        --color-prettylights-syntax-markup-italic: {{TEXT_MAIN_DARK}};
+        --color-prettylights-syntax-markup-bold: {{TEXT_MAIN_DARK}};
+        --color-prettylights-syntax-markup-deleted-text: {{CODE_TITLE_DARK}};
+        --color-prettylights-syntax-markup-deleted-bg: {{CODE_BACKGROUND_DARK}};
+        --color-prettylights-syntax-markup-inserted-text: {{CODE_STRING_DARK}};
+        --color-prettylights-syntax-markup-inserted-bg: {{CONTENT_BACKGROUND_DARK}};
+        --color-prettylights-syntax-markup-changed-text: {{CODE_NUMBER_DARK}};
+        --color-prettylights-syntax-markup-changed-bg: {{CODE_NUMBER_DARK}};
+        --color-prettylights-syntax-markup-ignored-text: {{LINE_COLOR_DARK}};
+        --color-prettylights-syntax-markup-ignored-bg: {{CODE_BUILTIN_DARK}};
+        --color-prettylights-syntax-meta-diff-range: {{CODE_KEYWORD_DARK}};
+        --color-prettylights-syntax-brackethighlighter-angle: {{TEXT_SUB_DARK}};
+        --color-prettylights-syntax-sublimelinter-gutter-mark: {{TEXT_SUB_DARK}};
+        --color-prettylights-syntax-constant-other-reference-link: {{CODE_PARAMS_DARK}};
+        
+        /* Dark Mode - Text Colors */
+        --text-muted-color: {{TEXT_DESC_DARK}};
+        --text-normal-color: {{TEXT_MAIN_DARK}};
+        --text-sub-color: {{TEXT_SUB_DARK}};
+        
+        /* Dark Mode - Theme Colors */
+        --theme-color-main: {{THEME_MAIN_DARK}};
+        --theme-color-hover: {{THEME_HOVER_DARK}};
+        --theme-color-link: {{THEME_LINK_DARK}};
+        --background-color: {{BACKGROUND_DARK}};
+        --content-background: {{CONTENT_BACKGROUND_DARK}};
+        --line-color: {{LINE_COLOR_DARK}};
+        
+        /* Transparent Control Background */
+        --color-segmented-control-bg: #0000
+    }
+}
+
+/* Giscus Comment Header Styles */
+.gsc-comments .gsc-header .gsc-left-header em a {
+    color: var(--text-muted-color);
+    text-underline-offset: 4px;
+    transition: all .2s
+}
+
+.gsc-comments .gsc-header .gsc-left-header em a:hover {
+    color: var(--text-normal-color)
+}
+
+/* Right Header Styles */
+.gsc-right-header {
+    border-radius: none
+}
+
+.gsc-right-header li:not(.BtnGroup-item--selected) {
+    border-left: none;
+    border-right: none;
+    border-top: none
+}
+
+.gsc-right-header li:not(.BtnGroup-item--selected) .btn:hover {
+    background-color: initial;
+    color: var(--text-normal-color)
+}
+
+/* Comment Box Styles */
+.gsc-comment-box-tabs {
+    display: none
+}
+
+.gsc-comment-box {
+    background-color: initial;
+    border: none
+}
+
+.gsc-comment-box-main .gsc-comment-box-write textarea.gsc-comment-box-textarea {
+    border-radius: .375rem .375rem 0 0;
+    background-color: var(--content-background);
+    color: var(--text-normal-color);
+}
+
+.gsc-comment-box-main .gsc-comment-box-write textarea.gsc-comment-box-textarea:focus {
+    border-color: var(--theme-color-main)
+}
+
+.gsc-comment-box-is-reply {
+    padding: 8px 16px;
+    border-top: solid 1px;
+}
+
+.gsc-comment-box-main, .gsc-comment-box-bottom {
+    margin: 0
+}
+
+.gsc-comment-box-bottom {
+    margin-top: 8px
+}
+
+/* Comment Box Buttons */
+.gsc-comment-box-bottom button.link-secondary.text-sm {
+    text-decoration: none;
+    border-radius: .375rem;
+}
+
+.gsc-comment-box-buttons button {
+    border-radius: 0
+}
+
+.gsc-comment-box-bottom button:hover,
+.gsc-comment-box-buttons .btn-primary {
+    color: var(--text-normal-color);
+    background-color: var(--theme-color-hover);
+    border-color: var(--theme-color-main)
+}
+
+.gsc-comment-box-buttons .btn-primary:disabled {
+    color: var(--text-muted-color);
+    opacity: 0.5
+}
+
+/* Comment Thread Styles */
+.gsc-comment {
+    background-color: var(--content-background)
+}
+
+.gsc-comment-author a {
+    color: var(--theme-color-link)
+}
+
+.gsc-comment-author a:hover {
+    color: var(--theme-color-hover)
+}
+
+.gsc-comment-content {
+    color: var(--text-normal-color)
+}
+
+.gsc-comment-content a {
+    color: var(--theme-color-link);
+    text-decoration: underline
+}
+
+.gsc-comment-content a:hover {
+    color: var(--theme-color-hover)
+}
+
+/* Reactions */
+.gsc-reactions-count {
+    background-color: var(--content-background)
+}
+
+.gsc-reactions-count:hover {
+    border-color: var(--theme-color-main)
+}
+
+.gsc-reactions-popover {
+    background-color: var(--content-background);
+    transition-duration: 0.3s
+}
+
+.gsc-direct-reaction-button.has-reacted {
+    border-color: var(--theme-color-main);
+    color: var(--theme-color-main)
+}
+
+/* Timeline Marker */
+.gsc-timeline-marker {
+    background-color: var(--line-color)
+}
+
+/* Reply Box */
+.gsc-reply-box {
+    background-color: var(--content-background)
+}
+
+.gsc-reply-box button:focus {
+    border-color: var(--theme-color-main);
+}
+
+/* Code Blocks */
+.gsc-comment-content pre,
+.gsc-comment-content code {
+    background-color: var(--content-background);
+    color: var(--text-normal-color)
+}
+
+/* Blockquotes */
+.gsc-comment-content blockquote {
+    border-left-color: var(--theme-color-main);
+    color: var(--text-sub-color)
+}
+
+/* Links in general */
+a.gsc-link {
+    color: var(--theme-color-link)
+}
+
+a.gsc-link:hover {
+    color: var(--theme-color-hover)
+}

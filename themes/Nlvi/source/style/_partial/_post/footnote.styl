@@ -1,0 +1,13 @@
+.footnotes-sep
+  border: none;
+  +theme_light()
+    border-bottom: 1px solid $theme-line-color;
+  +theme_dark()
+    border-bottom: 1px solid $theme-line-color-dark;
+
+.footnotes
+  +theme_light()
+    color: $theme-color-link
+  +theme_dark()
+    color: $theme-color-link-dark
+  font-size: 12px;

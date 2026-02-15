@@ -1,0 +1,15 @@
+{% extends "_layout.njk" %}
+
+{% block title %}
+  {{config.title}}
+  {% if config.subtitle %}
+    | {{ config.subtitle }}
+  {% endif %}
+{% endblock %}
+
+
+{% block main %}
+  {% include "_partial/main.njk" %}
+  {% include "_partial/pagenum.njk" %}
+{% endblock %}
+

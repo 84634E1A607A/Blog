@@ -1,0 +1,29 @@
+.copy-line
+    border none
+    +theme_light()
+      border-bottom 2px dashed $theme-color-link
+    +theme_dark()
+      border-bottom 2px dashed $theme-color-link-dark
+
+.post-copyright
+    page-break avoid
+
+    .copy-author,
+    .copy-url,
+    .copy-origin,
+    .copy-license
+        margin (yard) (yard)
+        font-family "Open Sans", sans-serif
+        font-weight 300
+        font-size 0.875em
+        a
+            +theme_light()
+              color $theme-text-color-main
+            +theme_dark()
+              color $theme-text-color-main-dark
+            text-decoration none
+            &:hover
+                +theme_light()
+                  color $theme-color-main
+                +theme_dark()
+                  color $theme-color-main-dark

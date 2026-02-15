@@ -1,0 +1,133 @@
+*
+  outline none
+  box-sizing border-box
+
+::-webkit-scrollbar
+  width 6px
+  height 1px
+
+::-webkit-scrollbar-track
+::-webkit-scrollbar-thumb
+  border-radius 3px
+
+  +theme_light()
+    background-color rgba($theme-text-color-comment, .1)
+  +theme_dark()
+    background-color rgba($theme-text-color-comment-dark, .1)
+
+::-webkit-scrollbar-thumb
+  +theme_light()
+    background-color rgba($theme-color-main, .5)
+  +theme_dark()
+    background-color rgba($theme-color-main-dark, .5)
+
+::selection
+  +theme_light()
+    background-color rgba($theme-color-main, .3)
+  +theme_dark()
+    background-color rgba($theme-color-main-dark, .3)
+
+::-webkit-selection
+  +theme_light()
+    background-color rgba($theme-color-main, .2)
+  +theme_dark()
+    background-color rgba($theme-color-main-dark, .2)
+
+body
+  font-family $article-fonts
+  -webkit-font-smoothing antialiased
+  -webkit-overflow-scrolling touch
+
+  +theme_light()
+    background-color $global-setting['background']
+  
+  +theme_light()
+    color $theme-text-color-main
+
+  +theme_dark()
+    background-color $global-setting-dark['background']
+
+  +theme_dark()
+    color $theme-text-color-main-dark
+
+a
+  -webkit-tap-highlight-color transparent
+  text-decoration: none
+  +theme_light()
+    color: $theme-text-color-main
+  +theme_dark()
+    color: $theme-text-color-main-dark
+
+for $k, $v in $heading-list
+  {$k}
+    font-size $v
+
+input
+  color: inherit
+
+.lb-outerContainer
+  +theme_light()
+    background-color $theme-color-content-background !important
+  +theme_dark()
+    background-color $theme-color-content-background-dark !important
+
+.lb-image
+  +theme_light()
+    border-color mix($theme-color-content-background, #333, 90%) !important
+  +theme_dark()
+    border-color mix($theme-color-content-background-dark, #ddd, 90%) !important
+
+// Print styles - hide header when printing
+@media print
+  .header,
+  .mobile-header,
+  .post-toc,
+  .backtop,
+  .article-page,
+  #com-switch
+    display: none !important
+
+  // Hide github buttons
+  .footer-wrapper .left
+    display: none !important
+  
+  // Show all light mermaid diagrams in print mode
+  .mermaid-light, .mermaid-dark
+    display: none !important
+
+  // Show fallback content for print
+  .mermaid-print-fallback
+    display: block !important
+
+  a
+    text-decoration: underline !important
+
+  // Fix code block overflow in print
+  .highlight
+    table
+      overflow-x: visible !important
+
+    pre, .code pre
+      white-space: pre-wrap
+      word-wrap: break-word
+      overflow-wrap: anywhere
+  
+  // Expand folds
+  .fold.collapsed
+    .fold-title
+      display: flex
+    .fold-title:after
+      content: "Expanded for print"
+      text-align: right
+      margin-left: auto
+      font-weight: normal
+      font-style: italic
+      color: $theme-text-color-comment
+    .fold-content
+      max-height: none !important
+
+@page
+  margin-top: 0.75in;
+  margin-bottom: 0.75in;
+  margin-left: 0.5in;
+  margin-right: 0.5in;

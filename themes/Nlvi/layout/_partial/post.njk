@@ -1,0 +1,123 @@
+{% macro render(post) %}
+  <article class="
+  post
+  {% if is_post() %} is_post {% endif %}
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInRightShort back-1">
+        <div class="post-time-wrapper">
+          {% if not is_post() and post.top %}
+            <i class="iconfont icon-pin post-pin"></i>
+          {% endif %}
+          <time class="post-time-inner">{{ full_date(post.date, 'YYYY-MM-DD') }}</time>
+          {% set categories = post.categories | toarray %}
+          {% if categories.length %}
+            {% for category in categories %}
+              <span class="post-category"><a href="{{ url_for(category.path) }}">{{ category.name }}</a></span>
+            {% endfor %}
+          {% endif %}
+
+          {% if post.updated and (full_date(post.date, 'YYYY-MM-DD') != full_date(post.updated, 'YYYY-MM-DD')) %}
+          <span class="post-updated">更新于 <time>{{ full_date(post.updated, 'YYYY-MM-DD') }}</time>
+          <span id="post-updated-views-separator-{{ post.path }}"> | </span>
+          </span>
+          {% endif %}
+
+          <span class="post-views" id="post-views-{{ post.path }}">观测到 <span id="post-view-count-{{ post.path }}">0</span> 次访问</span>
+          <script>
+          (() => {
+            const postPath = "{{ post.path }}";
+            const postViewCount = document.getElementById('post-view-count-' + postPath);
+            const postViews = document.getElementById('post-views-' + postPath);
+            const postUpdatedViewsSeparator = document.getElementById('post-updated-views-separator-' + postPath);
+            
+            // Check if elements exist before fetching
+            if (!postViewCount || !postViews) {
+              return;
+            }
+            
+            fetch('/api/views/' + postPath)
+              .then(response => response.json())
+              .then(data => {
+                if (typeof data === 'number' && postViewCount) {
+                  postViewCount.textContent = data;
+                } else {
+                  if (postViews) postViews.style.display = 'none';
+                  if (postUpdatedViewsSeparator) postUpdatedViewsSeparator.style.display = 'none';
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching post views:', error);
+                if (postViews) postViews.style.display = 'none';
+                if (postUpdatedViewsSeparator) postUpdatedViewsSeparator.style.display = 'none';
+              });
+          })();
+          </script>
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInRightShort back-2">
+        {% if is_post() %}
+          {{ post.title }}
+        {% else %}
+          <a href="{{ url_for(post.path) }}">{{ post.title }}</a>
+        {% endif %}
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInRightShort back-3">
+      {% if is_post() %}
+        {{ post.content }}
+      {% else %}
+        {% if post.excerpt %}
+          {{ post.excerpt }}
+        {% else %}
+          {{ post.content }}
+        {% endif %}
+      {% endif %}
+    {% if post.excerpt and is_home() %}
+      <p class="content-link">
+        <a href="{{ url_for(post.path) }}#more">
+          <span>{{ __('page.readmore') }}</span>
+        </a>
+      </p>
+    {% endif %}
+    </div>
+    {% set tags = post.tags | toarray %}
+    {% if tags.length %}
+      <div class="post-tags syuanpi fadeInRightShort back-3">
+      {% for tag in tags %}
+        <a href="{{ url_for(tag.path) }}">{{ tag.name }}</a>
+      {% endfor %}
+      </div>
+    {% endif %}
+    {% if is_post() %}
+      {% include "_partial/_post/reward.njk" %}
+      {% include "_partial/_post/copyright.njk" %}
+    {% endif %}
+  </article>
+  {% include "_partial/_feature/banderole.njk" %}
+  
+  {% if is_post() %}
+    <img id="post-view-beacon-{{ post.path }}" src="/api/read/{{post.path}}">
+    <script>
+    (() => {
+      const beacon = document.getElementById('post-view-beacon-{{ post.path }}');
+      
+      // Check if beacon exists
+      if (!beacon) {
+        return;
+      }
+      
+      beacon.addEventListener('load', function() {
+        beacon.style.display = 'none';
+      });
+      beacon.addEventListener('error', function() {
+        console.error('Error loading post view beacon for:', '{{ post.path }}');
+        beacon.style.display = 'none';
+      });
+    })();
+    </script>
+
+    {% include "_partial/pagenum.njk" %}
+    {% include "_partial/_post/comments.njk" %}
+  {% endif %}
+{% endmacro %}

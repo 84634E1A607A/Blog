@@ -1,0 +1,144 @@
+.highlight
+  position: relative
+  +theme_light()
+    background-color: #f7f7f7
+  +theme_dark()
+    background-color: #101010
+  width: 100%
+  margin: (yard*2) 0
+  overflow-x: hidden
+  box-shadow: 0px 1px 2px rgba(#000, .06), 0px 8px 12px rgba(#000, .03)
+
+  &:after
+    content: 'plain'
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-weight: 100
+    +theme_light()
+      color: $theme-text-color-comment
+    +theme_dark()
+      color: $theme-text-color-comment-dark
+    position: absolute
+    bottom: 0
+    right: 0
+    padding: (yard)
+
+  table
+    display: block
+    overflow-x: auto
+    width: 100%
+    text-align: left !important
+    margin: 0 !important
+    th
+    td
+      min-width: auto !important
+      padding: 0 !important
+
+  pre
+    *
+      font-family: $code-fonts !important
+  .gutter
+    position: sticky
+    left: 0
+    vertical-align: top
+    +theme_light()
+      color: $theme-text-color-comment
+      border-right: 1px solid rgba($theme-text-color-comment, .1)
+      background-color: #f7f7f7
+    +theme_dark()
+      color: $theme-text-color-comment-dark
+      border-right: 1px solid rgba($theme-text-color-comment-dark, .1)
+      background-color: #101010
+    pre
+      padding: 0 (yard)
+  .code
+    color: inherit
+    width: 100%
+    pre
+      padding: 0 (yard)
+    .comment
+      font-size: 14px
+  tr, td
+    margin: 0
+
+  .shiki, .shiki span
+    +theme_light()
+      color: var(--shiki-light)
+    +theme_dark()
+      color: var(--shiki-dark)
+
+  .line
+    display: inline-block
+    height: 22px
+    vertical-align: top
+
+  .shiki
+    .line
+      width: 100%
+
+    .tab, .space
+      position: relative
+      visibility: visible;
+
+      &:before
+        position: absolute;
+        opacity: 0.2;
+
+    .space:before
+      content: '·';
+
+    .tab:before
+      content: '⇥';
+
+    .diff:before
+      display: inline-block;
+      position: relative;
+      left: -0.7em;
+      width: 0;
+
+    .diff.remove
+      +theme_light()
+        background-color: rgba(244, 63, 94, .12)
+      +theme_dark()
+        background-color: rgba(244, 63, 94, .24)
+
+      &:before
+        content: '-';
+        +theme_light()
+          color: rgb(244, 63, 94)
+        +theme_dark()
+          color: #a91e3a
+
+    .diff.add
+      +theme_light()
+        background-color: rgba(16, 185, 129, .08)
+      +theme_dark()
+        background-color: rgba(16, 185, 129, .16)
+
+      &:before
+        content: '+';
+        +theme_light()
+          color: rgb(16, 185, 129)
+        +theme_dark()
+          color: #1a7854
+
+    .highlighted
+      +theme_light()
+        background-color: rgba($theme-color-hint, 0.1)
+      +theme_dark()
+        background-color: rgba($theme-color-hint, 0.3)
+
+    .highlighted-word
+      +theme_light()
+        background-color: rgba($theme-color-hint, 0.1)
+      +theme_dark()
+        background-color: rgba($theme-color-hint, 0.7)
+
+    &.has-focused
+      .line
+        transition: filter 0.2s ease-in-out
+        &:not(.focused)
+          filter: blur(1px) brightness(0.7)
+
+      &:hover
+        .line:not(.focused)
+          filter: blur(0) brightness(0.7)
