@@ -1,0 +1,19 @@
+.about
+  +theme_light()
+    color $theme-text-color-main
+  +theme_dark()
+    color $theme-text-color-main-dark
+  font-weight 300
+  .content
+    padding 0 (yard*2)
+
+    a
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      padding-bottom: 1px;
+      transition-sign(color);
+      &:hover
+        +theme_light()
+          color: $theme-color-link;
+        +theme_dark()
+          color: $theme-color-link-dark;

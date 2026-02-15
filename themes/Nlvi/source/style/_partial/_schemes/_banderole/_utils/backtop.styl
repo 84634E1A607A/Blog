@@ -1,0 +1,19 @@
+.backtop
+  display flex
+  flex-direction column
+  z-index: 10
+  position fixed
+  bottom (yard*4)
+  right @bottom
+  +theme_light()
+    color $theme-color-main
+  +theme_dark()
+    color $theme-color-main-dark
+  user-select none
+  -webkit-user-select none
+  cursor pointer
+  +mobile()
+    display none
+  i
+    font-size 24px
+    font-weight 100

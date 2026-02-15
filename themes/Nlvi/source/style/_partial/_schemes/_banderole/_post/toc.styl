@@ -1,0 +1,88 @@
+.post-toc
+  position fixed
+  top 0
+  right 0
+  bottom 0
+  width 200px
+  padding 20vh 0
+  padding-right: (yard*2)
+  +theme_light()
+    background-color: mix($theme-color-main, #fff, 5%)
+  +theme_dark()
+    background-color: mix($theme-color-main-dark, #101010, 5%)
+  line-height: 1.5
+  .toc-inner
+    font-size: 0.9em
+    padding: 0 (yard*2)
+    height: 90%
+    overflow: auto
+    &::-webkit-scrollbar
+      width 1px
+    &.show
+      opacity: 1
+      transform: rotateY(0deg)
+  .toc-item
+    list-style: none
+    padding-left: (yard*2)
+    margin-top: (yard/2)
+  .toc-link
+    word-break: auto-phrase
+    transition: transform 1s ease, color 1s ease, translate 1s ease
+    .toc-text
+      transition: color 0.3s ease
+    &:before
+      content: '\26ac\00a0\00a0'
+      +theme_light()
+        color: $theme-color-main
+      +theme_dark()
+        color: $theme-color-main-dark
+      margin-right: (yard/2)
+    &.active
+      font-size: 1em
+      &:before
+        font-family: iconfont
+        font-size: 0.8em
+        content: '\e7eb'
+        +theme_light()
+          color: $theme-color-main
+        +theme_dark()
+          color: $theme-color-main-dark
+      .toc-text
+        padding: 0 0.3em
+        +theme_light()
+          color: $theme-color-main
+        +theme_dark()
+          color: $theme-color-main-dark
+  .toc
+    margin: 0
+    padding: 0
+  .toc-child
+    margin: 0
+    padding: 0
+  .toc-level-2
+    margin-bottom: 0.5em !important
+  .toc-title
+    position relative
+    text-align: center
+    margin: yard 0
+    cursor: default
+    padding: (yard/2) 0
+    &:after
+      content: ''
+      position: absolute
+      left: 50%
+      right: 50%
+      bottom: 0
+      height: 1px
+      +theme_light()
+        background-color $theme-color-main
+      +theme_dark()
+        background-color $theme-color-main-dark
+      transition-sign()
+    &:after
+      left: 30%
+      right: 30%
+  +mobile()
+    display none
+  +tablet()
+    display none

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ config.language }}" prefix="og: http://ogp.me/ns#">
+<head>
+  {% include "_partial/head.njk" %}
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <div class="container">
+    {% include "_partial/header.njk" %}
+    <div class="container-inner{% if is_post() %} has_toc{% endif %}">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          {% block main %} {% endblock %}
+        </div>
+      </main>
+      {% include "_partial/footer.njk" %}
+    </div>
+    {% include "_partial/tagcloud.njk" %}
+  </div>
+  {% include "_partial/_feature/common.njk" %}
+</body>
+</html>

@@ -1,0 +1,272 @@
+.post
+  position: relative
+  margin-top: yard*3
+  padding: yard*2
+  position: relative
+  font-weight: font-weight
+  &:after
+    content: ''
+    position: absolute
+    bottom: 0
+    right: 0
+    width: 0
+    height: 0
+    border: 12px solid transparent
+    border-bottom: 12px solid rgba($theme-color-main, 50%)
+    transform: rotate(135deg) translate(-5px, -6px)
+    opacity: 0
+    animation: fadeInFromLeft 0.8s forwards
+    animation-timing-function:cubic-bezier(.2,.1,.1,1)
+
+    @keyframes fadeInFromLeft
+      from
+        transform: translateX(-20px) rotate(135deg) translate(-5px, -6px)
+        opacity: 0
+      to
+        transform: translateX(0) rotate(135deg) translate(-5px, -6px)
+        opacity: 1
+  &:last-child
+  &.is_post
+    &:after
+      display: none
+  +mobile()
+    width: 100%
+    padding: 0
+  .post-header
+    margin-bottom: (yard*2)
+    font-family: $normal-fonts
+    a
+      text-decoration: none
+      +theme_light()
+        color: $theme-text-color-main
+      +theme_dark()
+        color: $theme-text-color-dark
+    .post-time
+      +theme_light()
+        color: $theme-text-color-desc
+      +theme_dark()
+        color: $theme-text-color-desc-dark
+      letter-spacing: 1px
+      margin-left: (yard/4)
+      font-size: 0.875em
+      .post-time-wrapper
+        display: flex
+        flex-direction: row
+        .post-time-inner
+          flex: 1
+        .post-updated, .post-views
+          justify-self: right
+          text-align: right
+          +theme_light()
+            color: $theme-text-color-desc
+          +theme_dark()
+            color: $theme-text-color-desc-dark
+        
+        .post-updated
+          margin-right: (yard/2)
+          
+      .post-category
+        a
+          +theme_light()
+            color: $theme-text-color-desc
+          +theme_dark()
+            color: $theme-text-color-desc-dark
+        &:before
+          content: ' · '
+
+    .post-pin
+      +theme_light()
+        color: $theme-color-main
+      +theme_dark()
+        color: $theme-color-main-dark
+
+    .post-title
+      position: relative
+      width: 100%
+      margin-top: 0
+      padding: (yard/2) 0 (yard*1.5)
+      &:after
+        content: ''
+        position: absolute
+        left: 0
+        bottom: 0
+        width: 24px
+        height: 3px
+        +theme_light()
+          background-color: $theme-color-main
+        +theme_dark()
+          background-color: $theme-color-main-dark
+
+  .post-tags
+    margin: (yard*1.5) 0
+    padding-left: yard
+    font-family: $normal-fonts
+    +theme_light()
+      color: $theme-color-hover
+    +theme_dark()
+      color: $theme-color-hover-dark
+    a
+      position: relative
+      text-decoration: none
+      color: inherit
+      margin-right: yard
+      &:before
+        content: '#'
+        margin-right: 2px
+
+  .post-content
+    +theme_light()
+      color: $theme-text-color-main
+    +theme_dark()
+      color: $theme-text-color-main-dark
+    font-family: $article-fonts
+    padding-bottom: yard
+    border-bottom: 1px solid $theme-line-color
+    for $k, $v in $heading-list
+      {$k}
+        font-family: $article-fonts
+
+    table
+      min-width: 50%
+      margin: 16px auto
+      border-collapse: collapse
+      list-style: none
+      line-height: 1.5
+      text-align: center
+      tr
+        font-weight: 500
+        &:nth-child(2n)
+          +theme_light()
+            background: rgba($theme-color-main, .06)
+          +theme_dark()
+            background: rgba($theme-color-main-dark, .06)
+      th
+      td
+        min-width: 100px
+        padding: 8px
+        word-break: auto-phrase
+      thead
+        +theme_light()
+          background-color: #fafafa
+        +theme_dark()
+          background-color: #2a2a2a
+      +mobile()
+        font-size: 12px
+
+    .content-link
+      a
+        position: relative
+        +theme_light()
+          color: $theme-color-link
+        +theme_dark()
+          color: $theme-color-link-dark
+        font-size 18px
+        text-decoration: none
+        &:hover
+          text-decoration: none
+
+        &:after
+          content: ''
+          position: absolute
+          bottom: -(yard/2)
+          left: 50%
+          right: 50%
+          +theme_light()
+            background-color: $theme-color-main
+          +theme_dark()
+            background-color: $theme-color-main-dark
+          height: 2px
+          transition-sign(all)
+        &:hover
+          &:after
+            left: 0
+            right: 0
+
+    p
+      font-family: inherit
+      line-height: line-height
+
+    a
+      +theme_light()
+        color: $theme-color-main
+      +theme_dark()
+        color: $theme-color-main-dark
+      text-decoration: none
+
+    i
+      font-weight: 300
+
+    img
+      max-width: 100%
+      display: block
+      margin: auto
+
+    code
+      +theme_light()
+        background-color: rgba($theme-color-main, .1)
+        color: mix(#000, $theme-color-link)
+      +theme_dark()
+        background-color: rgba($theme-color-main-dark, .1)
+        color: mix(#fff, $theme-color-link-dark)
+      font-family: $code-fonts
+      margin: 0 (yard/8)
+      padding: 0 (yard/2)
+      border-radius: 3px
+
+    blockquote
+      position: relative
+      margin: yard (yard*2)
+      padding: (yard/4) yard*2
+      +theme_light()
+        background-color: rgba($theme-color-main, .1)
+        border-left: 4px solid $theme-color-main
+        color: mix(#383838, $theme-color-main)
+      +theme_dark()
+        background-color: rgba($theme-color-main-dark, .1)
+        border-left: 4px solid $theme-color-main-dark
+        color: mix(#f0f0f0, $theme-color-main-dark)
+      &:before
+        content: ''
+        position: absolute
+        top: 0
+        right: 0
+        border-width: 0 12px 12px 0
+        +theme_light()
+          border-color: $theme-color-content-background $theme-color-content-background transparent transparent
+        +theme_dark()
+          border-color: $theme-color-content-background-dark $theme-color-content-background-dark transparent transparent
+        background: transparent
+        border-style: solid
+        width: 0
+        box-shadow: -1px 1px 1px -1px #bbb4b4
+      p
+        margin: yard 0
+      pre code
+        text-wrap: auto
+        background-color: transparent
+        font-size: 0.9em
+    ul
+    ol
+      line-height: 2
+    .fold
+      .fold-title
+        padding: yard yard * 1.5
+        +theme_light()
+          color: $theme-text-color-sub
+          background-color: rgba($theme-color-main, .1)
+        +theme_dark()
+          color: $theme-text-color-sub-dark
+          background-color: rgba($theme-color-main-dark, .1)
+
+#com-switch
+  +theme_light()
+    color: $theme-color-main
+  +theme_dark()
+    color: $theme-color-main-dark
+
+#disqus_thread
+  a
+    +theme_light()
+      color: $theme-text-color-main
+    +theme_dark()
+      color: $theme-text-color-main-dark

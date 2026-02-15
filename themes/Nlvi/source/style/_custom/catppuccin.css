@@ -1,0 +1,373 @@
+:root,
+:host {
+  color-scheme: light dark;
+  --color-cat-pink: light-dark(rgb(var(--color-light-pink)), rgb(var(--color-dark-pink)));
+  --color-cat-magenta: light-dark(rgb(var(--color-light-magenta)), rgb(var(--color-dark-magenta)));
+  --color-cat-purple: light-dark(rgb(var(--color-light-purple)), rgb(var(--color-dark-purple)));
+  --color-cat-red: light-dark(rgb(var(--color-light-red)), rgb(var(--color-dark-red)));
+  --color-cat-yellow: light-dark(rgb(var(--color-light-yellow)), rgb(var(--color-dark-yellow)));
+  --color-cat-orange: light-dark(rgb(var(--color-light-orange)), rgb(var(--color-dark-orange)));
+  --color-cat-green: light-dark(rgb(var(--color-light-green)), rgb(var(--color-dark-green)));
+  --color-cat-cyan: light-dark(rgb(var(--color-light-cyan)), rgb(var(--color-dark-cyan)));
+  --color-cat-blue: light-dark(rgb(var(--color-light-blue)), rgb(var(--color-dark-blue)));
+  --color-cat-text: light-dark(rgb(var(--color-light-text)), rgb(var(--color-dark-text)));
+  --color-cat-subtext1: light-dark(rgb(var(--color-light-subtext1)), rgb(var(--color-dark-subtext1)));
+  --color-cat-overlay2: light-dark(rgb(var(--color-light-overlay2)), rgb(var(--color-dark-overlay2)));
+  --color-cat-overlay1: light-dark(rgb(var(--color-light-overlay1)), rgb(var(--color-dark-overlay1)));
+  --color-cat-overlay0: light-dark(rgb(var(--color-light-overlay0)), rgb(var(--color-dark-overlay0)));
+  --color-cat-surface2: light-dark(rgb(var(--color-light-surface2)), rgb(var(--color-dark-surface2)));
+  --color-cat-base: light-dark(rgb(var(--color-light-base)), rgb(var(--color-dark-base)));
+
+  /* Snazzy Light colors */
+  --color-light-pink: 247, 103, 187;
+  --color-light-magenta: 194, 81, 147;
+  --color-light-purple: 17, 101, 143;
+  --color-light-red: 255, 92, 87;
+  --color-light-yellow: 207, 156, 0;
+  --color-light-orange: 245, 185, 0;
+  --color-light-green: 45, 174, 88;
+  --color-light-cyan: 19, 187, 183;
+  --color-light-blue: 9, 161, 237;
+  --color-light-text: 86, 88, 105;
+  --color-light-subtext1: 117, 121, 143;
+  --color-light-overlay2: 145, 148, 162;
+  --color-light-overlay1: 173, 177, 194;
+  --color-light-overlay0: 222, 223, 224;
+  --color-light-surface2: 233, 234, 235;
+  --color-light-base: 250, 251, 252;
+
+  /* LaserWave Dark colors */
+  --color-dark-pink: 235, 100, 185;
+  --color-dark-magenta: 150, 108, 192;
+  --color-dark-purple: 179, 129, 197;
+  --color-dark-red: 255, 62, 123;
+  --color-dark-yellow: 255, 226, 97;
+  --color-dark-orange: 255, 184, 91;
+  --color-dark-green: 116, 223, 196;
+  --color-dark-cyan: 180, 220, 231;
+  --color-dark-blue: 64, 180, 196;
+  --color-dark-text: 255, 255, 255;
+  --color-dark-subtext1: 221, 221, 221;
+  --color-dark-overlay2: 145, 136, 155;
+  --color-dark-overlay1: 58, 50, 66;
+  --color-dark-overlay0: 62, 53, 73;
+  --color-dark-surface2: 36, 32, 41;
+  --color-dark-base: 39, 33, 46;
+}
+
+pre.shiki span.variable:not(.space) {
+  color: var(--color-cat-text)
+}
+
+pre.shiki span.variable.builtin:not(.space) {
+  color: var(--color-cat-yellow)
+}
+
+pre.shiki span.variable.parameter:not(.space) {
+  color: var(--color-cat-text)
+}
+
+pre.shiki span.variable.member:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.variable.special:not(.space) {
+  color: var(--color-cat-yellow)
+}
+
+pre.shiki span.constant:not(.space),
+pre.shiki span.constant.builtin:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.constant.macro:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.module:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.label:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.string:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.string.documentation:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.string.regexp:not(.space) {
+  color: var(--color-cat-orange)
+}
+
+pre.shiki span.string.escape:not(.space),
+pre.shiki span.string.special:not(.space),
+pre.shiki span.string.special.path:not(.space) {
+  color: var(--color-cat-orange)
+}
+
+pre.shiki span.string.special.symbol:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.string.special.url:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.character:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.character.special:not(.space) {
+  color: var(--color-cat-orange)
+}
+
+pre.shiki span.boolean:not(.space),
+pre.shiki span.number:not(.space),
+pre.shiki span.number.float:not(.space) {
+  color: var(--color-cat-purple)
+}
+
+pre.shiki span.tag:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.tag.attribute:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.tag.delimiter:not(.space) {
+  color: var(--color-cat-overlay2)
+}
+
+pre.shiki span.type:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.type.builtin:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.type.definition:not(.space),
+pre.shiki span.type.interface:not(.space),
+pre.shiki span.type.super:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.attribute:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.property:not(.space),
+pre.shiki span.function:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.function.builtin:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.function.call:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.function.macro:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.function.method:not(.space),
+pre.shiki span.function.method.call:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.constructor:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.operator:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.keyword:not(.space),
+pre.shiki span.keyword.modifier:not(.space),
+pre.shiki span.keyword.type:not(.space),
+pre.shiki span.keyword.coroutine:not(.space),
+pre.shiki span.keyword.function:not(.space),
+pre.shiki span.keyword.operator:not(.space),
+pre.shiki span.keyword.import:not(.space),
+pre.shiki span.keyword.repeat:not(.space),
+pre.shiki span.keyword.return:not(.space),
+pre.shiki span.keyword.debug:not(.space),
+pre.shiki span.keyword.exception:not(.space),
+pre.shiki span.keyword.conditional:not(.space),
+pre.shiki span.keyword.conditional.ternary:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.keyword.directive:not(.space),
+pre.shiki span.keyword.directive.define:not(.space) {
+  color: var(--color-cat-purple)
+}
+
+pre.shiki span.keyword.export:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.punctuation:not(.space),
+pre.shiki span.punctuation.delimiter:not(.space),
+pre.shiki span.punctuation.bracket:not(.space) {
+  color: var(--color-cat-overlay2)
+}
+
+pre.shiki span.punctuation.special:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.punctuation.special.symbol:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.punctuation.list_marker:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.comment:not(.space),
+pre.shiki span.comment.doc:not(.space),
+pre.shiki span.comment.documentation:not(.space) {
+  color: var(--color-cat-overlay2)
+}
+
+pre.shiki span.comment.info:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.comment.error:not(.space) {
+  color: var(--color-cat-red)
+}
+
+pre.shiki span.comment.warning:not(.space),
+pre.shiki span.comment.warn:not(.space) {
+  color: var(--color-cat-yellow)
+}
+
+pre.shiki span.comment.hint:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.comment.todo:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.comment.note:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.diff.plus:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.diff.minus:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.parameter:not(.space) {
+  color: var(--color-cat-text)
+}
+
+pre.shiki span.field:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.namespace:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.float:not(.space) {
+  color: var(--color-cat-purple)
+}
+
+pre.shiki span.symbol:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.string.regex:not(.space) {
+  color: var(--color-cat-orange)
+}
+
+pre.shiki span.text:not(.space) {
+  color: var(--color-cat-text)
+}
+
+pre.shiki span.emphasis.strong:not(.space),
+pre.shiki span.emphasis:not(.space),
+pre.shiki span.embedded:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.text.literal:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.concept:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.enum:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.function.decorator:not(.space) {
+  color: var(--color-cat-purple)
+}
+
+pre.shiki span.type.class.definition:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.hint:not(.space) {
+  color: var(--color-cat-overlay1)
+}
+
+pre.shiki span.link_text:not(.space) {
+  color: var(--color-cat-blue)
+}
+
+pre.shiki span.link_uri:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.parent:not(.space) {
+  color: var(--color-cat-green)
+}
+
+pre.shiki span.predictive:not(.space) {
+  color: var(--color-cat-overlay0)
+}
+
+pre.shiki span.predoc:not(.space) {
+  color: var(--color-cat-red)
+}
+
+pre.shiki span.primary:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.tag.doctype:not(.space) {
+  color: var(--color-cat-pink)
+}
+
+pre.shiki span.string.doc:not(.space) {
+  color: var(--color-cat-cyan)
+}
+
+pre.shiki span.title:not(.space) {
+  color: var(--color-cat-text)
+}
+
+pre.shiki span.variant:not(.space) {
+  color: var(--color-cat-red)
+}

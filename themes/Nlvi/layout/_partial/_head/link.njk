@@ -1,0 +1,24 @@
+{{ css('style/style') }}
+{% include "_script/config.njk" %}
+
+{# lightbox #}
+{% if theme.lightbox %}
+    {{ css('script/lib/lightbox/css/lightbox.min') }}
+{% endif %}
+
+{# animation #}
+{% if theme.animate %}
+    {{ css('syuanpi/syuanpi.min') }}
+{% endif %}
+
+{# favicon #}
+{% if theme.favicon %}
+    <link rel="icon" href="{{ theme.favicon }}">
+{% endif %}
+
+{# rss #}
+{% if theme.menu.rss %}
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for(theme.menu.rss) }}" />
+{% endif %}
+
+{# any analytics #}

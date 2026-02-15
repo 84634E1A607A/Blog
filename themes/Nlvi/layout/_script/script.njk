@@ -1,0 +1,67 @@
+
+{% if theme.lightbox %}
+  <script></script>
+  <script src="{{ url_for('/') }}script/lib/lightbox/js/lightbox.min.js" async></script>
+{% endif %}
+
+{% if theme.mathjax3 %}
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script>
+    MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{% endif %}
+
+{% if theme.lazyload %}
+  <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.1/lazysizes.min.js" async></script>
+{% endif %}
+
+{{ js('script/scheme/banderole') }}
+
+{{ js('script/bootstarp') }}
+
+<script type="module">
+  // Initialize Mermaid
+  let mermaidInitialized = false;
+  
+  async function initMermaid() {
+    if (!mermaidInitialized) {
+      const mermaid = (await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')).default;
+      mermaid.initialize({ startOnLoad: false });
+      window.mermaid = mermaid;
+      mermaidInitialized = true;
+    }
+  }
+
+  async function renderMermaids() {
+    await initMermaid();
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const activeClass = prefersDark ? 'mermaid-dark' : 'mermaid-light';
+    
+    // Find all unrendered mermaid diagrams
+    const mermaidElements = document.querySelectorAll('.mermaid.' + activeClass + ':not([data-processed])');
+    
+    if (mermaidElements.length > 0) {
+      await window.mermaid.run({
+        querySelector: '.mermaid.' + activeClass + ':not([data-processed])',
+      });
+    }
+  }
+
+  // Make renderMermaids globally accessible for navigation events
+  window.renderMermaids = renderMermaids;
+
+  // Initial render on page load
+  window.addEventListener('DOMContentLoaded', async () => {
+    await renderMermaids();
+
+    // Re-render on color scheme change
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      renderMermaids();
+    });
+  });
+</script>

@@ -1,0 +1,8 @@
+{% import "_partial/post.njk" as postPage with context %}
+{% set posts = page.posts | toarray %}
+
+<section class="posts">
+  {% for post in posts %}
+    {{ postPage.render(post) }}
+  {% endfor %}
+</section>
