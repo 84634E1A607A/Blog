@@ -95,7 +95,7 @@ THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.
 
 博客的 icon 来自 Pixiv 的 [✨](https://www.pixiv.net/en/artworks/125597074), 原作者是 [ぴろ瀬](https://heripiro.tumblr.com/). 我没搞明白这玩意到底 License 是啥, 能不能这么用, 但是不管咋样我写了一封邮件询问, 但是石沉大海, 没有回复. 但是咱还是好想用w, 所以就先用着吧 awa.
 
-Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多了w
+Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多了w, 又在 hash 的[热情推广](https://github.com/84634E1A607A/Blog/pull/160)下用 [Tree Sitter](https://github.com/Master-Hash/tree-sitter-highlight) 替换了 Shiki 默认的 TextMate 分词器, 不过有啥区别, 咱也看不出来.
 
 ### Hexo
 
