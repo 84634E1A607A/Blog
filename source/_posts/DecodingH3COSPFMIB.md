@@ -20,7 +20,7 @@ tags:
 
 - ISO SNMPv2 MIB. 这是基本信息存储的位置. 可以看出这玩意连续运行了 322 天, 要么是 *比较重要但没有那么重要的设备*, 要么是 *有热备的设备*, 不然应该会一直放着不重启.
 
-  ```text
+  ```plaintext
   SNMPv2-MIB::sysDescr.0 = STRING: H3C Comware Platform Software, Software Version 7.1.070, Release 2719P01
   H3C S12508X-AF
   Copyright (c) 2004-2022 New H3C Technologies Co., Ltd. All rights reserved.
@@ -38,7 +38,7 @@ tags:
 
 - H3C LLDP MIB. 一般 LLDP 都是开着的, 看 LLDP 可以迅速搞明白这台机器的物理上连接在什么地方.
 
-  ```text
+  ```plaintext
   LLDP-MIB::lldpRemPortId.2618351348.12774.1 = STRING: "Ten-GigabitEthernet2/7/1/1"
   LLDP-MIB::lldpRemPortId.2653856699.1207.1 = STRING: "xe-1/0/4"
   LLDP-MIB::lldpRemPortDesc.2618351348.12774.1 = STRING: ZJ**REDUCTED**ZW
@@ -49,7 +49,7 @@ tags:
 
 - RFC1213 MIB. 这里面有路由表信息. 当时我看到这个的时候发现不对劲, 这里面怎么啥都有? 这时我立刻反应过来这台交换机是学校 OSPF 的一个节点. 这里面有 OSPF 协商得到的全部路由表. 从这里可以明确看到这个 AS 的子网分配情况. 不过这里面的东西相对没那么好用.
 
-  ```text
+  ```plaintext
   RFC1213-MIB::ipRouteDest.166.111.35.192 = IpAddress: 166.111.35.192
   RFC1213-MIB::ipRouteDest.166.111.36.0 = IpAddress: 166.111.36.0
   RFC1213-MIB::ipRouteDest.166.111.38.0 = IpAddress: 166.111.38.0
@@ -57,7 +57,7 @@ tags:
 
 - H3C INFOCENTER MIB. 这里能拿到交换机的最新 512 条日志
 
-  ```text
+  ```plaintext
   HH3C-INFOCENTER-MIB::hh3cICLogbufferContDescription.23 = STRING: %Oct 31 15:04:30:499 2024 ZYBK SSHS/6/SSHS_LOG: Accepted password for **REDUCTED** from **REDUCTED** port 64018.
   HH3C-INFOCENTER-MIB::hh3cICLogbufferContDescription.24 = STRING: %Oct 31 15:04:31:525 2024 ZYBK SSHS/6/SSHS_CONNECT: SSH user **REDUCTED** connected to the server successfully.
   HH3C-INFOCENTER-MIB::hh3cICLogbufferContDescription.25 = STRING: %Oct 31 15:04:31:873 2024 ZYBK SHELL/5/SHELL_LOGIN: **REDUCTED**.
@@ -75,7 +75,7 @@ tags:
 
   得到了很好的结果.
 
-  ```text
+  ```plaintext
   OSPF-MIB::ospfAdminStat.0 = INTEGER: enabled(1)
   OSPF-MIB::ospfVersionNumber.0 = INTEGER: version2(2)
   OSPF-MIB::ospfAreaBdrRtrStatus.0 = INTEGER: false(2)
@@ -85,7 +85,7 @@ tags:
 
   其中我更感兴趣的是各个 Router 发来的 LSA, 这里面应该包含了每个子网的详细信息. 如以下这种:
 
-  ```text
+  ```plaintext
   OSPF-MIB::ospfLsdbAdvertisement.0.0.0.0.routerLink.172.18.1.11.172.18.1.11 = Hex-STRING: 03 45 02 01 AC 12 01 0B AC 12 01 0B 80 00 2B 52 
   9F 59 00 24 02 00 00 01 AC 12 02 62 AC 12 02 62 
   02 00 00 01 
@@ -100,7 +100,7 @@ tags:
 
 - OSPFv3 MIB. 这里面是 IPv6 OSPF 的信息.
 
-  ```text
+  ```plaintext
   OSPFV3-MIB::ospfv3AdminStatus.0 = INTEGER: enabled(1)
   OSPFV3-MIB::ospfv3VersionNumber.0 = INTEGER: version3(3)
   OSPFV3-MIB::ospfv3AreaBdrRtrStatus.0 = INTEGER: false(2)

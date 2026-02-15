@@ -134,7 +134,7 @@ int main() {
 > - `setuid` syscall number = **146**
 > - `execve` syscall number = **221**
 
-```assembly
+```asm
 // file: fish_launcher.S
 // aarch64, no libc: _start -> setuid(1000), setgid(1000), execve("/bin/fish")
 
@@ -249,7 +249,7 @@ classDef empty fill:transparent,stroke:transparent,width:0px,height:0px;
 
 于是我又接上逻辑分析仪看了一眼, 串口的波特率是 1500000 (好高!), U-Boot 启动失败,
 
-```
+```plaintext
 ## Executing script at 39000000
 Wrong Ramdisk Image Format
 Ramdisk image is corrupt or invalid
@@ -262,7 +262,7 @@ InitRd 看上去烂了. 怎么回事呢?
 
 一看...
 
-```
+```plaintext
   267659 config-6.18.0-rc5-edge-rockchip64
 20521472 vmlinuz-5.4.2-rockchip64
 43526656 vmlinuz-6.18.0-rc5-edge-rockchip64

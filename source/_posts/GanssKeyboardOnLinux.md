@@ -46,7 +46,7 @@ update-initramfs -u
 
 对于键盘这类输入设备而言, 我们有好几种码. 首先是最底层的扫描码 (Scancode), 我用 Wireshark 抓 USB RAW 包确认了它的 F1 键和正常键盘 F1 键返回的扫描码看上去是一样的, 都是 `0x7003a`. 但是用 `evtest` 命令得到的结果显示, 首先, 系统收到了正确的扫描码; 但是紧接着认为按下的键是 `BRIGHTNESS_DOWN` 降低亮度这个键.
 
-```text
+```plaintext
 Event: time 1741778594.217509, -------------- SYN_REPORT ------------           
 Event: time 1741778595.588414, type 4 (EV_MSC), code 4 (MSC_SCAN), value 7003a 
 Event: time 1741778595.588414, type 1 (EV_KEY), code 224 (KEY_BRIGHTNESSDOWN), value 1
@@ -56,7 +56,7 @@ Event: time 1741778595.588414, type 1 (EV_KEY), code 224 (KEY_BRIGHTNESSDOWN), v
 
 我于是检查了 journal, 插入键盘的记录如下:
 
-```journal
+```log
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: new full-speed USB device number 7 using xhci_hcd
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: New USB device found, idVendor=05ac, idProduct=024f, bcdDevice= 1.05
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
@@ -79,7 +79,7 @@ Mar 12 19:25:51 Ajax-PC mtp-probe[23575]: bus: 3, device: 7 was not an MTP devic
 
 眼尖的已经发现了, 这里出现了 **`apple 0003:05AC:024F.0016: Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling`**. 同时 `evtest` 给出
 
-```text
+```plaintext
 Input driver version is 1.0.1
 Input device ID: bus 0x3 vendor 0x5ac product 0x24f version 0x111
 Input device name: "HFD GS3104T PRO"
@@ -130,7 +130,7 @@ update-initramfs -u
 
 `lsusb`:
 
-```text
+```plaintext
 Bus 003 Device 008: ID 05ac:024f Apple, Inc. Aluminium Keyboard (ANSI)
 ```
 

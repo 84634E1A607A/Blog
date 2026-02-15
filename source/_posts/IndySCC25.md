@@ -28,7 +28,7 @@ ogp_image:
 
 IndySCC 在神秘的 [JetStream2](https://jetstream-cloud.org/index.html) 上面用 **虚拟机** 进行比赛... 对此, 学长纷纷表示, 没有任何参考经验. 我们的申必虚拟机的 CPU 节点是...
 
-```text
+```plaintext
 Architecture:                x86_64
   CPU op-mode(s):            32-bit, 64-bit
   Address sizes:             40 bits physical, 48 bits virtual
@@ -65,7 +65,7 @@ NUMA:
 
 然后 GPU 节点是
 
-```text
+```plaintext
 Architecture:                x86_64
   CPU op-mode(s):            32-bit, 64-bit
   Address sizes:             46 bits physical, 57 bits virtual

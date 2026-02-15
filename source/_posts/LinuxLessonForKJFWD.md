@@ -91,7 +91,7 @@ Linux 发行版有 [很多分支](https://en.wikipedia.org/wiki/List_of_Linux_di
 
 在 [TUNA](https://mirrors.tuna.tsinghua.edu.cn/) 的 "常用发行版 ISO 和应用软件安装包直接下载: " 可以找到 Ubuntu 的 ISO.
 
-```text
+```plaintext
 Ubuntu
 ...
 25.04 (arm64+raspi, Preinstalled Desktop)
@@ -499,7 +499,7 @@ G2 --> |显示引导菜单| K["Linux Kernel"]
 
 因此: 卸载双系统的时候 **不能直接删 Linux 分区** (或者说, 还不够), 要 **同时删除 GRUB 引导**.
 
-```text
+```plaintext
 root@ajax-ubuntu-vm-kjfwd:/boot/efi# ls -R
 .:
 EFI
@@ -621,7 +621,7 @@ server {
 
 对, powershell 是一个跨平台的工具... 你可以在 Linux 上面装 PowerCLI 然后跑脚本
 
-```pwsh
+```powershell
 Connect-VIServer -Server 10.0.0.3 -User administrator@vsphere.local -Password 'xxx'
 
 # ===== CONFIGURE THESE =====
@@ -655,7 +655,7 @@ for ($i = $startIndex; $i -le $numVMs; $i++) {
 
 创建 Checkpoint:
 
-```pwsh
+```powershell
 # Folder containing the VMs
 $folderName = "KJFWD"
 
@@ -683,13 +683,13 @@ foreach ($vm in $vms) {
 
 强制关闭 VM
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object { Stop-VM -VM $_ -Confirm:$false -Kill }
 ```
 
 回滚 Checkpoint
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     $snap = Get-Snapshot -VM $_ -Name "Init" -ErrorAction SilentlyContinue
     if ($snap) {
@@ -703,7 +703,7 @@ Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
 
 修改 VM 参数
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     Set-VM -VM $_ -MemoryGB 6 -NumCPU 2 -Confirm:$false -RunAsync
 }
@@ -711,7 +711,7 @@ Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
 
 给所有 VM 都删了
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     if (Read-Host "Destroy VM '$($_.Name)'? (y/n)" -eq "y") {
         Stop-VM -VM $_ -Confirm:$false -Kill -RunAsync

@@ -34,7 +34,7 @@ QCAT 的文档中介绍了两种方式, 一种是通过命令行导出数据, �
 
 > The format of analysis output command is as follows:
 >
-> ```
+> ```shell
 > -export [options] Logfile
 > or
 > -export [options] Directory
@@ -59,7 +59,7 @@ QCAT 的文档中介绍了两种方式, 一种是通过命令行导出数据, �
 
 >The analyzer option lets the user specify which analyzer they want to run. The names of the analyzers are in the format Name of Workspace; subfolder; Name of Analyzer. For example, if a user wants to run LTE PDCP DL Stats Summary, as shown in Figure 5-1, the command for this would be:
 >
->```
+>```powershell
 >-export -analyzer=”QCAT Sample;LTE;Summary;LTE PDCP Summary;LTE PDCP DL Stats Summary” mylogfile.hdf
 >```
 
@@ -85,7 +85,7 @@ QCAT 的文档中介绍了两种方式, 一种是通过命令行导出数据, �
 
 > The workspace (-workspace=) option allows you to specify a workspace file to use instead of the default workspace loaded.
 >
-> ```
+> ```powershell
 > -export -analyzer=”/user/MyWorkspace.aws” mylogfile.hdf
 > ```
 
@@ -521,7 +521,7 @@ if __name__ == "__main__":
 
 本来我是觉得用 Python 代码会更好导出数据的, 后来证明我错了. QCAT *提供了一些* Sample Script:
 
-```
+```powershell
 CloseFile.py
 ConfigTest.py
 DebugMsgFilter.py

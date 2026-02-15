@@ -23,14 +23,14 @@ tags:
 
 雨课堂的数据接口给我的 *第一感觉* 是十分规整的. 爬虫的逻辑也是十分清晰的. 进去之后, 有两个接口
 
-```text
+```plaintext
 https://{YKT_HOST}/v2/api/web/courses/list?identity=2
 https://{YKT_HOST}/v2/api/web/classroom_archive
 ```
 
 可以分别获取未归档和已归档的课程基础信息. 拼接起来之后, 对于每一节 *课* ( *Course* ), 可以通过课程接口获取里面的 *活动 (Activity)*.
 
-```text
+```plaintext
 https://{YKT_HOST}/v2/api/web/logs/learn/{course['classroom_id']}?actype=-1&page=0&offset=500&sort=-1
 ```
 
@@ -52,7 +52,7 @@ https://{YKT_HOST}/v2/api/web/logs/learn/{course['classroom_id']}?actype=-1&page
 
 当然, 我觉得更优雅的方式是类似 **流水线**. 即, 我们把爬虫分成若干个阶段, 每个阶段安排若干个 Worker, 阶段间用管道通信 ~~(造机造的)~~.
 
-```text
+```plaintext
 分析器 ---下载任务--- 下载器 ---压制任务--- 压制器
       ---PPT任务--- PPT下载器+合成器
 ```

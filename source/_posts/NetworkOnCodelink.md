@@ -72,13 +72,13 @@ iptables -A DNS_REDIRECT -j DNAT --to-destination 192.168.32.1
 
 然后在本地起 dnsmasq, 打开 `no-resolv`, 把平台的域名解析到本机的反代:
 
-```text
+```plaintext
 address=/my.oj.cn/192.168.32.1
 ```
 
 同时把 `www.msftconnecttest.com` 解析到本机:
 
-```text
+```plaintext
 address=/www.msftconnecttest.com/192.168.32.1
 ```
 
