@@ -28,9 +28,6 @@ importers:
       hexo-fold:
         specifier: ^1.0.5
         version: 1.0.5
-      hexo-generator-archive:
-        specifier: ^2.0.0
-        version: 2.0.0
       hexo-generator-feed:
         specifier: ^4.0.0
         version: 4.0.0
@@ -385,10 +382,6 @@ packages:
   hexo-fs@5.0.1:
     resolution: {integrity: sha512-Zm4m21coQA7TtL9JL0oNZF+ypY/HbqwVdaqGqoKD+GEV7HH2Y1YObNBgl1o/lV1tzStC8f15AoRcHdS2jiWp0w==}
     engines: {node: '>=18'}
-
-  hexo-generator-archive@2.0.0:
-    resolution: {integrity: sha512-KikJk7dGFbtNHOgqtLFGf5T/S8n1paGp+Gy0KfVDz+HKYhGbXOouyiZkmc3O9KrYt6ja14rmkMhq7KKGtvfehw==}
-    engines: {node: '>=14'}
 
   hexo-generator-feed@4.0.0:
     resolution: {integrity: sha512-wG0SDBwJ60B+bcMQhArjSpw/bsuP1/4o9Ar+FnxTMRq5/SEZZlj7q/r7HI60olRf0eurqEm4Dm8yHfAMKQhkoA==}
@@ -1229,10 +1222,6 @@ snapshots:
       chokidar: 4.0.3
       graceful-fs: 4.2.11
       hexo-util: 3.3.0
-
-  hexo-generator-archive@2.0.0:
-    dependencies:
-      hexo-pagination: 3.0.0
 
   hexo-generator-feed@4.0.0:
     dependencies:

@@ -22,7 +22,6 @@
     "hexo-clean-css": "^2.0.0",
     "hexo-filter-mermaid": "file:filter/hexo-filter-mermaid",
     "hexo-fold": "^1.0.5",
-    "hexo-generator-archive": "^2.0.0",
     "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-search": "^2.4.3",
