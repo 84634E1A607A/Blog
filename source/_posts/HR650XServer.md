@@ -84,7 +84,7 @@ CPU 是神秘 [8259CL](https://www.cpu-world.com/CPUs/Xeon/Intel-Xeon%208259CL.h
 
 怎么办呢? dolphin 先生有刷 BIOS 的夹子, 如果能找到原始固件, 就能直接刷回去. 但是 BMC 不只有 SPI 的固件, 还有一部分在 EMMC 里面.
 
-```plaintext
+```text
 [  96]  .
 ├── [ 190]  Linux_64
 │   ├── [3.6K]  FBMC_FW.SH
@@ -230,7 +230,7 @@ Aux Firmware Rev Info     :
 
 这东西还有串口输出, 可以用串口调试... 不过感觉不如 BMC Virtual Console 或者插个显示器一根.
 
-```plaintext
+```text
 File  Config  Edit  Go  Tools  System  Quit                    ... James Wang
 
  PCI Express:D0:F0   Intel Host bridge                                       

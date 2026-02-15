@@ -22,7 +22,7 @@ tags:
 
 在一个月前我利用默认证书漏了的手段打过另一个网站, 当时通过证书找到了 Cloudflare 后面的原站. 原理很简单, 一般 Nginx 的 default site 都只对 http 生效, 会导致 https 的第一个站点成为默认站点, 此时 https 返回相应证书, 泄漏域名信息. 如:
 
-```plaintext
+```text
 curl https://101.6.4.25 --insecure -v
 *   Trying 101.6.4.25:443...
 * ALPN: curl offers h2,http/1.1
@@ -91,7 +91,7 @@ nginx -t && nginx -s reload
 
 事实是又炸了
 
-```plaintext
+```text
 nginx: [emerg] duplicate listen options for 0.0.0.0:443 in /etc/nginx/sites-enabled/ftp:35
 nginx: configuration file /etc/nginx/nginx.conf test failed
 ```

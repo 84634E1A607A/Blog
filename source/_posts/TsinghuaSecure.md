@@ -357,7 +357,7 @@ RESP --> RESPONSE
 
 使用 Kali 的 Rockyou + 一些 Rules, 总时间在 4h 以内, 截至写下这段话的时候跑了 60% 左右
 
-```plaintext
+```text
 Guess.Base.......: File (../wordlists/rockyou.txt)
 Guess.Mod........: Rules (../wordlists/OneRuleToRuleThemLong.rule)
 Speed.#1.........: 23522.3 MH/s (40.10ms) @ Accel:512 Loops:256 Thr:128 Vec:1

@@ -23,7 +23,7 @@ tags:
 
 {% fold "原文" %}
 
-```plaintext
+```text
 iDRAC7 Enterprise crack keygen
 (This will change your Dell service tag, you won't get iDRAC7 enterprise without having this service tag, 9QYZF42)
  

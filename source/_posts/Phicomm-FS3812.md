@@ -113,7 +113,7 @@ Console 那一排其实有两个口. 上面一个和一个网络变压器连着,
 
 Web 里面可以下载固件, 所以我小小下了一份
 
-```plaintext
+```text
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 0             0x0             uImage header, header size: 64 bytes, header CRC: 0x187BF3D7, created: 2014-05-20 03:11:20, image size: 11395763 bytes, Data Address: 0x0, Entry Point: 0x0, data CRC: 0x8B3A062B, OS: Linux, CPU: PowerPC, image type: Multi-File Image, compression type: gzip, image name: "v5.0.10.sp1.fcs"

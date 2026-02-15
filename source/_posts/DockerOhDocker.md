@@ -203,7 +203,7 @@ iptables -t nat -I PREROUTING -m addrtype --dst-type LOCAL -j DOCKER-BLOCK
 
 我现在用 nft 解决这个问题, nft 有 priority, 我直接加一个比 iptables-nft 的 forward 链更先执行的链就好了:
 
-```plaintext
+```text
 table inet firewall {
     chain forward {
         type filter hook forward priority filter - 1; policy accept;
@@ -221,7 +221,7 @@ table inet firewall {
 
 至于 Docker 给 IPv6 的 FORWARD 改成 DROP, 我的解决方案是:
 
-```plaintext
+```text
 table ip6 filter {
     chain FORWARD {
         type filter hook forward priority filter; policy drop;
@@ -351,11 +351,11 @@ chain forward {
 >
 > #### Solution:
 > To allow this traffic, add a rule to accept **original destination port `40965`** in the `inet firewall forward` chain using `ct original`:
-> ```plaintext
+> ```text
 > ct original dport 40965 accept  # Add this BEFORE the drop rule
 > ```
 > Revised chain:
-> ```plaintext
+> ```text
 > chain forward {
 >     ct state { established, related } accept
 >     iifname { "azgw", "lan-bridge" } accept

@@ -91,7 +91,7 @@ Linux 发行版有 [很多分支](https://en.wikipedia.org/wiki/List_of_Linux_di
 
 在 [TUNA](https://mirrors.tuna.tsinghua.edu.cn/) 的 "常用发行版 ISO 和应用软件安装包直接下载: " 可以找到 Ubuntu 的 ISO.
 
-```plaintext
+```text
 Ubuntu
 ...
 25.04 (arm64+raspi, Preinstalled Desktop)
@@ -499,7 +499,7 @@ G2 --> |显示引导菜单| K["Linux Kernel"]
 
 因此: 卸载双系统的时候 **不能直接删 Linux 分区** (或者说, 还不够), 要 **同时删除 GRUB 引导**.
 
-```plaintext
+```text
 root@ajax-ubuntu-vm-kjfwd:/boot/efi# ls -R
 .:
 EFI

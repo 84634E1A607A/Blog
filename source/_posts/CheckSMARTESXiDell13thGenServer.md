@@ -52,7 +52,7 @@ esxcli software vib install -d /tmp/VMWare-perccli64_007.1910.zip --no-sig-check
 
 Although the installation process exited with failure, saying that the backup boot bank was corrupt bla bla bla, it actually worked. I ran `ln -s /opt/lsi/perccli64/perccli64 /bin/perccli64` so that I could run `perccli64` directly.
 
-```plaintext
+```text
 [root@esxi:~] perccli64 show
 CLI Version = 007.1910.0000.0000 Oct 08, 2021
 Operating system = VMkernel 7.0.3
@@ -86,7 +86,7 @@ Chrg=Charging | MsngCbl=Cable Failure
 
 I wasn't trying to get SMART data at that time, actually. iDRAC was not responding and I was trying to directly access the PERC controller to get rebuild status. But when I typed `perccli64 help`, I saw there was a `show smart` command.
 
-```plaintext
+```text
 [root@esxi:~] perccli64 /c0/e32/s0 show smart
 CLI Version = 007.1910.0000.0000 Oct 08, 2021
 Operating system = VMkernel 7.0.3

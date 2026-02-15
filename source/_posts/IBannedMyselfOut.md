@@ -76,7 +76,7 @@ H -x STU: HTTP Host stu.
 
 这是学校给的 tnnd Centos Stream 6 导致的. 即便更新到了 CentOS Stream 8, 它的系统 Nginx 依然是
 
-```plaintext
+```text
 nginx version: nginx/1.14.1
 built by gcc 8.5.0 20210514 (Red Hat 8.5.0-3) (GCC) 
 built with OpenSSL 1.1.1k  FIPS 25 Mar 2021
@@ -85,7 +85,7 @@ TLS SNI support enabled
 
 的老古董. 我的评价是别管, 但是 Unidy 迫于工单的压力, 选择了用 Docker 拉一个更新的 Nginx 下来, 换成了
 
-```plaintext
+```text
 nginx version: nginx/1.29.1
 built by gcc 14.2.0 (Alpine 14.2.0) 
 built with OpenSSL 3.5.1 1 Jul 2025
