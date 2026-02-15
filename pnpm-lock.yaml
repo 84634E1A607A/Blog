@@ -55,9 +55,6 @@ importers:
       hexo-server:
         specifier: ^3.0.0
         version: 3.0.0
-      typogr:
-        specifier: ^0.6.8
-        version: 0.6.8
       ws:
         specifier: ^8.19.0
         version: 8.19.0
@@ -104,9 +101,6 @@ packages:
 
   asap@2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
-
-  async@0.2.10:
-    resolution: {integrity: sha512-eAkdoKxU6/LkKDBzLpT+t6Ff5EtfSF4wx1WfJiPEEV7WNLnDaRXk0oVysiEPm262roaachGexwUv94WhSgN5TQ==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -157,10 +151,6 @@ packages:
 
   command-exists@1.2.9:
     resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
-
-  commander@1.0.5:
-    resolution: {integrity: sha512-Iil6cZ1vitahfQSTrGO3L4v3dtvnfyGpKkXN+aJV9uR24JYxhM9bUfBLat65nU7cIXzOcnkjGtfdCuqaO1caIQ==}
-    engines: {node: '>= 0.6.x'}
 
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -531,9 +521,6 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  keypress@0.1.0:
-    resolution: {integrity: sha512-x0yf9PL/nx9Nw9oLL8ZVErFAk85/lslwEP7Vz7s5SI1ODXZIgit3C5qyWjw4DxOuO/3Hb4866SQh28a1V1d+WA==}
-
   linkify-it@4.0.1:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
 
@@ -616,10 +603,6 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-
-  mkdirp@0.3.5:
-    resolution: {integrity: sha512-8OCq0De/h9ZxseqzCH8Kw/Filf5pF/vMI6+BH7Lu0jXz2pqYCjTAQRolSxRIi+Ax+oCCjlxoJMP0YQ4XlrQNHg==}
-    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
 
   moize@6.1.7:
     resolution: {integrity: sha512-8/9XgYooMo7/q5tf6zGF4+Wp1jx5sbxV87uK6YvTq9rgDtusLWZCZ8c5C0EhYZbNGudul5EMeMsObO4Ug/gszg==}
@@ -856,10 +839,6 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  typogr@0.6.8:
-    resolution: {integrity: sha512-zjUkJd8Nt9NvXTzjBYpk5Pw0OgXTStgATbUAAhVvCrFtjvRVcDvtKjtxCRMRZsK0fx2MVa8hoqMiTPSgWOA9pg==}
-    hasBin: true
-
   uc.micro@1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
 
@@ -935,8 +914,6 @@ snapshots:
 
   asap@2.0.6: {}
 
-  async@0.2.10: {}
-
   balanced-match@1.0.2: {}
 
   basic-auth@2.0.1:
@@ -993,10 +970,6 @@ snapshots:
       source-map: 0.6.1
 
   command-exists@1.2.9: {}
-
-  commander@1.0.5:
-    dependencies:
-      keypress: 0.1.0
 
   commander@2.20.3: {}
 
@@ -1456,8 +1429,6 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
-  keypress@0.1.0: {}
-
   linkify-it@4.0.1:
     dependencies:
       uc.micro: 1.0.6
@@ -1524,8 +1495,6 @@ snapshots:
       brace-expansion: 1.1.12
 
   minimist@1.2.8: {}
-
-  mkdirp@0.3.5: {}
 
   moize@6.1.7:
     dependencies:
@@ -1746,13 +1715,6 @@ snapshots:
   toidentifier@1.0.1: {}
 
   tslib@2.8.1: {}
-
-  typogr@0.6.8:
-    dependencies:
-      async: 0.2.10
-      commander: 1.0.5
-      glob: 7.2.3
-      mkdirp: 0.3.5
 
   uc.micro@1.0.6: {}
 
