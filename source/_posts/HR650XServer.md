@@ -1,6 +1,6 @@
 ---
 title: 捡了一台 HR650X -- 附加折腾日记
-updated: 2026-02-01 20:48:04
+updated: 2026-02-15 10:40:40
 date: 2026-01-31 18:49:09
 description: "记录入手二手联想 HR650X 双路 3647 平台服务器后，从选购、硬件搭配到 BIOS/BMC 救砖、PCIe 拆分隐藏选项挖掘与串口调试的完整折腾过程，并给出整机功耗与 BMC 功能等实际体验，最终结论是这批二手机型在经过 BIOS/BMC 升级与 VRM TDP 修改后可稳定作为服务器使用。"
 tags:
@@ -361,3 +361,25 @@ BMC 里面能保存 2MB 的 SOL Log, 如果不是前述的抽象 RU.efi 一直�
 ![Server](./HR650XServer/SERVER.jpg)
 
 ![Server 2](./HR650XServer/SERVER2.jpg)
+
+## 似了
+
+时间过去了一个多星期, 我回家过年了. 2 月 13 号, 我发现服务器连不上了. BMC 还好着, 但是进去之后服务器的状态是 Off, 点开机键没有反应. 由于前述这个 BMC 的日志是一坨大的, 我也搞不明白到底咋回事. 我忘记了下载 SOL Log (太坏了), 重置 BMC 也没用. Anyway, 两个 CPU 同时 IERR + MCERR 就很奇怪, 后面还开不起来, 只能留着等到回北京再研究了. 可恶!
+
+```log
+  a0 | 02/13/2026 | 10:27:17 | System ACPI Power State ACPI_State | S0/G0: working | Asserted
+  a1 | 02/13/2026 | 10:27:48 | Processor CPU1_IERR | State Asserted
+  a2 | 02/13/2026 | 10:27:48 | Processor CPU2_IERR | State Asserted
+  a3 | 02/13/2026 | 10:27:48 | Processor CPU1_MCERR | State Asserted
+  a4 | 02/13/2026 | 10:27:48 | Processor CPU2_MCERR | State Asserted
+  a5 | 02/13/2026 | 10:28:06 | System Event | Timestamp Clock Sync | Asserted
+  a6 | 02/13/2026 | 10:28:06 | System Event #0xff | Timestamp Clock Sync | Asserted
+  a7 | 02/13/2026 | 10:28:02 | System Event #0xff | Timestamp Clock Sync | Asserted
+  a8 | 02/13/2026 | 10:28:05 | System Event | Timestamp Clock Sync | Asserted
+  a9 | 02/13/2026 | 10:33:35 | System ACPI Power State ACPI_State | S5/G2: soft-off | Asserted
+  aa | 01/01/2000 | 00:00:19 | System ACPI Power State ACPI_State | S5/G2: soft-off | Asserted
+  ab | 01/01/2000 | 00:00:19 | System Event #0xff | Timestamp Clock Sync | Asserted
+  ac | 02/13/2026 | 12:13:59 | System Event #0xff | Timestamp Clock Sync | Asserted
+  ad | 02/13/2026 | 12:14:16 | Processor CPU1_Status | Presence detected | Asserted
+  ae | 02/13/2026 | 12:14:16 | Processor CPU2_Status | Presence detected | Asserted
+```
