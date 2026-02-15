@@ -95,7 +95,7 @@ THU Info APP 的开发者, 咱的没那么老的老前辈 [Unidy](https://unidy.
 
 博客的 icon 来自 Pixiv 的 [✨](https://www.pixiv.net/en/artworks/125597074), 原作者是 [ぴろ瀬](https://heripiro.tumblr.com/). 我没搞明白这玩意到底 License 是啥, 能不能这么用, 但是不管咋样我写了一封邮件询问, 但是石沉大海, 没有回复. 但是咱还是好想用w, 所以就先用着吧 awa.
 
-Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多了w
+Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多了w, 又在 hash 的[热情推广](https://github.com/84634E1A607A/Blog/pull/160)下 (她真的很热情咱也不好拒绝w) 用 [Tree Sitter](https://tree-sitter.github.io/tree-sitter/) 替换了 Shiki 默认的 TextMate 分词器 (见 [tree-sitter-highlight](https://github.com/Master-Hash/tree-sitter-highlight)), 据 hash 说在遇到较复杂的语法时的效果更好, 不过咱暂时还没遇到这种情况.
 
 ### Hexo
 
@@ -148,6 +148,30 @@ Syntax Highlighting 使用 [Shiki](https://shiki.style/), 比自带的好看多�
 > The above copyright notice and this permission notice shall be included in all
 > copies or substantial portions of the Software.
 > 
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> SOFTWARE.
+
+### tree-sitter-highlight
+
+> MIT License
+>
+> Copyright (c) 2021 Devon Govett
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all
+> copies or substantial portions of the Software.
+>
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 > IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 > FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
