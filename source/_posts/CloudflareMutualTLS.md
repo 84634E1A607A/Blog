@@ -45,7 +45,7 @@ CF[Cloudflare] -->|mTLS Cert| O[Origin Server]
 ```
 当前的 CA 证书为
 
-```
+```text
 Certificate:
     Data:
         Version: 3 (0x2)

@@ -22,7 +22,7 @@ Simple Network *Management* Protocol 是一个用于网络监控和管理的协�
 
 我们首先分析了从串口拿到的配置文件, 试图从里面找到 SSH 登录的明文口令. 显然, 没有成功. 但也不是没有收获:
 
-```cfg
+```text
 local-user #redacted# class manage
  password hash $h$6$/g0pzMiowRibMf+V$gCebiPsmL+rx97v9AHzImTVu/dd5OvkUB2vzPqq9igyaeMeN9yi6b0ffhUyElujx4NF4t9eWn9nZ7zi6C/3rWw==
  service-type ssh
@@ -36,7 +36,7 @@ local-user #redacted# class manage
 
 后来发现 SNMP 开启, 故转而尝试攻击 SNMP.
 
-```cfg
+```text
  snmp-agent
  snmp-agent local-engineid 800063A280542BDE8D70C200000001
  snmp-agent community write private

@@ -203,7 +203,7 @@ iptables -t nat -I PREROUTING -m addrtype --dst-type LOCAL -j DOCKER-BLOCK
 
 我现在用 nft 解决这个问题, nft 有 priority, 我直接加一个比 iptables-nft 的 forward 链更先执行的链就好了:
 
-```nft
+```text
 table inet firewall {
     chain forward {
         type filter hook forward priority filter - 1; policy accept;
@@ -221,7 +221,7 @@ table inet firewall {
 
 至于 Docker 给 IPv6 的 FORWARD 改成 DROP, 我的解决方案是:
 
-```nft
+```text
 table ip6 filter {
     chain FORWARD {
         type filter hook forward priority filter; policy drop;
@@ -302,7 +302,7 @@ services:
 
 然后我给 nftables 的 forward 防火墙里面添加了一条
 
-```
+```nginx
 chain forward {
   type filter hook forward priority filter - 1; policy accept;
   ct state { established, related } accept
@@ -323,14 +323,14 @@ chain forward {
 >
 > 2. **DNAT Processing**:
 >    - The NAT table (`ip nat`) has a rule in the `DOCKER` chain:
->      ```
+>      ```nginx
 >      iifname != "br-067836a0b6f1" tcp dport 40965 dnat to 172.21.0.2:80
 >      ```
 >    - Since the packet arrives on `enp2s0` (not `br-067836a0b6f1`) with destination port `40965`, it is DNAT'd to `172.21.0.2:80`.
 >
 > 3. **Forward Chain in `inet firewall` Table**:
 >    - After DNAT, the packet enters the `forward` chain (priority `filter - 1`, processed **before** the main filter table):
->      ```nftables
+>      ```nginx
 >      chain forward {
 >          ct state { established, related } accept
 >          iifname { "azgw", "lan-bridge" } accept
@@ -351,11 +351,11 @@ chain forward {
 >
 > #### Solution:
 > To allow this traffic, add a rule to accept **original destination port `40965`** in the `inet firewall forward` chain using `ct original`:
-> ```nftables
+> ```text
 > ct original dport 40965 accept  # Add this BEFORE the drop rule
 > ```
 > Revised chain:
-> ```nftables
+> ```text
 > chain forward {
 >     ct state { established, related } accept
 >     iifname { "azgw", "lan-bridge" } accept
@@ -370,7 +370,7 @@ chain forward {
 
 解决方案:
 
-```
+```nginx
 chain forward {
   ...
   ct original proto-dst 40965 accept

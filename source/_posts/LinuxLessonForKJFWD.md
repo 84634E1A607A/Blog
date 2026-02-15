@@ -621,7 +621,7 @@ server {
 
 对, powershell 是一个跨平台的工具... 你可以在 Linux 上面装 PowerCLI 然后跑脚本
 
-```pwsh
+```powershell
 Connect-VIServer -Server 10.0.0.3 -User administrator@vsphere.local -Password 'xxx'
 
 # ===== CONFIGURE THESE =====
@@ -655,7 +655,7 @@ for ($i = $startIndex; $i -le $numVMs; $i++) {
 
 创建 Checkpoint:
 
-```pwsh
+```powershell
 # Folder containing the VMs
 $folderName = "KJFWD"
 
@@ -683,13 +683,13 @@ foreach ($vm in $vms) {
 
 强制关闭 VM
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object { Stop-VM -VM $_ -Confirm:$false -Kill }
 ```
 
 回滚 Checkpoint
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     $snap = Get-Snapshot -VM $_ -Name "Init" -ErrorAction SilentlyContinue
     if ($snap) {
@@ -703,7 +703,7 @@ Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
 
 修改 VM 参数
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     Set-VM -VM $_ -MemoryGB 6 -NumCPU 2 -Confirm:$false -RunAsync
 }
@@ -711,7 +711,7 @@ Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
 
 给所有 VM 都删了
 
-```pwsh
+```powershell
 Get-Folder -Name "KJFWD" | Get-VM | ForEach-Object {
     if (Read-Host "Destroy VM '$($_.Name)'? (y/n)" -eq "y") {
         Stop-VM -VM $_ -Confirm:$false -Kill -RunAsync

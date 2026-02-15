@@ -52,13 +52,13 @@ tags:
 
    > If using the default busybox-based initramfs, add the `keyboard` and `encrypt` hooks to [mkinitcpio.conf](https://wiki.archlinux.org/title/Mkinitcpio.conf). If you use a non-US console keymap or a non-default console font, additionally add the `keymap` and `consolefont` hooks, respectively.
    >
-   > ```
+   > ```shell
    > HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)
    > ```
    >
    > If using a systemd-based initramfs, instead add the `keyboard` and `sd-encrypt` hooks. If you use a non-US console keymap or a non-default console font, additionally add the `sd-vconsole` hook.
    >
-   > ```
+   > ```shell
    > HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)
    > ```
    >

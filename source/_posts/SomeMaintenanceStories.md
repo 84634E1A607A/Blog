@@ -101,7 +101,7 @@ ogp_image:
 
 后来更是大爆炸, Pending Sector 都有 200+ 了. 写的时候则直接超时掉盘.
 
-```
+```log
 ID# ATTRIBUTE_NAME          FLAGS    VALUE WORST THRESH FAIL RAW_VALUE
   1 Raw_Read_Error_Rate     POSR-K   100   253   051    -    0
   3 Spin_Up_Time            POS--K   100   253   021    -    0

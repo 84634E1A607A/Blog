@@ -185,7 +185,7 @@ private_key_passwd=whatever
 
 这个文件是用来配置内置 RADIUS Server 的凭据的. 由于 Patch 了这个 Server, 我们只需要一个 Dummy One 就行:
 
-```
+```conf
 # WPE - DO NOT REMOVE - These entries are specifically in here 
 *		PEAP,TTLS,TLS,FAST
 "t"	    TTLS-PAP,TTLS-CHAP,TTLS-MSCHAP,MSCHAPV2,MD5,GTC,TTLS,TTLS-MSCHAPV2  "t"	[2]
@@ -357,12 +357,12 @@ RESP --> RESPONSE
 
 使用 Kali 的 Rockyou + 一些 Rules, 总时间在 4h 以内, 截至写下这段话的时候跑了 60% 左右
 
-````
+```text
 Guess.Base.......: File (../wordlists/rockyou.txt)
 Guess.Mod........: Rules (../wordlists/OneRuleToRuleThemLong.rule)
 Speed.#1.........: 23522.3 MH/s (40.10ms) @ Accel:512 Loops:256 Thr:128 Vec:1
 Recovered........: 58/367 (15.80%) Digests (total)
-````
+```
 
 Quite Good (?)
 

@@ -239,7 +239,7 @@ ip route add via gateway_ip table campus
 
 - `dhcpcd` 的服务配置文件 `/etc/systemd/system/multi-user.target.wants/dhcpcd.service` 提到
 
-  ```
+  ```conf
   ProtectSystem=strict
   ReadWritePaths=/var/lib/dhcpcd /run/dhcpcd /etc/wpa_supplicant /etc/dhcpcd.conf /etc/resolv.conf
   ```
@@ -264,14 +264,14 @@ ip route add via gateway_ip table campus
 
 首先是 IPv6 的路由, 我们对所有从 ppp0 进来的新连接检查原地址, 如果是学校的就对 **连接** 打上标记 *(而不是数据包!)*. 然后我们检查所有从内网发过来的包, 如果对应的连接被打上了标记, 我们就把这些 **数据包** 打上标记. 
 
-```
+```shell
 -A PREROUTING -i ppp0 -s 2402:f000::/32 -m conntrack --ctstate NEW -j CONNMARK --set-xmark 0x2402
 -A PREROUTING -i lan-bridge -d 2402:f000::/32 -j CONNMARK --restore-mark
 ```
 
 然后在路由的时候, 我们检查数据包上的标记, 如果有, 我们就从 ppp0 出去.
 
-```
+```shell
 ip -6 rule add fwmark 0x2402 table 9
 ip -6 route add default dev ppp0 table 9
 ```

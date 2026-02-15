@@ -56,7 +56,7 @@ Event: time 1741778595.588414, type 1 (EV_KEY), code 224 (KEY_BRIGHTNESSDOWN), v
 
 我于是检查了 journal, 插入键盘的记录如下:
 
-```journal
+```log
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: new full-speed USB device number 7 using xhci_hcd
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: New USB device found, idVendor=05ac, idProduct=024f, bcdDevice= 1.05
 Mar 12 19:25:50 Ajax-PC kernel: usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
