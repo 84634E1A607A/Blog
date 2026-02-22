@@ -3,20 +3,45 @@
 const fs = require('fs');
 const path = require('path');
 
+// Convert RGB to hex
+function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(x => {
+        const hex = parseInt(x).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    }).join('');
+}
+
+// Parse catppuccin.css for RGB color values
+function parseCatppuccinColors(filePath) {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const colors = { light: {}, dark: {} };
+
+    // Parse RGB color definitions
+    const rgbRegex = /--color-(light|dark)-([\w-]+):\s*(\d+),\s*(\d+),\s*(\d+)/g;
+    let match;
+
+    while ((match = rgbRegex.exec(content)) !== null) {
+        const [, mode, name, r, g, b] = match;
+        colors[mode][name] = rgbToHex(r, g, b);
+    }
+
+    return colors;
+}
+
 // Parse Stylus variable file
 function parseStylusVariables(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
     const variables = {};
-    
+
     // Regular expression to match Stylus variable declarations
     const varRegex = /^\$?([\w-]+)\s*=\s*(.+?)(?:\s*\/\/.*)?$/gm;
-    
+
     let match;
     while ((match = varRegex.exec(content)) !== null) {
         const [, name, value] = match;
         variables[name] = value.trim();
     }
-    
+
     // Parse hash/object values like $global-setting
     const hashRegex = /^\$?([\w-]+)\s*=\s*\{([^}]+)\}/gm;
     while ((match = hashRegex.exec(content)) !== null) {
@@ -29,7 +54,7 @@ function parseStylusVariables(filePath) {
         }
         variables[name] = propsObj;
     }
-    
+
     return variables;
 }
 
@@ -68,92 +93,76 @@ function resolveColor(value, variables) {
 }
 
 // Extract color and font values from parsed variables
-function extractColors(variables) {
+function extractColors(variables, catppuccinColors) {
     const colors = {};
-    
+
     // Font families
     colors.FONT_ARTICLE = resolveColor(variables['article-fonts'], variables) || variables['normal-fonts'] || 'sans-serif';
     colors.FONT_CODE = resolveColor(variables['code-fonts'], variables) || 'monospace';
-    
-    // Code highlight colors - Light mode
-    colors.CODE_COMMENT = resolveColor(variables['color-code-comment'], variables);
-    colors.CODE_PLAIN = resolveColor(variables['color-code-plain'], variables);
-    colors.CODE_LINE = resolveColor(variables['color-code-line'], variables);
-    colors.CODE_KEYWORD = resolveColor(variables['color-code-keyword'], variables);
-    colors.CODE_BUILTIN = resolveColor(variables['color-code-builtIn'], variables);
-    colors.CODE_STRING = resolveColor(variables['color-code-string'], variables);
-    colors.CODE_PARAMS = resolveColor(variables['color-code-params'], variables);
-    colors.CODE_NUMBER = resolveColor(variables['color-code-number'], variables);
-    colors.CODE_TITLE = resolveColor(variables['color-code-title'], variables);
-    colors.CODE_ATTRIBUTE = resolveColor(variables['color-code-attribute'], variables);
-    colors.CODE_SYMBOL = resolveColor(variables['color-code-symbol'], variables);
-    colors.CODE_BACKGROUND_LIGHT = resolveColor(variables['color-code-background'], variables);
-    
-    // Code highlight colors - Dark mode
-    colors.CODE_COMMENT_DARK = resolveColor(variables['color-code-comment-dark'], variables);
-    colors.CODE_PLAIN_DARK = resolveColor(variables['color-code-plain-dark'], variables);
-    colors.CODE_LINE_DARK = resolveColor(variables['color-code-line-dark'], variables);
-    colors.CODE_KEYWORD_DARK = resolveColor(variables['color-code-keyword-dark'], variables);
-    colors.CODE_BUILTIN_DARK = resolveColor(variables['color-code-builtIn-dark'], variables);
-    colors.CODE_STRING_DARK = resolveColor(variables['color-code-string-dark'], variables);
-    colors.CODE_PARAMS_DARK = resolveColor(variables['color-code-params-dark'], variables);
-    colors.CODE_NUMBER_DARK = resolveColor(variables['color-code-number-dark'], variables);
-    colors.CODE_TITLE_DARK = resolveColor(variables['color-code-title-dark'], variables);
-    colors.CODE_ATTRIBUTE_DARK = resolveColor(variables['color-code-attribute-dark'], variables);
-    colors.CODE_SYMBOL_DARK = resolveColor(variables['color-code-symbol-dark'], variables);
-    colors.CODE_BACKGROUND_DARK = resolveColor(variables['color-code-background-dark'], variables);
-    
+
+    // Code highlight colors - using catppuccin colors
+    // Light mode
+    const light = catppuccinColors.light;
+    colors.CODE_COMMENT = light.overlay2;
+    colors.CODE_KEYWORD = light.blue;
+    colors.CODE_STRING = light.cyan;
+    colors.CODE_BUILTIN = light.green;
+    colors.CODE_NUMBER = light.purple;
+    colors.CODE_TITLE = light.text;
+    colors.CODE_PARAMS = light.text;
+    colors.CODE_ATTRIBUTE = light.pink;
+    colors.CODE_SYMBOL = light.pink;
+    colors.CODE_BACKGROUND_LIGHT = light.surface2;
+
+    // Dark mode
+    const dark = catppuccinColors.dark;
+    colors.CODE_COMMENT_DARK = dark.overlay2;
+    colors.CODE_KEYWORD_DARK = dark.blue;
+    colors.CODE_STRING_DARK = dark.cyan;
+    colors.CODE_BUILTIN_DARK = dark.green;
+    colors.CODE_NUMBER_DARK = dark.purple;
+    colors.CODE_TITLE_DARK = dark.text;
+    colors.CODE_PARAMS_DARK = dark.text;
+    colors.CODE_ATTRIBUTE_DARK = dark.pink;
+    colors.CODE_SYMBOL_DARK = dark.pink;
+    colors.CODE_BACKGROUND_DARK = dark.surface2;
+
     // Theme text colors - Light mode
     colors.TEXT_MAIN = resolveColor(variables['theme-text-color-main'], variables);
     colors.TEXT_SUB = resolveColor(variables['theme-text-color-sub'], variables);
     colors.TEXT_DESC = resolveColor(variables['theme-text-color-desc'], variables);
     colors.TEXT_COMMENT = resolveColor(variables['theme-text-color-comment'], variables);
-    
+
     // Theme text colors - Dark mode
     colors.TEXT_MAIN_DARK = resolveColor(variables['theme-text-color-main-dark'], variables);
     colors.TEXT_SUB_DARK = resolveColor(variables['theme-text-color-sub-dark'], variables);
     colors.TEXT_DESC_DARK = resolveColor(variables['theme-text-color-desc-dark'], variables);
     colors.TEXT_COMMENT_DARK = resolveColor(variables['theme-text-color-comment-dark'], variables);
-    
+
     // Theme colors - Light mode
     colors.THEME_MAIN = resolveColor(variables['theme-color-main'], variables);
     colors.THEME_HOVER = resolveColor(variables['theme-color-hover'], variables);
     colors.THEME_LINK = resolveColor(variables['theme-color-link'], variables);
     colors.LINE_COLOR = resolveColor(variables['theme-line-color'], variables);
     colors.CONTENT_BACKGROUND = resolveColor(variables['theme-color-content-background'], variables);
-    
+
     // Theme colors - Dark mode
     colors.THEME_MAIN_DARK = resolveColor(variables['theme-color-main-dark'], variables);
     colors.THEME_HOVER_DARK = resolveColor(variables['theme-color-hover-dark'], variables);
     colors.THEME_LINK_DARK = resolveColor(variables['theme-color-link-dark'], variables);
     colors.LINE_COLOR_DARK = resolveColor(variables['theme-line-color-dark'], variables);
     colors.CONTENT_BACKGROUND_DARK = resolveColor(variables['theme-color-content-background-dark'], variables);
-    
+
     // Global settings
     const globalSetting = variables['global-setting'];
     const globalSettingDark = variables['global-setting-dark'];
-    
-    colors.BACKGROUND = globalSetting && typeof globalSetting === 'object' ? 
-        globalSetting.background : '#fff';
-    colors.BACKGROUND_DARK = globalSettingDark && typeof globalSettingDark === 'object' ? 
-        globalSettingDark.background : '#101010';
-    
-    return colors;
-}
 
-// Minify CSS
-function minifyCSS(css) {
-    return css
-        // Remove comments
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        // Remove whitespace
-        .replace(/\s+/g, ' ')
-        // Remove spaces around certain characters
-        .replace(/\s*([{}:;,>+~])\s*/g, '$1')
-        // Remove trailing semicolons
-        .replace(/;}/g, '}')
-        // Remove leading/trailing whitespace
-        .trim();
+    colors.BACKGROUND = globalSetting && typeof globalSetting === 'object' ?
+        globalSetting.background : '#fff';
+    colors.BACKGROUND_DARK = globalSettingDark && typeof globalSettingDark === 'object' ?
+        globalSettingDark.background : '#101010';
+
+    return colors;
 }
 
 // Main function
@@ -161,55 +170,49 @@ function buildGiscusTheme() {
     const scriptDir = __dirname;
     const themeDir = path.join(scriptDir, '..');
     const variablePath = path.join(themeDir, 'source', 'style', '_common', 'variable.styl');
+    const catppuccinPath = path.join(themeDir, 'source', 'style', '_custom', 'catppuccin.css');
     const templatePath = path.join(scriptDir, 'giscus-theme.template.css');
-    const outputPath = path.join(scriptDir, 'giscus-theme.css');
-    const minOutputPath = path.join(scriptDir, 'giscus-theme.min.css');
-    
-    console.log('🎨 Building Giscus theme from Stylus variables...');
+    const outputPath = path.join(themeDir, 'source/giscus-theme.css');
+
+    console.log('🎨 Building Giscus theme...');
     console.log(`📂 Reading variables from: ${variablePath}`);
-    
+
     // Parse variables
     const variables = parseStylusVariables(variablePath);
     console.log(`✓ Parsed ${Object.keys(variables).length} variables`);
-    
+
+    // Parse catppuccin colors
+    const catppuccinColors = parseCatppuccinColors(catppuccinPath);
+    console.log(`✓ Parsed catppuccin colors: ${Object.keys(catppuccinColors.light).length + Object.keys(catppuccinColors.dark).length} colors`);
+
     // Extract colors
-    const colors = extractColors(variables);
+    const colors = extractColors(variables, catppuccinColors);
     console.log(`✓ Extracted ${Object.keys(colors).length} color mappings`);
-    
+
     // Read template
     let template = fs.readFileSync(templatePath, 'utf-8');
     console.log(`✓ Loaded template: ${templatePath}`);
-    
+
     // Replace placeholders
     let css = template;
     for (const [key, value] of Object.entries(colors)) {
-        const placeholder = `{{${key}}}`;
+        const placeholder = `\\$${key}\\$`;
         css = css.replace(new RegExp(placeholder, 'g'), value);
     }
-    
+
     // Check for unreplaced placeholders
-    const unreplaced = css.match(/\{\{[A-Z_]+\}\}/g);
+    const unreplaced = css.match(/\$[A-Z_]+\$/g);
     if (unreplaced) {
         console.warn(`⚠️  Warning: Some placeholders were not replaced: ${[...new Set(unreplaced)].join(', ')}`);
     }
     
-    // Write regular CSS
+    // Write CSS
     fs.writeFileSync(outputPath, css, 'utf-8');
     console.log(`✓ Generated: ${outputPath}`);
-    
-    // Write minified CSS
-    const minifiedCSS = minifyCSS(css);
-    fs.writeFileSync(minOutputPath, minifiedCSS, 'utf-8');
-    console.log(`✓ Generated: ${minOutputPath}`);
-    
-    // Show size comparison
-    const originalSize = Buffer.byteLength(css, 'utf-8');
-    const minifiedSize = Buffer.byteLength(minifiedCSS, 'utf-8');
-    const reduction = ((1 - minifiedSize / originalSize) * 100).toFixed(1);
-    
-    console.log(`\n📊 Size comparison:`);
-    console.log(`   Regular:  ${originalSize} bytes`);
-    console.log(`   Minified: ${minifiedSize} bytes (${reduction}% smaller)`);
+
+    // Show size
+    const size = Buffer.byteLength(css, 'utf-8');
+    console.log(`\n📊 Size: ${size} bytes`);
     console.log(`\n✨ Build complete!`);
 }
 
