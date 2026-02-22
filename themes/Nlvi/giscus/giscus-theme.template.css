@@ -38,7 +38,7 @@ main {
   --color-prettylights-syntax-constant-other-reference-link: $CODE_PARAMS$;
 
   /* Light Mode - Text Colors */
-  --text-muted-color: $TEXT_DESC$;
+  --text-muted-color: $TEXT_MAIN$;
   --text-normal-color: $TEXT_MAIN$;
   --text-sub-color: $TEXT_SUB$;
 
@@ -89,7 +89,7 @@ main {
     --color-prettylights-syntax-constant-other-reference-link: $CODE_PARAMS_DARK$;
 
     /* Dark Mode - Text Colors */
-    --text-muted-color: $TEXT_DESC_DARK$;
+    --text-muted-color: $TEXT_MAIN_DARK$;
     --text-normal-color: $TEXT_MAIN_DARK$;
     --text-sub-color: $TEXT_SUB_DARK$;
 
@@ -190,7 +190,7 @@ main {
 
 .gsc-comment-box-buttons .btn-primary:disabled {
   color: var(--text-muted-color);
-  opacity: 0.5
+  opacity: 0.7
 }
 
 /* Comment Thread Styles */

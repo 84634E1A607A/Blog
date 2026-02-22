@@ -38,7 +38,7 @@ main {
   --color-prettylights-syntax-constant-other-reference-link: #565869;
 
   /* Light Mode - Text Colors */
-  --text-muted-color: #999;
+  --text-muted-color: #383838;
   --text-normal-color: #383838;
   --text-sub-color: #666;
 
@@ -89,7 +89,7 @@ main {
     --color-prettylights-syntax-constant-other-reference-link: #ffffff;
 
     /* Dark Mode - Text Colors */
-    --text-muted-color: #bbb;
+    --text-muted-color: #f0f0f0;
     --text-normal-color: #f0f0f0;
     --text-sub-color: #ddd;
 
@@ -190,7 +190,7 @@ main {
 
 .gsc-comment-box-buttons .btn-primary:disabled {
   color: var(--text-muted-color);
-  opacity: 0.5
+  opacity: 0.7
 }
 
 /* Comment Thread Styles */
