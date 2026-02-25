@@ -1,6 +1,6 @@
 ---
 title: 捡了一台 HR650X -- 附加折腾日记
-updated: 2026-02-15 10:40:40
+updated: 2026-02-25 09:42:39
 date: 2026-01-31 18:49:09
 description: "记录入手二手联想 HR650X 双路 3647 平台服务器后，从选购、硬件搭配到 BIOS/BMC 救砖、PCIe 拆分隐藏选项挖掘与串口调试的完整折腾过程，并给出整机功耗与 BMC 功能等实际体验，最终结论是这批二手机型在经过 BIOS/BMC 升级与 VRM TDP 修改后可稳定作为服务器使用。"
 tags:
@@ -383,3 +383,15 @@ BMC 里面能保存 2MB 的 SOL Log, 如果不是前述的抽象 RU.efi 一直�
   ad | 02/13/2026 | 12:14:16 | Processor CPU1_Status | Presence detected | Asserted
   ae | 02/13/2026 | 12:14:16 | Processor CPU2_Status | Presence detected | Asserted
 ```
+
+## 活了
+
+过年之后有同学去机房帮忙把电拔了, 然后重新插了一下, 服务器就活了. 别问我为什么, 我也不知道. 我把 SOL Log 下载下来让 GPT 看, 他也没看出什么大锅, 只是发现在 MEM Init 之前, CPU 的 Fabric 部分有一些报错, 但是正常启动了, 所以感觉上也没什么毛病. Kernel Log 里面也没有问题 (感觉是因为 CPU 出错, Kernel Log 没法写回磁盘了), 只是确实是异常关机, 没有 systemd 的关机停止服务的记录.
+
+然后我装了 rasdaemon 来试图监控 MCE Log, 不过至今 (02/25) 为止也没有死第二次 (当然, 我也不想让它死第二次, 求你了).
+
+## 买盘
+
+之前看的 6T 盘的价格又涨了一点, 从 400 涨到 430. 不过我逛来逛去的时候看到了一个 930 的 14TB 盘, [Seagate Exos 2X14](https://www.seagate.com/support/internal-hard-drives/enterprise-hard-drives/exos-2X14/), 有点意思. 这块盘是双磁头机械盘, 一块盘会被 OS 识别成两块, 每块 7TB. 我买了 3 块, 打算做 ZFS RAIDZ2 (这个也挺神奇的, 因为每块盘都被识别成两块, 所以我实际有 6 块虚拟盘; 而这个神秘盘又可能只坏一块逻辑盘 (对, 坏一半物理盘), 所以双盘冗余说不定还真是有用的 (比起 RAID50)) 不好说? GPT 建议先 RAIDZ1 再 stripe.
+
+盘还没到, 别急.
