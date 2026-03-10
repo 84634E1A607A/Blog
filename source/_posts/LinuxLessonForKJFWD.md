@@ -25,7 +25,7 @@ tags:
 ### Linux 发行版
 
 Linux 发行版有 [很多分支](https://en.wikipedia.org/wiki/List_of_Linux_distributions), 我们常见有:
-- Debian 系 (这个见的最多): Debian, Ubuntu (这个又有很多衍生版, 比如 Linux Mint), Kali Linux, Rasbian (树莓派用)...
+- Debian 系 (这个见的最多): Debian, Ubuntu (这个又有很多衍生版, 比如 Linux Mint), Kali Linux, Raspbian (树莓派用)...
 - Red Hat 系 (这个很企业级): Red Hat Enterprise Linux (RHEL), CentOS, Fedora...
 - SUSE 系 (这个也很企业级): openSUSE, SUSE Linux Enterprise...
 - Arch 系 ~~(小药娘系)~~: Arch Linux, Manjaro...
@@ -208,7 +208,7 @@ Ubuntu
 >
 > ![DG Resize](./LinuxLessonForKJFWD/vcsa_dg.png)
 
-**UPDATE pre 11.2** 需要注意的是, 我们进行分区操作的时候, 如果是 NTFS / ReFS, 则应该使用 Win PE / 磁盘管理 / DiskGenius 等工具进行操作; 如果是 Ext4 / Btrfs / XFS 等 Linux 文件系统, 则应该使用 Linux 里面的 GParted, resize2fs, btrfs filesystem resize 等方法操作. **不要在 Windows 里面操作 Linux 分区, 也不要在 Linux 里面操作 Windows 分区**, 原因有二: 一方面, 那些会检查分区完整性的软件 (如 DiskGenius) 在操作 Ext4 的时候的检查比 fsck.ext4 更严格, 一个能通过 fsck 检查并用 resize2fs 成功扩展的分区, 可能在 DG 里面检查就不通过; 能通过 chksdk 的在 ntfsresize 里面也可能不通过; 另一方面, 即便检查通过, 这样操作导致文件系统损坏的风险也更高.
+**UPDATE pre 11.2** 需要注意的是, 我们进行分区操作的时候, 如果是 NTFS / ReFS, 则应该使用 Win PE / 磁盘管理 / DiskGenius 等工具进行操作; 如果是 Ext4 / Btrfs / XFS 等 Linux 文件系统, 则应该使用 Linux 里面的 GParted, resize2fs, btrfs filesystem resize 等方法操作. **不要在 Windows 里面操作 Linux 分区, 也不要在 Linux 里面操作 Windows 分区**, 原因有二: 一方面, 那些会检查分区完整性的软件 (如 DiskGenius) 在操作 Ext4 的时候的检查比 fsck.ext4 更严格, 一个能通过 fsck 检查并用 resize2fs 成功扩展的分区, 可能在 DG 里面检查就不通过; 能通过 chkdsk 的在 ntfsresize 里面也可能不通过; 另一方面, 即便检查通过, 这样操作导致文件系统损坏的风险也更高.
 
 **UPDATE 11.2** 昨天大家装了一下, 有的人能成功进入 Windows 桌面, 有的人卡死... 但是大家都是完全一样的虚拟机配置和镜像... 难道 Windows 启动的时候还有随机性在里面?
 

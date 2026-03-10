@@ -32,7 +32,7 @@ However I really **DO NOT THINK THIS WAY IS RECOMMENDED**.
 
 [omniauth-oauth2-generic](https://github.com/omniauth/omniauth-oauth2-generic) is a generic OAuth2 strategy provider, but its *feature* is pretty unclear.
 
-By default (starting from *approximately* Gitlab 15.4.6), omniauth-oauth2-generic passes `client_id` and `client_secret` **in `Authorizaiton` header.**
+By default (starting from *approximately* Gitlab 15.4.6), omniauth-oauth2-generic passes `client_id` and `client_secret` **in `Authorization` header.**
 
 ```http
 Authorization: Basic base64_encode(client_id:client_secret)
@@ -63,4 +63,3 @@ Alternatively, if modifying your OAuth provider is more of convenience (just lik
 And a most confusing step: If your OAuth provider do not support passing auth_token by bearer, Gitlab **WILL NOT WARN YOU** about the auth failure. Instead, it just shows a 422 page, saying *"User e-mail cannot be blank"*.
 
 To move it back to header, I traced to [access_token.rb](https://gitlab.com/oauth-xx/oauth2/-/blob/main/lib/oauth2/access_token.rb#L86) and there is a setting to move it to body or query, but I didn't test how exactly it works.
-

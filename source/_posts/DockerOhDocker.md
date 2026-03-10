@@ -115,9 +115,9 @@ Docker Desktop 用了 KVM, 在 Linux 下与 VirtualBox 不兼容...
 
 在 Windows 下 Docker 有两种模式, 一种依附于 WSL, 一种是一个独立的 Hyper-V 虚拟机. 不管怎样, 在一些奇怪的问题上会与 Linux 下的原生 Docker 不太一致 (尤其是网络栈).
 
-### Defaunt
+### Defunct
 
-去年我发现我们某一台服务器上有不少 Defaunt Process 并批评教育了导致此事出现的同学. 结果我自己也干了 (乐), 我当时想弄一个可以 exec 进去的 kali, 于是写了个 `CMD sleep infinity`, 后来在里面瞎玩, 突然告诉我进程号不够用了. 一看里面有 **9.02k 个 defaunt process**. 这是因为 sleep infinity 导致容器的 0 号进程不回收 zombie 了. 需要加个 `ENTRYPOINT ["tini", "--"]`.
+去年我发现我们某一台服务器上有不少 Defunct Process 并批评教育了导致此事出现的同学. 结果我自己也干了 (乐), 我当时想弄一个可以 exec 进去的 kali, 于是写了个 `CMD sleep infinity`, 后来在里面瞎玩, 突然告诉我进程号不够用了. 一看里面有 **9.02k 个 defunct process**. 这是因为 sleep infinity 导致容器的 0 号进程不回收 zombie 了. 需要加个 `ENTRYPOINT ["tini", "--"]`.
 
 
 

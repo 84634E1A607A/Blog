@@ -12,7 +12,7 @@ Several days ago I encountered two separate usrmerge issues on different OSes. O
 
 <!-- more -->
 
-## Cannot close fd bug due to staticly-linked /bin/cp
+## Cannot close fd bug due to statically-linked /bin/cp
 
 That very Debian 9 has a statically-linked cp command, and the following sub-procedure failed, as `ldd /bin/cp` should return an error. I've submitted [a bug report](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1061178) to usrmerge package about this bug. If `/bin/cp` is statically linked, this check may be bypassed.
 
