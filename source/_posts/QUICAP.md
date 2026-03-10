@@ -1,5 +1,5 @@
 ---
-title: QUICAP - A L2 mesh VPN built on QUIC (planed)
+title: QUICAP - A L2 mesh VPN built on QUIC (planned)
 updated: 2025-08-11 14:29:53
 date: 2025-08-08 11:43:08
 description: QUICAP 是一种基于 QUIC 协议构建的 Mesh VPN 方案，采用 PKI 系统进行节点鉴权，支持二层 / 三层隧道及应用层代理模式，并能自动优化路由以应对网络拓扑变更。本文分析了现有 VPN 方案的局限性，介绍了 QUICAP 的实现机制，包括 mTLS 认证、TUN/TAP 接口和双连接模式等核心技术。

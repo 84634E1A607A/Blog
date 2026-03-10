@@ -30,7 +30,7 @@ The solution: add `"run_worker_first": ["/Ajax.gpg*"]` to ask Cloudflare to alwa
 
 As we know, {% post_link CloudflarePages "this blog once ran on Cloudflare Pages" %}. Later, I heard from [hash](https://land.hash.moe/) that [Cloudflare Pages is discouraged](https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/), against running on Cloudflare Workers with static assets. So I migrated this blog to run on Workers, added a page access statistics system, and later added Email reporting system (so that I receive one email per day to notify me that my blog still have readers).
 
-Later, I introduced [Utterances](https://utteranc.es/) comments to my blog, and ultimately (at least for now) migrated to use [Gisgus](https://giscus.app/). I found then, that Giscus supports importing a custom CSS file for stylesheet, so I can fit Giscus better for my blog (see below... I mean just scroll down to see the comments section).
+Later, I introduced [Utterances](https://utteranc.es/) comments to my blog, and ultimately (at least for now) migrated to use [Giscus](https://giscus.app/). I found then, that Giscus supports importing a custom CSS file for stylesheet, so I can fit Giscus better for my blog (see below... I mean just scroll down to see the comments section).
 
 When I was experimenting on the custom CSS file, I added a branch to my Workers script to serve the CSS file from KV Cache (so that when experimenting the CSS, I don't need to push tens of single-line commits to my blog repo).
 
@@ -50,7 +50,7 @@ Until recently (2026-01-18). I happened to find that my WPS Office from yay was 
 
 I struggled to decrypt the email (my old Canokey had poor contact on my laptop, and any movement would cause failure) and wondered why it could be encrypted with the old key. Later, I realized that my blog was still serving the old GPG key with a file `/Ajax.gpg`, so I decided to change that to a 302 redirect to [OpenPGP key server](https://keys.openpgp.org/vks/v1/by-fingerprint/C2938BB2BE46925BC3AD831CC342EF3F96F5AA37).
 
-Just like before, I added a branch to my Workers script to handle this rediect:
+Just like before, I added a branch to my Workers script to handle this redirect:
 
 ```js
     if (url.pathname === '/Ajax.gpg') {
@@ -62,7 +62,7 @@ And, *just like before*, my browser returned 404, while `curl` returned 302.
 
 What was *not like before* was that I have to figure this out this time, or this redirect will not lead viewers to my updated GPG key.
 
-So I turned to ChatGPT. I pasted browser and curl headers and asked why the difference. The same as me, he suspected caching machnisms first. But after I confirmed that I have cleared browser cache and Cloudflare cache, and asked him to search for other possible reasons, he found the answer.
+So I turned to ChatGPT. I pasted browser and curl headers and asked why the difference. The same as me, he suspected caching mechanisms first. But after I confirmed that I have cleared browser cache and Cloudflare cache, and asked him to search for other possible reasons, he found the answer.
 
 > Your Worker code is fine. The reason you still see a cached 404 is that your request is not reaching your Worker code at all — it is being handled by Workers Static Assets routing (the “asset handler”), which can return its own 404 and attach the default static-asset headers you’re seeing
 >
@@ -76,4 +76,4 @@ See [Navigation requests prefer asset serving](https://developers.cloudflare.com
 
 ## The Solution
 
-Initially, I followed ChatGPT's suggestion to add a query string to bypass the static asset handler. But at the time I am writing this, I find another, better solution: [Page Redirects](https://developers.cloudflare.com/workers/static-assets/redirects/). By adding `_rediects` file, Cloudflare Workers static assets handler will call 302 redirect directly, without need to invoke the Worker script.
+Initially, I followed ChatGPT's suggestion to add a query string to bypass the static asset handler. But at the time I am writing this, I find another, better solution: [Page Redirects](https://developers.cloudflare.com/workers/static-assets/redirects/). By adding `_redirects` file, Cloudflare Workers static assets handler will call 302 redirect directly, without need to invoke the Worker script.
