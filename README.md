@@ -8,12 +8,13 @@ Credits to Cloudflare Workers! It has better connectivity than Github Pages, esp
 
 ```bash
 npm i -g hexo-cli
-npm i
+pnpm install
 ```
 
 ## Running the project
 
 ```bash
-hexo g # Generate static files
-hexo s # Start a local server
+pnpm run build   # Generate static files
+pnpm run server  # Start the local server with dev overrides (neat disabled)
+pnpm run dev     # Generate into public/ and live-reload in browser (neat disabled)
 ```

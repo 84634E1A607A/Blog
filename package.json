@@ -5,8 +5,11 @@
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
+    "dev": "concurrently -k -n HEXO,BS \"pnpm run dev:build\" \"pnpm run dev:serve\"",
+    "dev:build": "hexo generate --watch --config _config.yml,_config.dev.yml",
+    "dev:serve": "browser-sync start --server public --files \"public/**/*\" --port 4000 --host 127.0.0.1 --no-open --no-notify",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server --config _config.yml,_config.dev.yml"
   },
   "pnpm": {
     "patchedDependencies": {
@@ -34,6 +37,8 @@
   },
   "devDependencies": {
     "@master-hash/tree-sitter-highlight": "^1.2.2",
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.2.1",
     "hexo-neat": "^1.0.9"
   }
 }
