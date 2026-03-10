@@ -206,4 +206,4 @@ wrpcap("ospf_lsa.pcap", [parse_ospf_lsdb(p) for p in lsdb_adv])
 
 由于 ~~懒~~ 和部分内容不适合挂出来 (主要是懒), 更多的内容就不在这写出了.
 
-在写这篇文章时看到了一片 [非常好的思科论坛的文章](https://community.cisco.com/t5/networking-knowledge-base/reading-and-understanding-the-ospf-database/ta-p/3145995) ( [以防没了](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.pdf), [+1](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.html) ).
+在写这篇文章时看到了一篇 [非常好的思科论坛的文章](https://community.cisco.com/t5/networking-knowledge-base/reading-and-understanding-the-ospf-database/ta-p/3145995) ( [以防没了](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.pdf), [+1](DecodingH3COSPFMIB/Reading%20and%20Understanding%20the%20OSPF%20Database%20-%20Cisco%20Community.html) ).

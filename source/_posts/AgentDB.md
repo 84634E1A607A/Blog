@@ -146,7 +146,7 @@ IndexSelectFilterScheduler --> IndexSys
 
 ## Copilot 额度用完了
 
-然后调试性能把 Copilot 的额度几乎用完了. 好在当时我拖我朋友帮我充值了 ChatGPT Plus, 有 CodeX 额度可以用. 于是我改用 CodeX 继续写.
+然后调试性能把 Copilot 的额度几乎用完了. 好在当时我托我朋友帮我充值了 ChatGPT Plus, 有 CodeX 额度可以用. 于是我改用 CodeX 继续写.
 
 CodeX 的历史记录找不着了, 但是可以说的是, CodeX 很厉害, 不比 Claude Sonnet 差. 我让它对着测例, 一个一个 feature flag 加, 一个一个跑通. 大概用了两天时间, 它把所有我想实现的功能都跑通了.
 

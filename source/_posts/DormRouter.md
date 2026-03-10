@@ -256,7 +256,7 @@ ip route add via gateway_ip table campus
 
 在配置的时候发现 IPv6 从校内 ping 不通, 经过检查, 和之前的问题相似, 这次是因为 `2402:f000::/32` 被默认从校园网路由并进行了 NAT6. 解决方案也相似, 强制源地址为宽带 `2409::` 的流量从宽带走.
 
-但是校内 ping Prefix Delegation 的 IPv6 也不通... 原因同上, 但由于 PD 出来的地址是 GUA, 本身就需要选择路由, 不能一道切, 所以需要考虑通过 conntrack 路由.
+但是校内 ping Prefix Delegation 的 IPv6 也不通... 原因同上, 但由于 PD 出来的地址是 GUA, 本身就需要选择路由, 不能一刀切, 所以需要考虑通过 conntrack 路由.
 
  *3 月 17 日更新*
 
@@ -279,4 +279,3 @@ ip -6 route add default dev ppp0 table 9
 这样 IPv6 就完全通啦~ 然后我研究了一下 ppp0 上的 IPv6 地址, 发现既然我们已经有 Prefix Delegation 了, 没必要弄一个没啥用的地址. 因此我在 `dhcpcd.conf` 里面关闭了 ppp0 上的 SLAAC, 同时将 DNS 解析到了内网网关上. 鉴于现在 IPv6 能通过 DNS 查到, 顺面配置一下防火墙就很自然了.
 
 这之后我尝试通过域名访问 SSH, 结果在内网挂了... 似乎是因为它把这玩意给 forward 给学校了... 看来 IPv4 这边也还是用 conntrack 比较好.
-
