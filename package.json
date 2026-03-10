@@ -8,8 +8,7 @@
     "dev": "concurrently -k -n HEXO,BS \"pnpm run dev:build\" \"pnpm run dev:serve\"",
     "dev:build": "hexo generate --watch --config _config.yml,_config.dev.yml",
     "dev:serve": "browser-sync start --server public --files \"public/**/*\" --port 4000 --host 127.0.0.1 --no-open --no-notify",
-    "deploy": "hexo deploy",
-    "server": "hexo server --config _config.yml,_config.dev.yml"
+    "deploy": "hexo deploy"
   },
   "pnpm": {
     "patchedDependencies": {
