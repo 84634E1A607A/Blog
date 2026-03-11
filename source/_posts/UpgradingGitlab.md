@@ -6,6 +6,7 @@ description: This post details the process of upgrading Gitlab CE from version 1
 tags:
   - 技术
   - 运维
+  - 科协
 ---
 
 前几天我把科协的 Git9 从自编译的 11.1.1 一路升级到 16.8.0, 中途遇到了一些问题, 找了不少资料也解决不了, 因此放在这里.
