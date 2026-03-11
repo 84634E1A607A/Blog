@@ -129,6 +129,7 @@ sitemap:
 
 feed:
   type: atom
+  # Keep hexo-generator-feed pinned to 3.0.0; v4 dropped template rendering.
   template: _atom.xml
   content: false
   limit: 20
