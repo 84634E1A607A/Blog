@@ -10,3 +10,4 @@ _multiconfig.yml
 .macro-correct-cache/
 __pycache__/
 macro-correct-report.json
+.codex/
