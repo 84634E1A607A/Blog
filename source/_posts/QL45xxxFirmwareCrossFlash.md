@@ -1,6 +1,6 @@
 ---
 title: QLogic QL45xxx Firmware, OEM parts and Cross Flashing
-updated: 2026-05-01 16:29:37
+updated: 2026-05-07 13:49:23
 date: 2026-04-30 11:25:06
 description: "This article documents the QLogic QL45xxx 100GbE NIC cross-flashing process across Oracle, HPE, and generic QLogic firmware, explains PCI ID and NVRAM modification mechanics, provides a reproducible EEPROM/QCScli-based flashing guide for restoring 4x25GbE port-mode support, and concludes that subsystem identity rewriting plus official QLogic firmware can recover flexible 1x100G/2x50G/4x25G operation, while DAC link-up issues remain unresolved."
 tags:
@@ -314,6 +314,21 @@ Settings for ens9f1np1:
 
 GPT suspects that the QLogic card supports None / FC FEC only, while the DAC cable requires RS FEC, but I have no way to verify it.
 
+## The Tragedy
+
+Well... Even after all the efforts, what I got was a card that *seemingly* worked in 4x25GbE mode, with a non-functional DAC cable. Still not convinced, I bought 8 SFP28 transceivers (in case the breakout cable doesn't work, I can use 4 SFP28 modules to achieve 4x25GbE) at 30 yuan each, one MPO-LC breakout cable at 90 yuan, and a QSFP28 MPO transceiver at approx. 150 yuan. This time it should work, right?
+
+No, it didn't. The QSFP28 module was recognized, good. It transmitted + received signal, good. What doesn't work? It still won't link up. ethtool says the *supported rates* are 100G only for *each* port (though there are 4 ports), and suggests that the other end suggests 100G only as well (What??? The other end is one SFP28 module, how can it advertise 100G). After some effort, Codex even traced down to `qede` kernel module and spotted some bugs (or, features?).
+
+So I asked Codex to write a quick patch. Didn't work either. And I asked dolphin to try with his Windows. That's when the most stupid thing happened:
+
+- He used a Thunderbolt 3 to PCIe adapter to connect the card to his laptop. He installed the driver. BSOD with code 0xBAD00004
+- He unplugged the card, reboot his laptop, plugged the card back in. BSOD with code 0xBAD00004. The driver seemed incapable of handling hotplug event.
+- He rebooted the laptop with the card plugged in, at least it worked... but still no link up.
+- He tried to disable & enable the card in Device Manager. After some trials, BSOD with code 0xBAD00002.
+
+He concluded that the card's driver was a piece of bullshit (so did I), and finally we abandoned the card. Let's use it one day when we have a 100GbE switch, maybe.
+
 ## The Guide
 
 Based on the experience gained from the story, here is a guide for cross-flashing QLogic QL45xxx series NICs:
@@ -342,3 +357,9 @@ The full process is:
 - Flash the modified NVRAM back to the chip, verify it; then solder the chip back to the board.
 - With QCScli, run `list phyadapters` to find your card, run `select x` to select it, then run `upgrade -mbi /path/to/mbi` to flash the card.
 - Reboot and it should be good to go. You can share your binary and experience in the comments if you want to.
+
+AND if you want to change the PCI device ID, like, turn a 100GbE card into a 4x25GbE one:
+
+- First flash the card with QLogic's MBI (see process above)
+- In UEFI BIOS, change the port mode to 4x25GbE, reboot and it should be in 4x25GbE mode, PCI device ID changed
+- Then flash whatever firmware you want with that OEM's MBI (see process above, too)
