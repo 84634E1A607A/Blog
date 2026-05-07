@@ -14,11 +14,11 @@ importers:
   .:
     dependencies:
       hexo:
-        specifier: ^8.1.1
-        version: 8.1.1(chokidar@3.6.0)
+        specifier: ^8.1.2
+        version: 8.1.2(chokidar@3.6.0)
       hexo-asset-link:
         specifier: ^2.3.1
-        version: 2.3.1(hexo@8.1.1(chokidar@3.6.0))
+        version: 2.3.1(hexo@8.1.2(chokidar@3.6.0))
       hexo-clean-css:
         specifier: ^2.0.0
         version: 2.0.0
@@ -45,7 +45,7 @@ importers:
         version: 2.0.0
       hexo-highlighter-shiki:
         specifier: ^1.2.3
-        version: 1.2.3(patch_hash=f68b0869ebc95ad8e438c8a8df0a72dd5c47c0aca9c2e651ec0458a218b469b0)(hexo-util@4.0.0)(hexo@8.1.1(chokidar@3.6.0))
+        version: 1.2.3(patch_hash=f68b0869ebc95ad8e438c8a8df0a72dd5c47c0aca9c2e651ec0458a218b469b0)(hexo-util@4.0.0)(hexo@8.1.2(chokidar@3.6.0))
       hexo-renderer-markdown-it:
         specifier: ^7.1.1
         version: 7.1.1
@@ -589,8 +589,8 @@ packages:
     resolution: {integrity: sha512-oXKXBs1HZ2Wu/eq0paAVqtCmAEcqJPZ4xxSVRuwAplm1hFU41Ul53WA5bmYMEz9Dp+OJ/SdchjXRmYlbGJdt3w==}
     engines: {node: '>=18'}
 
-  hexo@8.1.1:
-    resolution: {integrity: sha512-UnzT4ImjKzMMuVRsvudxrl7MkdZwKe4S9xJN5pQPK9c+K0G+fLFb9kB6CqZZwj2E5ne+QK0ls4XMKqTUbNR3RQ==}
+  hexo@8.1.2:
+    resolution: {integrity: sha512-gmpNwL1KnbK12q551ZhGxqvSw8M88ZSjFKOhx6ybUYz1phjPdwGewMgBgwGmjcVcIYFq6tWQAv1MRil/sBrPHQ==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -643,8 +643,8 @@ packages:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
 
-  is-core-module@2.16.1:
-    resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
+  is-core-module@2.16.2:
+    resolution: {integrity: sha512-evOr8xfXKxE6qSR0hSXL2r3sd7ALj8+7jQEUvPYcm5sgZFdJ+AYzT6yNmJenvIYQBgIGwfwz08sL8zoL7yq2BA==}
     engines: {node: '>= 0.4'}
 
   is-docker@2.2.1:
@@ -825,8 +825,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  nanoid@3.3.11:
-    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
+  nanoid@3.3.12:
+    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -1666,9 +1666,9 @@ snapshots:
 
   he@1.2.0: {}
 
-  hexo-asset-link@2.3.1(hexo@8.1.1(chokidar@3.6.0)):
+  hexo-asset-link@2.3.1(hexo@8.1.2(chokidar@3.6.0)):
     dependencies:
-      hexo: 8.1.1(chokidar@3.6.0)
+      hexo: 8.1.2(chokidar@3.6.0)
 
   hexo-clean-css@2.0.0:
     dependencies:
@@ -1749,9 +1749,9 @@ snapshots:
     dependencies:
       hexo-pagination: 3.0.0
 
-  hexo-highlighter-shiki@1.2.3(patch_hash=f68b0869ebc95ad8e438c8a8df0a72dd5c47c0aca9c2e651ec0458a218b469b0)(hexo-util@4.0.0)(hexo@8.1.1(chokidar@3.6.0)):
+  hexo-highlighter-shiki@1.2.3(patch_hash=f68b0869ebc95ad8e438c8a8df0a72dd5c47c0aca9c2e651ec0458a218b469b0)(hexo-util@4.0.0)(hexo@8.1.2(chokidar@3.6.0)):
     dependencies:
-      hexo: 8.1.1(chokidar@3.6.0)
+      hexo: 8.1.2(chokidar@3.6.0)
       hexo-util: 4.0.0
 
   hexo-i18n@2.0.0:
@@ -1841,7 +1841,7 @@ snapshots:
       prismjs: 1.30.0
       strip-indent: 3.0.0
 
-  hexo@8.1.1(chokidar@3.6.0):
+  hexo@8.1.2(chokidar@3.6.0):
     dependencies:
       abbrev: 3.0.1
       bluebird: 3.7.2
@@ -1943,7 +1943,7 @@ snapshots:
     dependencies:
       binary-extensions: 2.3.0
 
-  is-core-module@2.16.1:
+  is-core-module@2.16.2:
     dependencies:
       hasown: 2.0.3
 
@@ -2094,7 +2094,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nanoid@3.3.11: {}
+  nanoid@3.3.12: {}
 
   negotiator@0.6.3: {}
 
@@ -2209,7 +2209,7 @@ snapshots:
   resolve@1.22.12:
     dependencies:
       es-errors: 1.3.0
-      is-core-module: 2.16.1
+      is-core-module: 2.16.2
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -2436,7 +2436,7 @@ snapshots:
       hexo-log: 4.1.0
       is-plain-object: 5.0.0
       jsonparse: 1.3.1
-      nanoid: 3.3.11
+      nanoid: 3.3.12
       rfdc: 1.4.1
       through2: 4.0.2
 
