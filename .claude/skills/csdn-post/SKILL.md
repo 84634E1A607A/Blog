@@ -8,6 +8,8 @@ description: Cross-post a blog article from aajax.top to CSDN using MCP Chrome D
 ## Usage
 Use this skill when the user asks to cross-post a blog article from `aajax.top` to CSDN.
 
+**!!!IMPORTANT!!!** NEVER create snapshots or save any files in this blog repository. This skill is a read-only workflow — it only reads article content and operates in the browser via MCP Chrome DevTools. Do not write, create, or modify any files under `/home/ajax/source/Blog`.
+
 ## Workflow
 
 ### 1. Prepare Content
@@ -19,9 +21,10 @@ Use this skill when the user asks to cross-post a blog article from `aajax.top` 
   2. Try `https://aajax.top/YYYY/MM/DD/article-slug/` using the frontmatter date.
   3. If that returns `404`, also try the previous day and next day.
   ```bash
-  curl -sI https://aajax.top/YYYY/MM/DD/article-slug/ | head -1
+  curl -sI -L https://aajax.top/YYYY/MM/DD/article-slug/ | grep -E "^HTTP/(1\.1 200|2 200)" | tail -1
   ```
   Use only a URL that returns `HTTP/2 200` or `HTTP/1.1 200`. If none work, prompt the user.
+  Note: `tail -1` is used instead of `head -1` because a proxy returns `HTTP/1.1 200 Connection established` as the first line; the actual target status is on the last matching line.
 
 ### 2. Open CSDN Editor
 Use MCP Chrome DevTools:
@@ -56,17 +59,51 @@ At the top of the content, add:
 - Replace blog-specific shortcodes with standard Markdown.
 - Preserve code fences and language identifiers where CSDN supports them.
 
+#### Injecting content into the Rich Text Editor
+
+The CSDN editor is a **CKEditor** instance. To set content, use `evaluate_script` to call the CKEditor API:
+
+```javascript
+// Discover the editor instance
+const editor = window.CKEDITOR.instances.editor;
+
+// Build HTML content (translate to Chinese, add lead paragraph, etc.)
+const htmlContent = `<blockquote>本文原载于我的个人博客：<a href="CANONICAL_URL">TITLE</a>，如需阅读完整内容（包括图片、代码块等），请前往我的博客阅读。</blockquote><hr/><p>...</p>`;
+
+// Set initial content
+editor.setData(htmlContent);
+
+// Append more content (for long articles, inject in chunks)
+editor.setData(editor.getData() + additionalHtml);
+```
+
+**HTML format reference** for CKEditor injection:
+- Blockquote (lead paragraph): `<blockquote>...</blockquote>`
+- Horizontal rule: `<hr/>`
+- Headings: `<h2>...</h2>`, `<h3>...</h3>`, `<h4>...</h4>`
+- Paragraphs: `<p>...</p>`
+- Bold: `<strong>...</strong>`
+- Links: `<a href="URL">text</a>`
+- Lists: `<ul><li>...</li></ul>` or `<ol><li>...</li></ol>`
+- Tables: `<table><thead><tr><th>...</th></tr></thead><tbody><tr><td>...</td></tr></tbody></table>`
+- Code blocks: `<pre><code>...</code></pre>`
+- Inline code: `<code>...</code>`
+
+**For long articles**, break the content into multiple chunks and append each using `editor.setData(editor.getData() + chunkHtml)` to avoid hitting any size limits.
+
 ### 6. Manage Tags
 **Delete wrong tags** (php, 开发语言 are common auto-suggestions):
 ```javascript
-// Find and click delete button on unwanted tags
-const unwantedTags = new Set(['php', '开发语言']);
-const tags = document.querySelectorAll('[class*="tag"], [class*="Tag"]');
+// CSDN tags use el_mcm-tag class with el_mcm-tag__content for text and el_mcm-tag__close for close
+const tagBox = document.querySelector('.tag-box');
+const tags = Array.from(tagBox.querySelectorAll('.el_mcm-tag'));
+const unwanted = ['php', '开发语言'];
 for (const tag of tags) {
-  const text = tag.textContent.trim();
-  if (unwantedTags.has(text)) {
-    const deleteBtn = tag.querySelector('[class*="close"], [class*="Close"], button');
-    if (deleteBtn) deleteBtn.click();
+  const content = tag.querySelector('.el_mcm-tag__content');
+  const text = content ? content.textContent.trim() : '';
+  if (unwanted.includes(text)) {
+    const closeBtn = tag.querySelector('.el_mcm-tag__close');
+    if (closeBtn) closeBtn.click();
   }
 }
 ```
@@ -108,4 +145,18 @@ Use JavaScript evaluation as shown above.
 Take snapshot to verify current state. Click intended element explicitly.
 
 ### Tags persist after delete attempt
-Use JavaScript to directly click the close button within the tag element.
+Use JavaScript to directly click the `.el_mcm-tag__close` button within the `.el_mcm-tag` element, as shown in the Manage Tags section.
+
+### Finding the editor instance
+If `window.CKEDITOR.instances.editor` doesn't work, discover available instances:
+```javascript
+Object.keys(window.CKEDITOR.instances)
+```
+The iframe containing the editor content has class `cke_wysiwyg_frame cke_reset`.
+
+### Content too long for single setData call
+Break content into multiple chunks and append each:
+```javascript
+editor.setData(editor.getData() + additionalHtml);
+```
+Check current content length with: `editor.getData().length`
