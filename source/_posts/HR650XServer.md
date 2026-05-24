@@ -1,6 +1,6 @@
 ---
 title: 捡了一台 HR650X -- 附加折腾日记
-updated: 2026-05-24 15:11:53
+updated: 2026-05-24 17:31:48
 date: 2026-01-31 18:49:09
 description: "记录入手二手联想 HR650X 双路 3647 平台服务器后，从选购、硬件搭配到 BIOS/BMC 救砖、PCIe 拆分隐藏选项挖掘与串口调试的完整折腾过程，并给出整机功耗与 BMC 功能等实际体验，最终结论是这批二手机型在经过 BIOS/BMC 升级与 VRM TDP 修改后可稳定作为服务器使用。"
 tags:
@@ -522,3 +522,45 @@ ipmitool sol set non-volatile-bit-rate 115200 1
 ```
 
 之后, SOL 就好了. (好耶! 我的开机速度提升了一倍!)
+
+## 还是串口
+
+但是为啥一直有一大坨 Debug Log 呢...? 下午我又让 GPT 看了一遍, 给了他一大堆 BIOS 里面提取的 Setup Menu 信息, GPT 找到了一个神秘的 "== Lenovo LAB ==" 页面. 里面可以配置
+
+```yml
+That is the master Debug Level switch:
+
+Form:       == Lenovo LAB ==
+Question:   Debug Level
+QuestionId: 0xE3
+VarStore:   LnvSetup / VarStoreId 0x4
+Offset:     0x02
+Options:
+  0x00 = Disable
+  0x01 = Enable
+
+The same hidden LAB block also has per-phase debug levels:
+
+LnvSetup[0x03] = PEI Debug Level
+LnvSetup[0x04] = DXE Debug Level
+LnvSetup[0x05] = BDS 1 Debug Level
+LnvSetup[0x06] = BDS 2 Debug Level
+LnvSetup[0x07] = Runtime Debug Level
+LnvSetup[0x08] = SMM Debug Level
+
+Each of those has these values:
+
+0x80 = Ignore
+0x00 = Disabled
+0x01 = Min
+0x02 = Mid
+0x03 = Max
+
+For silencing serial POST debug output, do not use Ignore. Use Disabled, meaning 0x00.
+```
+
+我按照 GPT 说的用 RU 看了看, 但是所有的 Debug Level 都是 0x00 关闭状态. 我索性把当年的 BIOS Dump 和启动时的 SOL Log 整个扔给了 GPT. GPT 得出了很有意思的结论:
+
+这个 BIOS **是调试版本**, 不像其他的 BIOS 会把调试有关的路径在编译阶段删掉, 这个 BIOS 里面包含了完整的调试信息. 同时, BIOS 编译时候默认把各个部件的调试等级的默认都是不知道什么比较高的等级. 如果总体的设置 "Debug Level" == 0, 各个子项的设置就会被 BIOS 认为是无效的, 直接当成 "Ignore" 了, 所以有大量的调试信息. 因此, 我们需要把 "Debug Level" 设置成 1 (Enable), 然后把各个子项都 Disable.
+
+启动更快了!
