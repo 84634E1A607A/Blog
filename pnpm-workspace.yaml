@@ -1,0 +1,4 @@
+allowBuilds:
+  hexo-util: true
+patchedDependencies:
+  hexo-highlighter-shiki: patches/hexo-highlighter-shiki.patch
