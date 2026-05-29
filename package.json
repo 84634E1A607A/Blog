@@ -32,7 +32,7 @@
   "devDependencies": {
     "@master-hash/tree-sitter-highlight": "^1.2.2",
     "browser-sync": "^3.0.4",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.0",
     "hexo-neat": "^1.0.9"
   }
 }
