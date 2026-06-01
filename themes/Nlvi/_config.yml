@@ -127,7 +127,7 @@ mathjax: false
 mathjax3: true
 
 # lightbox
-lightbox: true
+lightbox: false
 
 # lazyload
 lazyload: true
