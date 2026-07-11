@@ -25,21 +25,32 @@
 {% endif %}
 
 {# Open Graph Protocol #}
+<meta name="twitter:card" content="summary_large_image" />
 <meta property="og:site_name" content="{{ config.title }}" />
 <meta property="og:logo" content="https://aajax.top/favicon.ico" />
 {% set ogpImage = resolved_ogp_image(page, is_post()) %}
 {% if ogpImage %}
   {# If ogp_image.url is a relative link, solve it here #}
   {% if ogpImage.url.startsWith('https://') or ogpImage.url.startsWith('http://') %}
-    <meta property="og:image" content="{{ ogpImage.url }}" />
+    {% set ogpImageUrl = ogpImage.url %}
   {% elif ogpImage.url.startsWith('/') %}
-    <meta property="og:image" content="{{ config.url + ogpImage.url }}" />
+    {% set ogpImageUrl = config.url + ogpImage.url %}
   {% else %}
-    <meta property="og:image" content="{{ page.permalink + ogpImage.url }}" />
+    {% set ogpImageUrl = page.permalink + ogpImage.url %}
   {% endif %}
+  {% if ogpImageUrl.toLowerCase().endsWith('.jpg') or ogpImageUrl.toLowerCase().endsWith('.jpeg') %}
+    {% set ogpImageType = 'image/jpeg' %}
+  {% else %}
+    {% set ogpImageType = 'image/png' %}
+  {% endif %}
+  <meta property="og:image" content="{{ ogpImageUrl }}" />
+  <meta property="og:image:secure_url" content="{{ ogpImageUrl }}" />
+  <meta property="og:image:type" content="{{ ogpImageType }}" />
   <meta property="og:image:width" content="{{ ogpImage.width }}" />
   <meta property="og:image:height" content="{{ ogpImage.height }}" />
   <meta property="og:image:alt" content="{{ ogpImage.alt }}" />
+  <meta name="twitter:image" content="{{ ogpImageUrl }}" />
+  <meta name="twitter:image:alt" content="{{ ogpImage.alt }}" />
 {% endif %}
 {% if page.title %}
   <meta property="og:title" content="{{ page.title }}" />
