@@ -2,10 +2,10 @@ const { createHash } = require('node:crypto');
 const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
-const zlib = require('node:zlib');
 const fontkit = require('fontkit');
 const LineBreaker = require('@foliojs-fork/linebreak');
 const { renderAsync } = require('@resvg/resvg-js');
+const sharp = require('sharp');
 
 const CARD_WIDTH = 1200;
 const CARD_HEIGHT = 630;
@@ -17,7 +17,8 @@ const DESCRIPTION_COLOR = '#a58691';
 const TITLE_MAX_LINES = 3;
 const DESCRIPTION_MAX_LINES = 5;
 const OGP_METADATA_KEY = 'hexo-ogp';
-const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+const JPEG_SIGNATURE = Buffer.from([0xff, 0xd8]);
+const JPEG_COMMENT_PREFIX = Buffer.from(`${OGP_METADATA_KEY}\0`, 'utf8');
 
 function asArray(value) {
   if (!value) return [];
@@ -187,7 +188,7 @@ function pageDescription(page, config) {
 function stablePostCardPath(page) {
   const key = page.path || page.source || page.slug || page.title;
   const id = createHash('sha256').update(String(key)).digest('hex').slice(0, 24);
-  return `/ogp/${id}.png`;
+  return `/ogp/${id}.jpg`;
 }
 
 function resolveOgpImage(page, config, isPost) {
@@ -200,7 +201,7 @@ function resolveOgpImage(page, config, isPost) {
     };
   }
 
-  const relativeUrl = isPost ? stablePostCardPath(page) : '/ogp/site.png';
+  const relativeUrl = isPost ? stablePostCardPath(page) : '/ogp/site.jpg';
   const url = `${String(config.url || '').replace(/\/+$/u, '')}${relativeUrl}`;
   return {
     url,
@@ -264,65 +265,34 @@ async function renderCard(input, assets, fonts) {
       fontFiles: [assets.notoRegular, assets.notoBlack, assets.robotoRegular, assets.robotoBlack, assets.allura]
     }
   });
-  return image.asPng();
+  return sharp(image.asPng()).jpeg({ quality: 80 }).toBuffer();
 }
 
-function readOgpMetadata(png) {
-  if (!png.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE)) return undefined;
+function readOgpMetadata(jpeg) {
+  if (!jpeg.subarray(0, JPEG_SIGNATURE.length).equals(JPEG_SIGNATURE)) return undefined;
 
-  let offset = PNG_SIGNATURE.length;
-  while (offset + 12 <= png.length) {
-    const length = png.readUInt32BE(offset);
-    const type = png.toString('ascii', offset + 4, offset + 8);
-    const dataStart = offset + 8;
-    const dataEnd = dataStart + length;
-    if (dataEnd + 4 > png.length) return undefined;
-
-    if (type === 'iTXt') {
-      const data = png.subarray(dataStart, dataEnd);
-      const keywordEnd = data.indexOf(0);
-      if (keywordEnd !== -1 && data.toString('latin1', 0, keywordEnd) === OGP_METADATA_KEY) {
-        const compressionFlag = data[keywordEnd + 1];
-        const languageEnd = data.indexOf(0, keywordEnd + 3);
-        const translatedKeywordEnd = languageEnd === -1 ? -1 : data.indexOf(0, languageEnd + 1);
-        if (compressionFlag === 0 && translatedKeywordEnd !== -1) {
-          return data.toString('utf8', translatedKeywordEnd + 1);
-        }
-      }
+  let offset = JPEG_SIGNATURE.length;
+  while (offset + 4 <= jpeg.length && jpeg[offset] === 0xff) {
+    const marker = jpeg[offset + 1];
+    if (marker === 0xd9 || marker === 0xda) break;
+    const length = jpeg.readUInt16BE(offset + 2);
+    const dataStart = offset + 4;
+    const dataEnd = offset + 2 + length;
+    if (length < 2 || dataEnd > jpeg.length) return undefined;
+    if (marker === 0xfe && jpeg.subarray(dataStart, dataStart + JPEG_COMMENT_PREFIX.length).equals(JPEG_COMMENT_PREFIX)) {
+      return jpeg.toString('utf8', dataStart + JPEG_COMMENT_PREFIX.length, dataEnd);
     }
-    offset = dataEnd + 4;
+    offset = dataEnd;
   }
   return undefined;
 }
 
-function pngChunk(type, data) {
-  const typeBuffer = Buffer.from(type, 'ascii');
-  const length = Buffer.alloc(4);
-  length.writeUInt32BE(data.length);
-  const crc = Buffer.alloc(4);
-  crc.writeUInt32BE(zlib.crc32(Buffer.concat([typeBuffer, data])) >>> 0);
-  return Buffer.concat([length, typeBuffer, data, crc]);
-}
-
-function addOgpMetadata(png, metadata) {
-  const data = Buffer.concat([
-    Buffer.from(OGP_METADATA_KEY, 'latin1'),
-    Buffer.from([0, 0, 0, 0, 0]),
-    Buffer.from(metadata, 'utf8')
-  ]);
-  const metadataChunk = pngChunk('iTXt', data);
-  const chunks = [png.subarray(0, PNG_SIGNATURE.length)];
-  let offset = PNG_SIGNATURE.length;
-
-  while (offset < png.length) {
-    const length = png.readUInt32BE(offset);
-    const end = offset + length + 12;
-    const type = png.toString('ascii', offset + 4, offset + 8);
-    if (type === 'IEND') chunks.push(metadataChunk);
-    chunks.push(png.subarray(offset, end));
-    offset = end;
-  }
-  return Buffer.concat(chunks);
+function addOgpMetadata(jpeg, metadata) {
+  const comment = Buffer.concat([JPEG_COMMENT_PREFIX, Buffer.from(metadata, 'utf8')]);
+  if (comment.length > 65533) throw new Error('OGP metadata is too large for a JPEG comment');
+  const length = Buffer.alloc(2);
+  length.writeUInt16BE(comment.length + 2);
+  return Buffer.concat([JPEG_SIGNATURE, Buffer.from([0xff, 0xfe]), length, comment, jpeg.subarray(JPEG_SIGNATURE.length)]);
 }
 
 function cardMetadata(card) {
@@ -370,7 +340,7 @@ async function generateCards(hexo) {
       description: pageDescription(post, hexo.config)
     }));
   const siteCard = {
-    file: path.join(hexo.public_dir, 'ogp/site.png'),
+    file: path.join(hexo.public_dir, 'ogp/site.jpg'),
     sourcePath: 'site',
     title: hexo.config.title,
     description: hexo.config.description
@@ -387,8 +357,8 @@ async function generateCards(hexo) {
       return;
     }
     await fs.mkdir(path.dirname(card.file), { recursive: true });
-    const png = await renderCard({ ...card, background }, assets, fonts);
-    await fs.writeFile(card.file, addOgpMetadata(png, metadata));
+    const jpeg = await renderCard({ ...card, background }, assets, fonts);
+    await fs.writeFile(card.file, addOgpMetadata(jpeg, metadata));
     rendered += 1;
   });
   hexo.log.info(`OGP cards: ${rendered} rendered, ${reused} reused`);
