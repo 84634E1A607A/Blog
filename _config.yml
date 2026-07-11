@@ -140,11 +140,10 @@ mermaid:
 
 canonical: true
 
-ogp_image:
-  url: https://aajax.top/theme.jpg
+ogp:
+  background: assets/ogp/background.jpg
   width: 1200
   height: 630
-  alt: Theme Image for Ajax's Blog
 
 # Structured data for search engines and other consumers of schema.org metadata.
 json_ld:
