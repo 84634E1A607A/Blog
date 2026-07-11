@@ -1,8 +1,6 @@
-{% if theme.search.enable %}
-  <div class="search" id="search">
-    <div class="input">
-      <input type="text" id="search-input" placeholder="{{ theme.search.label or '搜索' }}" autofocus>
-    </div>
-    <div id="search-result"></div>
+<div class="search" id="search">
+  <div class="input">
+    <input type="search" id="search-input" placeholder="{{ theme.search_label }}" aria-label="{{ theme.search_label }}">
   </div>
-{% endif %}
+  <div id="search-result" aria-live="polite"></div>
+</div>

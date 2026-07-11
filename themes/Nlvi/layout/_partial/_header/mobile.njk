@@ -15,11 +15,7 @@
       {% for name,url in theme.menu %}
         <li class="mobile-nav-item syuanpi fadeInRightShort back-{{ loop.index0 }}">
           <a href="{% if name == 'tags' %}javascript:;{% else %}{{ url_for(url) }}{% endif %}" id="mobile-{{name}}">
-            {% if theme['local-nav'] %}
-              {{ __('nav.' + name) }}
-            {% else %}
-              {{ name | upper }}
-            {% endif %}
+            {{ __('nav.' + name) }}
           </a>
         </li>
       {% endfor %}

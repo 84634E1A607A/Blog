@@ -2,9 +2,6 @@
 
 {% block title %}
   {{config.title}}
-  {% if config.subtitle %}
-    | {{ config.subtitle }}
-  {% endif %}
 {% endblock %}
 
 
@@ -12,4 +9,3 @@
   {% include "_partial/main.njk" %}
   {% include "_partial/pagenum.njk" %}
 {% endblock %}
-

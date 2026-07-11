@@ -2,11 +2,7 @@
 {% import "_partial/archive.njk" as archivet with context %}
 
 {% block title %}
-  {% if page.archive %}
-    {{ __('nav.archives') }} · {{ config.title }}
-  {% elif page.tag %}
-    {{ page.tag }} · {{ config.title }}
-  {% endif %}
+  {{ page.tag }} · {{ config.title }}
 {% endblock %}
 
 {% block main %}
