@@ -151,6 +151,13 @@ ogp_image:
   height: 630
   alt: Theme Image for Ajax's Blog
 
+# Structured data for search engines and other consumers of schema.org metadata.
+json_ld:
+  site_alternate_name: aajax.top
+  author_url: https://aajax.top/about/
+  author_same_as:
+    - https://github.com/84634E1A607A
+
 neat_enable: true
 neat_html:
   enable: true
