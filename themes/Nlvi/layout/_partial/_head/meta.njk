@@ -72,3 +72,8 @@
 {% else %}
   <meta property="og:type" content="website" />
 {% endif %}
+
+{% set structuredData = json_ld() %}
+{% if structuredData %}
+  <script type="application/ld+json">{{ structuredData }}</script>
+{% endif %}
