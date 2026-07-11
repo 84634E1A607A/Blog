@@ -53,8 +53,7 @@ function buildAuthor(config, page, authorId) {
   return author;
 }
 
-function buildImage(page, pageUrl) {
-  const image = page.ogp_image;
+function buildImage(image, pageUrl) {
   if (!image || !image.url) return undefined;
 
   const result = {
@@ -67,6 +66,11 @@ function buildImage(page, pageUrl) {
   if (height) result.height = height;
   if (image.alt) result.caption = image.alt;
   return result;
+}
+
+function resolvedOgpImage(context, page) {
+  const helper = hexo.extend.helper.get('resolved_ogp_image');
+  return helper ? helper.call(context, page, true) : page.ogp_image;
 }
 
 hexo.extend.helper.register('json_ld', function () {
@@ -101,7 +105,7 @@ hexo.extend.helper.register('json_ld', function () {
       .filter(Boolean);
     if (keywords.length) structuredData.keywords = keywords;
 
-    const image = buildImage(page, pageUrl);
+    const image = buildImage(resolvedOgpImage(this, page), pageUrl);
     if (image) structuredData.image = image;
 
     return safeJsonStringify(structuredData);

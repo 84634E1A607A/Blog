@@ -27,23 +27,19 @@
 {# Open Graph Protocol #}
 <meta property="og:site_name" content="{{ config.title }}" />
 <meta property="og:logo" content="https://aajax.top/favicon.ico" />
-{% if page.ogp_image %}
+{% set ogpImage = resolved_ogp_image(page, is_post()) %}
+{% if ogpImage %}
   {# If ogp_image.url is a relative link, solve it here #}
-  {% if page.ogp_image.url.startsWith('https://') or page.ogp_image.url.startsWith('http://') %}
-    <meta property="og:image" content="{{ page.ogp_image.url }}" />
-  {% elif page.ogp_image.url.startsWith('/') %}
-    <meta property="og:image" content="{{ config.url + page.ogp_image.url }}" />
+  {% if ogpImage.url.startsWith('https://') or ogpImage.url.startsWith('http://') %}
+    <meta property="og:image" content="{{ ogpImage.url }}" />
+  {% elif ogpImage.url.startsWith('/') %}
+    <meta property="og:image" content="{{ config.url + ogpImage.url }}" />
   {% else %}
-    <meta property="og:image" content="{{ page.permalink + page.ogp_image.url }}" />
+    <meta property="og:image" content="{{ page.permalink + ogpImage.url }}" />
   {% endif %}
-  <meta property="og:image:width" content="{{ page.ogp_image.width }}" />
-  <meta property="og:image:height" content="{{ page.ogp_image.height }}" />
-  <meta property="og:image:alt" content="{{ page.ogp_image.alt }}" />
-{% elif config.ogp_image %}
-  <meta property="og:image" content="{{ config.ogp_image.url }}" />
-  <meta property="og:image:width" content="{{ config.ogp_image.width }}" />
-  <meta property="og:image:height" content="{{ config.ogp_image.height }}" />
-  <meta property="og:image:alt" content="{{ config.ogp_image.alt }}" />
+  <meta property="og:image:width" content="{{ ogpImage.width }}" />
+  <meta property="og:image:height" content="{{ ogpImage.height }}" />
+  <meta property="og:image:alt" content="{{ ogpImage.alt }}" />
 {% endif %}
 {% if page.title %}
   <meta property="og:title" content="{{ page.title }}" />
