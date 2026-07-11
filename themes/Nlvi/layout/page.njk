@@ -1,9 +1,6 @@
 {% extends "_layout.njk" %}
   {% block title %}
     {{config.title}}
-    {% if config.subtitle %}
-      | {{ config.subtitle }}
-    {% endif %}
   {% endblock %}
 
   {% block main %}
@@ -11,14 +8,9 @@
       <div class="about syuanpi fadeInRightShort">
         <h2 class="title"> {{ __('nav.about') }} </h2>
         <div class="content">
-          {% if theme.self %}
-            {{ theme.self }}
-          {% else %}
-            {{ page.content }}
-          {% endif %}
+          {{ page.content }}
         </div>
       </div>
-      {% include "_partial/friendlink.njk" %}
       {% include "_partial/_post/comments.njk" %}
     {% else %}
       {{ page.content }}

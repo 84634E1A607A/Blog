@@ -17,6 +17,8 @@
     </div>
     {% include "_partial/tagcloud.njk" %}
   </div>
-  {% include "_partial/_feature/common.njk" %}
+  {% include "_script/backtop.njk" %}
+  {% include "_script/_plugin/search.njk" %}
+  <script type="module" src="{{ url_for('/') }}script/theme.js"></script>
 </body>
 </html>

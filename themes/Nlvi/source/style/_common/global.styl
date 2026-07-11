@@ -36,7 +36,6 @@
 body
   font-family $article-fonts
   -webkit-font-smoothing antialiased
-  -webkit-overflow-scrolling touch
 
   +theme_light()
     background-color $global-setting['background']
@@ -64,18 +63,6 @@ for $k, $v in $heading-list
 
 input
   color: inherit
-
-.lb-outerContainer
-  +theme_light()
-    background-color $theme-color-content-background !important
-  +theme_dark()
-    background-color $theme-color-content-background-dark !important
-
-.lb-image
-  +theme_light()
-    border-color mix($theme-color-content-background, #333, 90%) !important
-  +theme_dark()
-    border-color mix($theme-color-content-background-dark, #ddd, 90%) !important
 
 // Print styles - hide header when printing
 @media print

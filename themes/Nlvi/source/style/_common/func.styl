@@ -1,24 +1,13 @@
 transition-duration()
   transition-duration: arguments
-  -moz-transition-duration: arguments
-  -webkit-transition-duration: arguments
 transition()
   transition: arguments
-  -moz-transition: arguments
-  -webkit-transition: arguments
 transform()
   transform: arguments
-  -ms-transform: arguments
-  -moz-transform: arguments
-  -webkit-transform: arguments
 transition-delay()
   transition-delay: arguments
-  -moz-transition-delay: arguments
-  -webkit-transition-delay: arguments
 user-select()
   user-select: arguments
-  -moz-user-select: arguments
-  -webkit-user-select: arguments
 
 flex-wrapper($direction)
   display: flex
@@ -31,8 +20,7 @@ transition-sign($sign = all)
 
 
 headerStyle()
-  if $header-style == 'block'
-    +theme_light()
-      background-color: mix($theme-color-main, #fff, 15%)
-    +theme_dark()
-      background-color: mix($theme-color-main-dark, #101010, 20%)
+  +theme_light()
+    background-color: mix($theme-color-main, #fff, 15%)
+  +theme_dark()
+    background-color: mix($theme-color-main-dark, #101010, 20%)
