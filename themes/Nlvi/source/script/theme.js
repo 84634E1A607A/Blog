@@ -362,23 +362,46 @@ function setupTitleStatus() {
 }
 
 async function setupViewCounts() {
-  await Promise.all($$('[data-view-path]').map(async container => {
-    const count = $('.post-view-count', container)
+  const containers = $$('[data-view-path]')
+  if (!containers.length) return
+
+  const hideViewCount = container => {
     const separator = container.previousElementSibling?.classList.contains('post-updated')
       ? $('.post-updated-views-separator', container.previousElementSibling)
       : null
-    try {
-      const response = await fetch(`/api/views/${container.dataset.viewPath}`)
-      if (!response.ok) throw new Error(`View API returned ${response.status}`)
-      const value = await response.json()
-      if (typeof value !== 'number') throw new TypeError('View API did not return a number')
-      count.textContent = String(value)
-    } catch (error) {
-      console.error('Unable to load the post view count:', error)
-      container.hidden = true
-      if (separator) separator.hidden = true
+    container.hidden = true
+    if (separator) separator.hidden = true
+  }
+
+  const paths = [...new Set(containers.map(container => container.dataset.viewPath).filter(Boolean))]
+  if (!paths.length) {
+    containers.forEach(hideViewCount)
+    return
+  }
+
+  const params = new URLSearchParams()
+  paths.forEach(path => params.append('path', path))
+
+  try {
+    const response = await fetch(`/api/views?${params}`)
+    if (!response.ok) throw new Error(`View API returned ${response.status}`)
+    const payload = await response.json()
+    if (!payload?.counts || typeof payload.counts !== 'object' || Array.isArray(payload.counts)) {
+      throw new TypeError('View API did not return a counts object')
     }
-  }))
+
+    containers.forEach(container => {
+      const value = payload.counts[container.dataset.viewPath]
+      if (!Number.isSafeInteger(value) || value < 0) {
+        hideViewCount(container)
+        return
+      }
+      $('.post-view-count', container).textContent = String(value)
+    })
+  } catch (error) {
+    console.error('Unable to load post view counts:', error)
+    containers.forEach(hideViewCount)
+  }
 }
 
 async function renderMermaidDiagrams() {
