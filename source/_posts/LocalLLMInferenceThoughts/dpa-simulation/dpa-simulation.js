@@ -465,31 +465,31 @@
     };
   }
 
-  function renderShell(root, config) {
+  function renderShell(root, config, instanceId) {
     root.innerHTML = `
       <div class="dpa-sim__panel">
         <div class="dpa-sim__title">
           <h4>DPA phase lock simulator</h4>
         </div>
         <div class="dpa-sim__controls">
-          ${numberField("gpus", "GPU / DP count", config.dpCount)}
-          ${numberField("agents", "Agent count", config.agentCount)}
-          ${numberField("context", "Context Length", config.contextLength)}
-          ${numberField("kv", "KV tokens / DP", config.kvCapacity)}
-          ${numberField("prefillRate", "Prefill tokens/s", config.prefillRate)}
-          ${numberField("decodeRate", "Decode tokens/s", config.decodeRate)}
+          ${numberField(instanceId, "gpus", "GPU / DP count", config.dpCount)}
+          ${numberField(instanceId, "agents", "Agent count", config.agentCount)}
+          ${numberField(instanceId, "context", "Context Length", config.contextLength)}
+          ${numberField(instanceId, "kv", "KV tokens / DP", config.kvCapacity)}
+          ${numberField(instanceId, "prefillRate", "Prefill tokens/s", config.prefillRate)}
+          ${numberField(instanceId, "decodeRate", "Decode tokens/s", config.decodeRate)}
           <div class="dpa-sim__field">
-            <label for="dpa-scheduler">Scheduler</label>
-            <select id="dpa-scheduler" name="dpa-scheduler" data-field="scheduler" aria-label="Scheduler policy">
+            <label for="${instanceId}-scheduler">Scheduler</label>
+            <select id="${instanceId}-scheduler" name="${instanceId}-scheduler" data-field="scheduler" aria-label="Scheduler policy">
               <option value="prefill">Prefill first</option>
               <option value="decode">Decode first</option>
               <option value="ready">More ready workers</option>
             </select>
           </div>
-          ${numberField("seed", "Seed", config.seed)}
+          ${numberField(instanceId, "seed", "Seed", config.seed)}
           <div class="dpa-sim__field">
-            <label for="dpa-routing">Routing</label>
-            <select id="dpa-routing" name="dpa-routing" data-field="routing" aria-label="Routing policy">
+            <label for="${instanceId}-routing">Routing</label>
+            <select id="${instanceId}-routing" name="${instanceId}-routing" data-field="routing" aria-label="Routing policy">
               <option value="pinned">Pinned DP</option>
               <option value="round-robin">Round-robin</option>
               <option value="random">Random</option>
@@ -505,7 +505,7 @@
           ${legendItem("prefill")} ${legendItem("decode")} ${legendItem("waiting")} ${legendItem("idle")}
         </div>
         <div class="dpa-sim__timeline-wrap">
-          <svg class="dpa-sim__timeline" data-role="timeline" role="img" aria-label="DPA worker timeline"></svg>
+          <canvas class="dpa-sim__timeline" data-role="timeline" role="img" aria-label="DPA worker timeline"></canvas>
         </div>
         <div class="dpa-sim__time-window" data-role="time-window">
           <div class="dpa-sim__window-labels">
@@ -522,8 +522,8 @@
           <div class="dpa-sim__tick-controls">
             <button type="button" data-action="prev" aria-label="Previous tick">&lt;</button>
             <strong data-role="tick-label">Tick 0</strong>
-            <label class="dpa-sim__sr-only" for="dpa-tick-slider">Select tick</label>
-            <input id="dpa-tick-slider" name="dpa-tick-slider" type="range" min="0" max="0" value="0" data-role="tick-slider" aria-label="Select tick">
+            <label class="dpa-sim__sr-only" for="${instanceId}-tick-slider">Select tick</label>
+            <input id="${instanceId}-tick-slider" name="${instanceId}-tick-slider" type="range" min="0" max="0" value="0" data-role="tick-slider" aria-label="Select tick">
             <button type="button" data-action="next" aria-label="Next tick">&gt;</button>
           </div>
           <div class="dpa-sim__hint" data-role="phase-label"></div>
@@ -536,11 +536,11 @@
     root.querySelector("[data-field='routing']").value = config.routing;
   }
 
-  function numberField(name, label, value) {
+  function numberField(instanceId, name, label, value) {
     return `
       <div class="dpa-sim__field">
-        <label for="dpa-${name}">${label}</label>
-        <input id="dpa-${name}" name="dpa-${name}" type="number" inputmode="numeric" data-field="${name}" value="${value}" aria-label="${label}">
+        <label for="${instanceId}-${name}">${label}</label>
+        <input id="${instanceId}-${name}" name="${instanceId}-${name}" type="number" inputmode="numeric" data-field="${name}" value="${value}" aria-label="${label}">
       </div>
     `;
   }
@@ -602,50 +602,77 @@
   }
 
   function renderTimeline(root, result, onSelectTick) {
-    const svg = root.querySelector("[data-role='timeline']");
+    const canvas = root.querySelector("[data-role='timeline']");
     const viewStart = result.viewStartTick ?? 0;
     const viewEnd = result.viewEndTick ?? Math.max(0, result.ticks.length - 1);
     const visibleTicks = Math.max(1, viewEnd - viewStart + 1);
-    const width = Math.max(780, root.querySelector("[data-role='timeline']")?.clientWidth || 780);
+    const width = 780;
     const rowHeight = 22;
     const labelWidth = 54;
     const top = 22;
     const height = top + result.config.dpCount * rowHeight + 26;
     const tickWidth = (width - labelWidth - 12) / visibleTicks;
-    const lines = [];
     const startTime = result.ticks[viewStart]?.time || 0;
     const endTime = (result.ticks[viewEnd]?.time || 0) + TICK_SECONDS;
 
-    lines.push(
-      `<svg class="dpa-sim__timeline" data-role="timeline" xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="DPA worker timeline">`
+    const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    const context = canvas.getContext("2d");
+    context.scale(pixelRatio, pixelRatio);
+
+    const styles = getComputedStyle(root);
+    const textColor = styles.color;
+    const stateColors = Object.fromEntries(
+      Object.keys(STATE_COLORS).map((state) => [state, styles.getPropertyValue(`--dpa-${state}`).trim()])
     );
-    lines.push(`<text x="${labelWidth}" y="13" fill="currentColor" opacity="0.65" font-size="11">${formatSeconds(startTime)}</text>`);
-    lines.push(`<text x="${width - 70}" y="13" fill="currentColor" opacity="0.65" font-size="11">${formatSeconds(endTime)}</text>`);
+    context.font = `11px ${styles.fontFamily || "sans-serif"}`;
+    context.textBaseline = "alphabetic";
+    context.fillStyle = textColor;
+    context.globalAlpha = 0.65;
+    context.fillText(formatSeconds(startTime), labelWidth, 13);
+    context.fillText(formatSeconds(endTime), width - 70, 13);
 
     for (let dpId = 0; dpId < result.config.dpCount; dpId += 1) {
       const y = top + dpId * rowHeight;
-      lines.push(`<text x="8" y="${y + 14}" fill="currentColor" opacity="0.75" font-size="11">DP ${dpId}</text>`);
-      lines.push(`<rect x="${labelWidth}" y="${y + 3}" width="${width - labelWidth - 12}" height="14" fill="currentColor" opacity="0.055"/>`);
+      context.fillStyle = textColor;
+      context.globalAlpha = 0.75;
+      context.fillText(`DP ${dpId}`, 8, y + 14);
+      context.globalAlpha = 0.055;
+      context.fillRect(labelWidth, y + 3, width - labelWidth - 12, 14);
+      context.globalAlpha = 1;
       segmentsForDp(result, dpId, viewStart, viewEnd).forEach((segment) => {
         const segmentStart = Math.max(segment.start, viewStart);
         const segmentEnd = Math.min(segment.end, viewEnd + 1);
         const x = labelWidth + (segmentStart - viewStart) * tickWidth;
         const w = Math.max(1, (segmentEnd - segmentStart) * tickWidth);
-        lines.push(
-          `<rect x="${x.toFixed(2)}" y="${y + 3}" width="${w.toFixed(2)}" height="14" fill="${STATE_COLORS[segment.state]}" data-tick="${segment.start}" data-dp="${dpId}" data-state="${segment.state}" data-agent="${segment.agentId ?? ""}"/>`
-        );
+        context.fillStyle = stateColors[segment.state];
+        context.fillRect(x, y + 3, w, 14);
       });
     }
 
-    lines.push(`</svg>`);
-    svg.outerHTML = lines.join("");
-    const nextSvg = root.querySelector("[data-role='timeline']");
-    nextSvg.addEventListener("click", (event) => {
-      const rect = event.target.closest("[data-tick]");
-      if (!rect) return;
-      onSelectTick(Number(rect.dataset.tick));
-    });
-    attachTooltip(root, nextSvg, result);
+    canvas.__dpaTimeline = { width, height, viewStart, viewEnd, tickWidth, labelWidth, top, rowHeight };
+    canvas.onclick = (event) => {
+      const point = timelinePoint(canvas, result, event);
+      if (point) onSelectTick(point.tick.tick);
+    };
+    attachTooltip(root, canvas, result);
+  }
+
+  function timelinePoint(canvas, result, event) {
+    const geometry = canvas.__dpaTimeline;
+    const bounds = canvas.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) * (geometry.width / Math.max(1, bounds.width));
+    const y = (event.clientY - bounds.top) * (geometry.height / Math.max(1, bounds.height));
+    const dpId = Math.floor((y - geometry.top) / geometry.rowHeight);
+    if (x < geometry.labelWidth || x > geometry.width - 12 || dpId < 0 || dpId >= result.config.dpCount) return null;
+    const rowY = geometry.top + dpId * geometry.rowHeight;
+    if (y < rowY + 3 || y > rowY + 17) return null;
+    const offset = Math.floor((x - geometry.labelWidth) / geometry.tickWidth);
+    const tickIndex = Math.max(geometry.viewStart, Math.min(geometry.viewEnd, geometry.viewStart + offset));
+    return { tick: result.ticks[tickIndex], dp: result.ticks[tickIndex].states[dpId] };
   }
 
   function clearTooltip(root) {
@@ -653,17 +680,16 @@
     root.__dpaTooltip = null;
   }
 
-  function attachTooltip(root, svg, result) {
+  function attachTooltip(root, canvas, result) {
     clearTooltip(root);
     const remove = () => clearTooltip(root);
-    svg.addEventListener("pointermove", (event) => {
-      const rect = event.target.closest("[data-tick]");
-      if (!rect) {
+    canvas.onpointermove = (event) => {
+      const point = timelinePoint(canvas, result, event);
+      if (!point) {
         remove();
         return;
       }
-      const tick = result.ticks[Number(rect.dataset.tick)];
-      const dp = tick.states[Number(rect.dataset.dp)];
+      const { tick, dp } = point;
       if (!root.__dpaTooltip) {
         root.__dpaTooltip = document.createElement("div");
         root.__dpaTooltip.className = "dpa-sim__tooltip";
@@ -681,9 +707,9 @@
       `;
       tooltip.style.left = `${event.clientX + 12}px`;
       tooltip.style.top = `${event.clientY + 12}px`;
-    });
-    svg.addEventListener("pointerleave", remove);
-    svg.addEventListener("pointerdown", remove);
+    };
+    canvas.onpointerleave = remove;
+    canvas.onpointerdown = remove;
   }
 
   function renderInspector(root, result, tickIndex) {
@@ -789,9 +815,11 @@
     return currentTick;
   }
 
-  function init(root) {
+  function init(root, index) {
+    if (root.dataset.dpaInitialized === "true") return;
+    root.dataset.dpaInitialized = "true";
     let config = readConfig(root);
-    renderShell(root, config);
+    renderShell(root, config, `dpa-${index + 1}`);
     let result = null;
     let selectedTick = 0;
     let draggingWindow = null;
@@ -901,7 +929,10 @@
     rerun();
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function initAll() {
     document.querySelectorAll(".dpa-sim").forEach(init);
-  });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAll, { once: true });
+  else initAll();
 })();

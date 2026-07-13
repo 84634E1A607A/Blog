@@ -1,9 +1,11 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="{{config.title}}">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" sizes="72x72" href="{{ theme.favicon }}">
+<link rel="preload" href="/font/iconfont/iconfont.woff2" as="font" type="font/woff2" crossorigin>
 {% if page.description %}
   <meta name="description" content="{{ page.description }}">
 {% elif config.description %}
