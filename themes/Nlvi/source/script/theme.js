@@ -127,18 +127,20 @@ function setupMobileMenu() {
 let searchEntriesPromise
 
 function loadSearchEntries() {
-  searchEntriesPromise ||= fetch('/search.xml')
+  searchEntriesPromise ||= fetch('/search.json')
     .then(response => {
       if (!response.ok) throw new Error(`Search index returned ${response.status}`)
-      return response.text()
+      return response.json()
     })
-    .then(xml => {
-      const document = new DOMParser().parseFromString(xml, 'text/xml')
-      return $$('entry', document).map(entry => ({
-        title: $('title', entry)?.textContent || '',
-        url: $('url', entry)?.textContent || '',
-        content: $('content', entry)?.textContent || '',
-      }))
+    .then(entries => {
+      if (!Array.isArray(entries) || entries.some(entry =>
+        !entry
+        || typeof entry.title !== 'string'
+        || typeof entry.url !== 'string'
+        || typeof entry.content !== 'string')) {
+        throw new TypeError('Search index has an invalid format')
+      }
+      return entries
     })
   return searchEntriesPromise
 }
