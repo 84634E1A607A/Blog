@@ -41,9 +41,6 @@ importers:
       hexo-generator-index:
         specifier: ^4.0.0
         version: 4.0.0
-      hexo-generator-search:
-        specifier: ^2.4.3
-        version: 2.4.3(chokidar@3.6.0)
       hexo-generator-sitemap:
         specifier: ^3.0.1
         version: 3.0.1(chokidar@3.6.0)
@@ -62,6 +59,9 @@ importers:
       hexo-server:
         specifier: ^3.0.0
         version: 3.0.0
+      hexo-util:
+        specifier: ^4.0.0
+        version: 4.0.0
       sharp:
         specifier: ^0.35.3
         version: 0.35.3
@@ -834,10 +834,6 @@ packages:
   hexo-generator-index@4.0.0:
     resolution: {integrity: sha512-KeM7mOCKWINGFAk1E+CkjMMgqFIv8oaRbGxR7ipkQAp44o4aopkVftma4sdIplOq9WQEWfVYDUK5gEv9J3nzUg==}
     engines: {node: '>=18'}
-
-  hexo-generator-search@2.4.3:
-    resolution: {integrity: sha512-Z5hfZq2g3np/Tgdp2q9HobfIvU6Pdz89tnTurc1IIq/vW0MHgDynk0Aiv6kvMtKWthnZ5l0iEMT3YLN35NdYwQ==}
-    engines: {node: '>= 0.10.0'}
 
   hexo-generator-sitemap@3.0.1:
     resolution: {integrity: sha512-n+0KLNmq6TLbiZPTQF6NY5MbEem/O+DFx0lgQZNQcU4tdjXIZRrQJs+KRKeT66NTkdlYTqb4WwCxswLqQz0crA==}
@@ -2288,13 +2284,6 @@ snapshots:
   hexo-generator-index@4.0.0:
     dependencies:
       hexo-pagination: 3.0.0
-
-  hexo-generator-search@2.4.3(chokidar@3.6.0):
-    dependencies:
-      nunjucks: 3.2.4(chokidar@3.6.0)
-      utils-merge: 1.0.1
-    transitivePeerDependencies:
-      - chokidar
 
   hexo-generator-sitemap@3.0.1(chokidar@3.6.0):
     dependencies:

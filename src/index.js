@@ -1,4 +1,21 @@
+import {
+  ViewPathError,
+  isValidViewPath,
+  normalizeViewCount,
+  parseViewPaths,
+  readViewCounts,
+} from './view-counts.mjs';
+
 const LOG_KEY = 'blog_view_log';
+
+const jsonHeaders = {
+  'Content-Type': 'application/json; charset=utf-8',
+  'Cache-Control': 'no-store',
+};
+
+function jsonResponse(body, status = 200) {
+  return new Response(JSON.stringify(body), { status, headers: jsonHeaders });
+}
 
 export default {
   async fetch(request, env, ctx) {
@@ -40,17 +57,27 @@ export default {
       });
     }
 
+    if (request.method === 'GET' && url.pathname === '/api/views') {
+      try {
+        const paths = parseViewPaths(url.searchParams);
+        const counts = await readViewCounts(env.BLOG_VIEW_COUNT, paths);
+        return jsonResponse({ counts });
+      } catch (error) {
+        if (error instanceof ViewPathError) return jsonResponse({ error: 'invalid view paths' }, 400);
+
+        console.error({ event: 'view_counts_batch_failed', error });
+        return jsonResponse({ error: 'view count lookup failed' }, 500);
+      }
+    }
+
     const matchViews = url.pathname.match(/^\/api\/views\/(.+)$/);
     if (matchViews) {
       const key = matchViews[1];
+      if (!isValidViewPath(key)) return jsonResponse({ error: 'invalid view path' }, 400);
+
       // Fetch view count
-      const count = await env.BLOG_VIEW_COUNT.get(key);
-      return new Response(count || '0', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store',
-        }
-      });
+      const count = normalizeViewCount(await env.BLOG_VIEW_COUNT.get(key));
+      return jsonResponse(count);
     }
 
     // Since the CSS is now stable, we can comment this out.
