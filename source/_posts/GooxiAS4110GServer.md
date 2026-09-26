@@ -1,6 +1,6 @@
 ---
 title: 国鑫 AS4110G-D04R-G3 服务器
-updated: 2026-09-26 23:47:50
+updated: 2026-09-26 23:55:32
 date: 2026-09-26 15:18:10
 description: "本文记录国鑫 Gooxi AS4110G-D04R-G3 八卡 RTX 4090 服务器的硬件拓扑调整、PCIe P2P 与 Relaxed Ordering 优化、大模型部署及异常重启排查，并进一步读取、分析 BIOS 与 AST2500/AMI BMC 固件；逆向共识别 392 条 IPMI 指令，其中 269 条需通过 raw 命令调用，覆盖风扇 PWM 与转速、CPU/GPU 温度与传感器、电源与冗余、前面板按键、SEL/SDR 日志、用户认证、SSH/DNS/SNMP/防火墙、KVM/SOL/虚拟介质、固件更新、配置备份、BIOS 通信及资产信息等功能，同时确认默认 BMC 凭据与 SSH Shell 带来的严重安全风险。"
 tags:
@@ -169,7 +169,7 @@ Linux kernel version `Linux G3DE 3.14.17-ami #1 Tue Apr 21 09:20:40 GMT 2026 arm
 
 ### 读取 BMC Flash
 
-在 `/dev/` 里面能看到几个 mtd 设备, 我直接读取了 `/dev/mtd0 "fullpart"`, `ssh sysadmin@xxx dd if=/dev/mtd0 bs=1M > mtd0.dmp` 读取到本地, 得到了一个 32M 的文件, 经检验是 BMC Flash 的全部内容. 我将一份擦除了配置的文件放在 [此处](./GooxiAS4110GServer/BMC-anonymized.img.zst) 供研究.
+在 `/dev/` 里面能看到几个 mtd 设备, 我直接读取了 `/dev/mtd0 "fullpart"`, `ssh sysadmin@xxx dd if=/dev/mtd0 bs=1M > mtd0.dmp` 读取到本地, 得到了一个 32M 的文件, 经检验是 BMC Flash 的全部内容. 我将一份擦除了配置的文件分成两片供研究: [第一片](./GooxiAS4110GServer/BMC-anonymized.img.zst.001) 和 [第二片](./GooxiAS4110GServer/BMC-anonymized.img.zst.002) (CF Workers 有 25M 大小限制). 下载后按顺序拼接成原来的 `.zst` 文件, 再用 zstd 解压即可.
 
 ### 读取 BIOS Flash
 
